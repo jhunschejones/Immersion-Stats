@@ -1,7 +1,7 @@
 {
   "name": "immersion-stats",
   "version": "0.1.0",
-  "homepage": "https://jhunschejones.github.io/Immersion-Stats",
+  "homepage": "https://jhunschejones.github.io/Immersion-Stats/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

@@ -1,9 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import ActivityTotals from "./components/ActivityTotals";
 
 export default function App () {
   return (
-    <Router>
+    <HashRouter>
       <div className="App">
         <header>
           <nav></nav>
@@ -13,6 +13,6 @@ export default function App () {
           <Route path="/" element={<ActivityTotals/>}/>
         </Routes>
       </div>
-    </Router>
+    </HashRouter>
   );
 }
