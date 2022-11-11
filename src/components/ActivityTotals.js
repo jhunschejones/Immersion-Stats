@@ -4,6 +4,7 @@ import Papa from "papaparse";
 export default function ActivityTotals () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [totalsByActivity, setTotalsByActivity] = useState({});
+  const [startDate, setStartDate] = useState();
 
   const parseFile = (file) => {
     Papa.parse(file, {
@@ -39,6 +40,13 @@ export default function ActivityTotals () {
       totalsByActivity[activity] = totalTime;
     })
     setTotalsByActivity(totalsByActivity);
+
+    const sorted = parsedCsvData.sort((a, b) => new Date(b["Date"]) - new Date(a["Date"]));
+    const firstEntry = sorted[sorted.length - 1];
+    if (firstEntry) {
+      setStartDate(firstEntry["Date"]);
+    }
+
   }, [parsedCsvData])
 
   if (parsedCsvData.length === 0) {
@@ -51,8 +59,13 @@ export default function ActivityTotals () {
 
   return (
     <div className="ActivityTotals">
-      <h1>Study Activities:</h1>
-      <ol>
+      <h1 style={{margin: "0 0 2px 0", padding: "0"}}>
+        Study Activities:
+      </h1>
+      <p style={{margin: "0", fontWeight: "200"}}>
+        Since {startDate}
+      </p>
+      <ol style={{margin: "16px 0 0 0"}}>
         {Object
           .entries(totalsByActivity)
           .sort((a, b) => b[1] - a[1])
