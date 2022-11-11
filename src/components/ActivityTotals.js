@@ -60,7 +60,7 @@ export default function ActivityTotals () {
             const [ hours, minutes ] = Object.values(toHoursAndMinutes(total));
             return (
               <li key={i}>
-                <span className="activity-name">{activity}</span>: {hours}:{minutes}
+                <span className="activity-name">{activity}</span>: {hours}:{minutes.toString().padEnd(2, "0")}
               </li>
             )
           })
