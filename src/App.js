@@ -1,4 +1,6 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
+import { HiHome } from "react-icons/hi";
+import HomePage from "./components/HomePage";
 import ActivityTotals from "./components/ActivityTotals";
 
 export default function App () {
@@ -6,12 +8,17 @@ export default function App () {
     <HashRouter>
       <div className="App">
         <header>
-          <nav></nav>
+          <nav>
+            <Link to="/" className="nav-item site-title">Immersion Stats</Link>
+            <Link to="/" className="nav-item"><HiHome /></Link>
+          </nav>
         </header>
-
-        <Routes>
-          <Route path="/" element={<ActivityTotals/>}/>
-        </Routes>
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage/>}/>
+            <Route path="/activity-totals" element={<ActivityTotals/>}/>
+          </Routes>
+        </main>
       </div>
     </HashRouter>
   );

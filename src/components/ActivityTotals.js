@@ -65,9 +65,11 @@ export default function ActivityTotals () {
 
   return (
     <div className="ActivityTotals">
-      <h1 style={{margin: "0 0 2px 0", padding: "0"}}>
-        Study Activities:
-      </h1>
+      <div className="head-content">
+        <h1 style={{margin: "0 0 2px 0", padding: "0"}}>
+          Study Activities:
+        </h1>
+      </div>
       <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}}>
         {startDate} - {endDate}
       </p>
