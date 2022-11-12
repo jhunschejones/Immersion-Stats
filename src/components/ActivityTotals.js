@@ -5,6 +5,7 @@ export default function ActivityTotals () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [totalsByActivity, setTotalsByActivity] = useState({});
   const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
 
   const parseFile = (file) => {
     Papa.parse(file, {
@@ -46,6 +47,10 @@ export default function ActivityTotals () {
     if (firstEntry) {
       setStartDate(firstEntry["Date"]);
     }
+    const latestEntry = sorted[0];
+    if (latestEntry) {
+      setEndDate(latestEntry["Date"]);
+    }
 
   }, [parsedCsvData])
 
@@ -62,8 +67,8 @@ export default function ActivityTotals () {
       <h1 style={{margin: "0 0 2px 0", padding: "0"}}>
         Study Activities:
       </h1>
-      <p style={{margin: "0", fontWeight: "200"}}>
-        Since {startDate}
+      <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}}>
+        {startDate} - {endDate}
       </p>
       <ol style={{margin: "16px 0 0 0"}}>
         {Object
