@@ -37,6 +37,7 @@ export default function ActivityTotals () {
       const totalTime = parsedCsvData
         .filter((row) => row["Activity"] === activity)
         .map((row) => parseInt(row["Time (mins)"]))
+        .filter((row) => !isNaN(row))
         .reduce((a, b) => a + b, 0);
       totalsByActivity[activity] = totalTime;
     })
