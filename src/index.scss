@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=M+PLUS+1p');
 @import url('https://fonts.googleapis.com/css?family=Red+Hat+Display');
-// @import url('https://fonts.googleapis.com/css?family=Comfortaa');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
 
 $text-black: #3c3c3c;
 $text-gray: #777;
@@ -29,10 +29,8 @@ body {
       justify-content: space-between;
       .site-title {
         display: flex;
-        font-weight: 600;
         font-size: 24px;
         padding: 0px 12px;
-        font-family: 'Red Hat Display', sans-serif;
       }
       .nav-item {
         height: 100%;
