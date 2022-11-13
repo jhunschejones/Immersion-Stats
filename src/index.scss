@@ -99,3 +99,12 @@ body {
     justify-content: space-between;
   }
 }
+
+.progress-ring-container {
+  position: relative;
+  .progress-text {
+    position: absolute;
+    left: 84px;
+    top: 91px;
+  }
+}
