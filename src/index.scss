@@ -1,13 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=M+PLUS+1p');
-@import url('https://fonts.googleapis.com/css?family=Red+Hat+Display');
-@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
 $text-black: #3c3c3c;
 $text-gray: #777;
 $link-blue: #1cb0f6;
 
 body {
-  font-family: 'M PLUS 1p', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   color: $text-gray;
   line-height: 1.4;
   padding: 0;
@@ -55,6 +53,7 @@ body {
   }
   .button {
     -webkit-appearance: none;
+    appearance: none;
     text-decoration: none;
     user-select: none;
     outline: none;
