@@ -1,15 +1,17 @@
 // https://css-tricks.com/building-progress-ring-quickly/
 
-export default function ProgressRing ({radius, stroke, progress}) {
+export default function ProgressRing ({radius, stroke, progress, title, progressAmount=null}) {
   const normalizedRadius = radius - stroke * 2;
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - progress / 100 * circumference;
+  const titleOffsetPixels = 32;
 
   return (
     <div
       className="progress-ring-container"
-      style={{maxWidth: radius * 2, maxHeight: radius * 2}}
+      style={{maxWidth: radius * 2, maxHeight: (radius * 2) + titleOffsetPixels}}
     >
+      <h4 className="progress-title">{title}</h4>
       <div className="progress-ring">
         <svg
           height={radius * 2}
@@ -28,7 +30,7 @@ export default function ProgressRing ({radius, stroke, progress}) {
         </svg>
       </div>
       <span className="progress-text">
-        {progress}%
+        {progressAmount ? progressAmount : `${progress}%`}
       </span>
     </div>
   )

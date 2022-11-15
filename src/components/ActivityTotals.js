@@ -66,7 +66,7 @@ export default function ActivityTotals () {
   return (
     <div className="ActivityTotals">
       <div className="head-content">
-        <h1 style={{margin: "0 0 2px 0", padding: "0"}}>
+        <h1 style={{margin: "0 0 2px 0", padding: "0", fontSize: "28px"}}>
           Study Activities:
         </h1>
       </div>
