@@ -60,20 +60,19 @@ body {
     padding: 8px 16px;
     border: solid transparent;
     border-radius: 12px;
-    border-width: 2px 2px 4px;
+    border-width: 0px 0px 4px 0px;
     background-color: #235390;
-    border-color: rgb(2, 44, 96);
+    border-color: #022c60;
     color: #FFF;
     width: fit-content;
     font-size: 18px;
-    font-weight: 600;
 
     display: flex;
     flex-direction: row;
     align-items: center;
     &:hover {
       cursor: pointer;
-      background-color: #1f4b82;
+      background-color: #2a67b1;
     }
   }
 }
@@ -102,7 +101,7 @@ body {
 
 .progress-ring-container {
   margin: 5px;
-  outline: 1px solid lightblue;
+  outline: 1px solid #deedff;
   position: relative;
   .progress-title {
     font-size: 16px;
