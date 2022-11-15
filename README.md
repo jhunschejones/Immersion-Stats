@@ -1,38 +1,7 @@
-# Getting Started with Create React App
+# Immersion Stats
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Overview
+Immersion Stats is a React 18 side-project I built to put into practice some lessons I'm learning about writing UI's using the new (to me) modern React toolset. It reads data from a couple Google Sheets that I use for tracking my Japanese Studying and presents the data in different meaningful ways.
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### Deployment
-
-`npm run deploy` or `npm run deploy -- -m "My message"`
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Developing and Deployments
+When developing locally, use `npm run start` to launch the app. To deploy to github pages use `npm run deploy` or `npm run deploy -- -m "My message"`
