@@ -66,14 +66,14 @@ export default function ActivityTotals () {
   return (
     <div className="ActivityTotals">
       <div className="head-content">
-        <h1 style={{margin: "0 0 2px 0", padding: "0", fontSize: "28px"}}>
+        <h1 style={{margin: "0 0 2px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
           Study Activities:
         </h1>
       </div>
       <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}}>
         {startDate} - {endDate}
       </p>
-      <ol style={{margin: "16px 0 0 0"}}>
+      <ul style={{margin: "12px 0 0 0", listStyleType: "none", padding: "0"}}>
         {Object
           .entries(totalsByActivity)
           .sort((a, b) => b[1] - a[1])
@@ -86,7 +86,7 @@ export default function ActivityTotals () {
             )
           })
         }
-      </ol>
+      </ul>
     </div>
   );
 }

@@ -28,7 +28,7 @@ export default function WeeklyProgress () {
 
   return (
     <>
-      <h1 style={{margin: "0 0 12px 0", padding: "0", fontSize: "28px"}}>
+      <h1 style={{margin: "0 0 12px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
         Weekly Progress:
       </h1>
       <div style={{display: "flex", flexWrap: "wrap"}}>
