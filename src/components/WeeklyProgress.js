@@ -1,16 +1,21 @@
 import ProgressRing from "./ProgressRing"
 
 export default function WeeklyProgress () {
-  const progress = 100;
+  const progressOne = 100;
+  const progressTwo = 75;
 
   return (
-    <div className="progress-ring-container">
+    <div style={{display: "flex"}}>
       <ProgressRing
         stroke={8}
         radius={100}
-        progress={progress}
+        progress={progressOne}
       />
-      <span className="progress-text">{progress}%</span>
+      <ProgressRing
+        stroke={8}
+        radius={100}
+        progress={progressTwo}
+      />
     </div>
   );
 }

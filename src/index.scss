@@ -104,7 +104,8 @@ body {
   position: relative;
   .progress-text {
     position: absolute;
-    left: 84px;
-    top: 91px;
+    transform: translate(-50%, -50%);
+    left:50%;
+    top:50%;
   }
 }

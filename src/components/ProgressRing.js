@@ -6,22 +6,30 @@ export default function ProgressRing ({radius, stroke, progress}) {
   const strokeDashoffset = circumference - progress / 100 * circumference;
 
   return (
-    <div className="progress-ring">
-      <svg
-        height={radius * 2}
-        width={radius * 2}
-        >
-        <circle
-          stroke="#235390"
-          fill="transparent"
-          strokeWidth={stroke}
-          strokeDasharray={circumference + " " + circumference}
-          style={{strokeDashoffset}}
-          r={normalizedRadius}
-          cx={radius}
-          cy={radius}
-          />
-      </svg>
+    <div
+      className="progress-ring-container"
+      style={{maxWidth: radius * 2, maxHeight: radius * 2}}
+    >
+      <div className="progress-ring">
+        <svg
+          height={radius * 2}
+          width={radius * 2}
+          >
+          <circle
+            stroke="#235390"
+            fill="transparent"
+            strokeWidth={stroke}
+            strokeDasharray={circumference + " " + circumference}
+            style={{strokeDashoffset}}
+            r={normalizedRadius}
+            cx={radius}
+            cy={radius}
+            />
+        </svg>
+      </div>
+      <span className="progress-text">
+        {progress}%
+      </span>
     </div>
   )
 }

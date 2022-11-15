@@ -8,6 +8,9 @@ export default function HomePage () {
         <Link to="/activity-totals" className="button">
           Activity totals
         </Link>
+        <Link to="/weekly-progress" className="button" style={{marginLeft: "12px"}}>
+          Weekly progress
+        </Link>
       </div>
     </div>
   )
