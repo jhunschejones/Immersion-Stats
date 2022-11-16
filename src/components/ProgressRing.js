@@ -16,7 +16,6 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
         <svg
           height={radius * 2}
           width={radius * 2}
-          transform="rotate(-90)"
         >
           <circle
             stroke="#235390"
