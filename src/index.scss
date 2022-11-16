@@ -51,30 +51,6 @@ body {
     width: calc(100% - 24px);
     height: calc(100vh - 50px - 24px);
   }
-  .button {
-    -webkit-appearance: none;
-    appearance: none;
-    text-decoration: none;
-    user-select: none;
-    outline: none;
-    padding: 8px 16px;
-    border: solid transparent;
-    border-radius: 12px;
-    border-width: 0px 0px 4px 0px;
-    background-color: #235390;
-    border-color: #022c60;
-    color: #FFF;
-    width: fit-content;
-    font-size: 18px;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    &:hover {
-      cursor: pointer;
-      background-color: #2a67b1;
-    }
-  }
 }
 
 .HomePage {
@@ -96,6 +72,45 @@ body {
   .head-content {
     display: flex;
     justify-content: space-between;
+  }
+}
+
+.WeeklyProgress {
+  .time-range-button-container {
+    display: flex;
+    margin-bottom: 14px;
+    .time-range-button {
+      margin-right: 5px;
+      &.selected {
+        background-color: #58cc02;
+        border-color: #58a700;
+      }
+    }
+  }
+}
+
+.button {
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  user-select: none;
+  outline: none;
+  padding: 8px 16px;
+  border: solid transparent;
+  border-radius: 12px;
+  border-width: 0px 0px 4px 0px;
+  background-color: #235390;
+  border-color: #022c60;
+  color: #FFF;
+  width: fit-content;
+  font-size: 18px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+    background-color: #2a67b1;
   }
 }
 

@@ -2,8 +2,20 @@ import { useState, useEffect } from "react";
 import Papa from "papaparse";
 import ProgressRing from "./ProgressRing";
 
+const TIME_RANGES = ["This week", "Last week", "Two weeks"];
+
 export default function WeeklyProgress () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
+  const [progressByTimeRange, setProgressByTimeRange] = useState({});
+  const [selectedTimeRange, setSelectedTimeRange] = useState(TIME_RANGES[0]);
+
+  const titleCase = (string) => {
+    let splitStringArray = string.toLowerCase().split(" ");
+    for (let i = 0; i < splitStringArray.length; i++) {
+      splitStringArray[i] = splitStringArray[i].charAt(0).toUpperCase() + splitStringArray[i].slice(1);
+    }
+    return splitStringArray.join(" ");
+  }
 
   const parseFile = (file) => {
     Papa.parse(file, {
@@ -22,30 +34,64 @@ export default function WeeklyProgress () {
       .catch(err => console.log(err));
   }, []);
 
+  useEffect(() => {
+    let result = {};
+    TIME_RANGES.forEach((timeRange) => {
+      result[timeRange] = parsedCsvData.slice(0, 3).map((progressReport) => {
+        const progressNumber = (parseInt(progressReport[`${titleCase(timeRange)} (mins)`]) / parseInt(progressReport["Weekly Goals (mins)"])) * 100;
+        return {
+          progress: progressNumber,
+          title: progressReport["Category"],
+          progressText: progressReport[titleCase(timeRange)],
+        }
+      });
+    });
+    setProgressByTimeRange(result);
+
+  }, [parsedCsvData]);
+
   if (parsedCsvData.length === 0) {
-    return <p>Parsing csv file...</p>
+    return <p>Parsing csv file...</p>;
+  }
+
+  if (Object.keys(progressByTimeRange).length === 0) {
+    return <p>Processing data...</p>;
   }
 
   return (
-    <>
+    <div className="WeeklyProgress">
       <h1 style={{margin: "0 0 12px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
         Weekly Progress:
       </h1>
+      <div className="time-range-button-container">
+        {TIME_RANGES.map((timeRange, index) => {
+          let buttonClassName = "button time-range-button";
+          if (selectedTimeRange === timeRange) {
+            buttonClassName += " selected";
+          }
+          return (
+            <button
+              key={index}
+              className={buttonClassName}
+              onClick={() => setSelectedTimeRange(timeRange)}
+            >
+              {timeRange}
+            </button>
+          )
+        })}
+      </div>
       <div style={{display: "flex", flexWrap: "wrap"}}>
-        {parsedCsvData.slice(0, 3).map((progressReport, index) => {
-          // cut the trailing `%` off of this string
-          const progressNumber = progressReport["% Complete"].slice(0, progressReport["% Complete"].length - 1);
-
+        {progressByTimeRange[selectedTimeRange].map((progressReport, index) => {
           return <ProgressRing
             key={index}
             stroke={8}
             radius={85}
-            progress={progressNumber}
-            title={progressReport["Category"]}
-            progressAmount={progressReport["This Week"]}
+            progress={progressReport["progress"]}
+            title={progressReport["title"]}
+            progressText={progressReport["progressText"]}
           />
         })}
       </div>
-    </>
+    </div>
   );
 }

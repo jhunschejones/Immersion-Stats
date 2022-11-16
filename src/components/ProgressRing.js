@@ -1,9 +1,10 @@
-// https://css-tricks.com/building-progress-ring-quickly/
+// Borrowed from https://css-tricks.com/building-progress-ring-quickly/
 
-export default function ProgressRing ({radius, stroke, progress, title, progressAmount=null}) {
+export default function ProgressRing ({radius, stroke, progress, title, progressText=null}) {
+  const adjustedProgress = progress > 100 ? 100 : progress;
   const normalizedRadius = radius - stroke * 2;
   const circumference = normalizedRadius * 2 * Math.PI;
-  const strokeDashoffset = circumference - progress / 100 * circumference;
+  const strokeDashoffset = circumference - adjustedProgress / 100 * circumference;
   const titleOffsetPixels = 32;
 
   return (
@@ -18,7 +19,7 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
           width={radius * 2}
         >
           <circle
-            stroke="#235390"
+            stroke={adjustedProgress === 100 ? "#58cc02" : "#235390"}
             fill="transparent"
             strokeWidth={stroke}
             strokeDasharray={circumference + " " + circumference}
@@ -30,7 +31,7 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
         </svg>
       </div>
       <span className="progress-text">
-        {progressAmount ? progressAmount : `${progress}%`}
+        {progressText ? progressText : `${adjustedProgress}%`}
       </span>
     </div>
   )

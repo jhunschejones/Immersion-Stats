@@ -56,11 +56,11 @@ export default function ActivityTotals () {
   }, [parsedCsvData])
 
   if (parsedCsvData.length === 0) {
-    return <p>Parsing csv file...</p>
+    return <p>Parsing csv file...</p>;
   }
 
   if (Object.keys(totalsByActivity).length === 0) {
-    return <p>Processing data...</p>
+    return <p>Processing data...</p>;
   }
 
   return (
