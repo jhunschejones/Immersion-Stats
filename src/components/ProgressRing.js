@@ -16,7 +16,8 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
         <svg
           height={radius * 2}
           width={radius * 2}
-          >
+          transform="rotate(-90)"
+        >
           <circle
             stroke="#235390"
             fill="transparent"
@@ -26,7 +27,8 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
             r={normalizedRadius}
             cx={radius}
             cy={radius}
-            />
+
+          />
         </svg>
       </div>
       <span className="progress-text">
