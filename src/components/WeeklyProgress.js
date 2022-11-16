@@ -1,13 +1,21 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Papa from "papaparse";
 import ProgressRing from "./ProgressRing";
 
 const TIME_RANGES = ["This week", "Last week", "Two weeks"];
 
+// the getter on the `useSearchParams` hook doesn't work with the hash router
+// use this function instead to read search params from the URL
+const getSearchParams = () => {
+  return new URL(window.location.toString().replace("/#/", "/")).searchParams;
+}
+
 export default function WeeklyProgress () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [progressByTimeRange, setProgressByTimeRange] = useState({});
   const [selectedTimeRange, setSelectedTimeRange] = useState(TIME_RANGES[0]);
+  const setSearchParams = useSearchParams()[1];
 
   const titleCase = (string) => {
     let splitStringArray = string.toLowerCase().split(" ");
@@ -26,6 +34,11 @@ export default function WeeklyProgress () {
       }
     });
   };
+
+  const selectTimeRange = (timeRange) => {
+    setSearchParams({timeRange});
+    setSelectedTimeRange(timeRange);
+  }
 
   useEffect(() => {
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQpattUOpPKcUSS8bxlk3P-9OdmCHcNB32FINvEfnQg81WN6OsxK6AIho-gijZROruqizBjlukxKscX/pub?gid=1631773302&single=true&output=csv")
@@ -50,6 +63,13 @@ export default function WeeklyProgress () {
 
   }, [parsedCsvData]);
 
+  useEffect(() => {
+    const urlTimeRange = getSearchParams().get("timeRange")?.trim();
+    if (urlTimeRange && TIME_RANGES.includes(urlTimeRange)) {
+      setSelectedTimeRange(urlTimeRange);
+    }
+  }, [])
+
   if (parsedCsvData.length === 0) {
     return <p>Parsing csv file...</p>;
   }
@@ -73,7 +93,7 @@ export default function WeeklyProgress () {
             <button
               key={index}
               className={buttonClassName}
-              onClick={() => setSelectedTimeRange(timeRange)}
+              onClick={() => selectTimeRange(timeRange)}
             >
               {timeRange}
             </button>
