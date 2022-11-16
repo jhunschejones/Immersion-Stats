@@ -27,7 +27,6 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
             r={normalizedRadius}
             cx={radius}
             cy={radius}
-
           />
         </svg>
       </div>
