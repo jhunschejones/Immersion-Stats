@@ -56,32 +56,31 @@ export default function ActivityTotals () {
   }, [parsedCsvData])
 
   if (parsedCsvData.length === 0) {
-    return <p>Parsing csv file...</p>;
+    return <p className="loading-messsage">Parsing csv file...</p>;
   }
 
   if (Object.keys(totalsByActivity).length === 0) {
-    return <p>Processing data...</p>;
+    return <p className="loading-messsage">Processing data...</p>;
   }
 
   return (
     <div className="ActivityTotals">
-      <div className="head-content">
-        <h1 style={{margin: "0 0 2px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
-          Study Activities:
-        </h1>
-      </div>
+      <h1 style={{margin: "4px 0 2px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
+        Study Activities
+      </h1>
       <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}}>
         {startDate} - {endDate}
       </p>
-      <ul style={{margin: "12px 0 0 0", listStyleType: "none", padding: "0"}}>
+      <ul className="activity-list">
         {Object
           .entries(totalsByActivity)
           .sort((a, b) => b[1] - a[1])
           .map(([activity, total], i) => {
             const [ hours, minutes ] = Object.values(toHoursAndMinutes(total));
             return (
-              <li key={i}>
-                <span className="activity-name">{activity}</span>: {hours}:{minutes.toString().padEnd(2, "0")}
+              <li key={i} className="activity">
+                <span className="activity-name">{activity}</span>
+                <span className="activity-time">{hours}:{minutes.toString().padEnd(2, "0")}</span>
               </li>
             )
           })

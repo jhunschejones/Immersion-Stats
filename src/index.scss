@@ -1,11 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 
+$white: #FFF;
+$light-gray: #e5e5e5;
+$light-gray-darker: #b7b7b7;
 $text-black: #3c3c3c;
 $text-gray: #777;
 $link-blue: #1cb0f6;
+$dark-blue: #235390;
+$dark-blue-lighter: #2a67b1;
+$dark-blue-darker: #1f4b82;
+$dark-blue-darker-still: #022c60;
+$green: #58cc02;
+$green-darker: #58a700;
+$purple: #3f22ec;
 
 body {
   font-family: 'Open Sans', sans-serif;
+  min-width: 300px;
   color: $text-gray;
   line-height: 1.4;
   padding: 0;
@@ -15,33 +26,34 @@ body {
   }
   header {
     display: flex;
-    color: #fff;
-    background-color: #235390;
+    border-bottom: 2px solid $light-gray;
 
     nav {
-      display: flex;
-      align-items: center;
-      flex-direction: row;
-      height: 50px;
+      height: 60px;
       width: 100%;
-      justify-content: space-between;
-      .site-title {
-        display: flex;
-        font-size: 24px;
-        padding: 0px 12px;
-      }
       .nav-item {
         height: 100%;
         display: flex;
         align-items: center;
-        font-size: 24px;
+        font-size: 28px;
         display: flex;
-        color: #FFF;
-        padding: 0px 12px;
+        color: $link-blue;
+        padding: 0px 10px;
         text-decoration: none;
+        float: right;
         &:hover {
           cursor: pointer;
-          background-color: #1f4b82;
+        }
+        &.site-title {
+          display: flex;
+          font-size: 22px;
+          padding: 0px 24px;
+          color: $green;
+          font-weight: 700;
+          float: left;
+          @media (max-width: 384px) {
+            display: none;
+          }
         }
       }
     }
@@ -65,28 +77,51 @@ body {
 }
 
 .ActivityTotals {
-  margin: 0;
-  .activity-name {
-    font-weight: 600;
-  }
-  .head-content {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .activity-list {
+    width: 100%;
+    max-width: 320px;
+    margin: 18px 0 0 0;
+    list-style-type: none;
+    padding: 0;
+    .activity {
+      border: 1px solid $light-gray;
+      border-radius: 12px;
+      margin: 6px 0;
+      padding: 4px 12px;
+    }
+    .activity-name {
+      font-weight: 500;
+    }
+    .activity-time {
+      float: right;
+      font-weight: 500;
+    }
   }
 }
 
 .WeeklyProgress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .time-range-button-container {
     display: flex;
     margin-bottom: 14px;
     .time-range-button {
       margin-right: 5px;
       &.selected {
-        background-color: #58cc02;
-        border-color: #58a700;
+        background-color: $green;
+        border-color: $green-darker;
       }
     }
   }
+}
+
+.loading-messsage {
+  text-align: center;
 }
 
 .button {
@@ -99,9 +134,9 @@ body {
   border: solid transparent;
   border-radius: 12px;
   border-width: 0px 0px 4px 0px;
-  background-color: #235390;
-  border-color: #022c60;
-  color: #FFF;
+  background-color: $dark-blue;
+  border-color: $dark-blue-darker-still;
+  color: $white;
   width: fit-content;
   font-size: 18px;
 
@@ -110,7 +145,7 @@ body {
   align-items: center;
   &:hover {
     cursor: pointer;
-    background-color: #2a67b1;
+    background-color: $dark-blue-lighter;
   }
 }
 

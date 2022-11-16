@@ -71,17 +71,17 @@ export default function WeeklyProgress () {
   }, [])
 
   if (parsedCsvData.length === 0) {
-    return <p>Parsing csv file...</p>;
+    return <p className="loading-messsage">Parsing csv file...</p>;
   }
 
   if (Object.keys(progressByTimeRange).length === 0) {
-    return <p>Processing data...</p>;
+    return <p className="loading-messsage">Processing data...</p>;
   }
 
   return (
     <div className="WeeklyProgress">
-      <h1 style={{margin: "0 0 12px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
-        Weekly Progress:
+      <h1 style={{margin: "4px 0 18px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
+        Weekly Progress
       </h1>
       <div className="time-range-button-container">
         {TIME_RANGES.map((timeRange, index) => {
