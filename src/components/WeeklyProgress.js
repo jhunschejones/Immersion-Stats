@@ -80,7 +80,12 @@ export default function WeeklyProgress () {
 
   return (
     <div className="WeeklyProgress">
-      <h1 style={{margin: "4px 0 18px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
+      <h1 style={{
+        margin: "4px 0 28px 0",
+        padding: "0",
+        fontSize: "28px",
+        fontWeight: "600"
+      }}>
         Weekly Progress
       </h1>
       <div className="time-range-button-container">

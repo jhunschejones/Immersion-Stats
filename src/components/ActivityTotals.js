@@ -65,7 +65,12 @@ export default function ActivityTotals () {
 
   return (
     <div className="ActivityTotals">
-      <h1 style={{margin: "4px 0 2px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
+      <h1 style={{
+        margin: "4px 0 2px 0",
+        padding: "0",
+        fontSize: "28px",
+        fontWeight: "600"
+      }}>
         Study Activities
       </h1>
       <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}}>
