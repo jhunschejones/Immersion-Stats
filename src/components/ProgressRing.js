@@ -32,7 +32,7 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
           />
         </svg>
       </div>
-      <span className="progress-text">
+      <span className="progress-text" data-testid="progress-text">
         {progressText ? progressText : `${progress}%`}
       </span>
     </div>
