@@ -1,6 +1,5 @@
 import React from "react";
 import {render, screen} from "@testing-library/react";
-import "@testing-library/jest-dom";
 import ProgressRing from "../../components/ProgressRing"
 
 it("should render a progress ring with default text", async () => {
