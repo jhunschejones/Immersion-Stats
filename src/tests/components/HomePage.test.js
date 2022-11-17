@@ -3,7 +3,7 @@ import {BrowserRouter} from "react-router-dom";
 import {render, screen} from "@testing-library/react";
 import HomePage from "../../components/HomePage"
 
-it("renders the welcome header", () => {
+it("renders the welcome header", async () => {
   render(<HomePage />, {wrapper: BrowserRouter});
-  expect(screen.getByText(/Welcome!/i)).toBeInTheDocument();
+  await screen.findByText(/Welcome!/i);
 });
