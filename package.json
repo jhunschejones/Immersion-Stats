@@ -38,6 +38,8 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
     "gh-pages": "^4.0.0",
     "sass": "^1.56.1"
   }
