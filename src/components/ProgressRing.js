@@ -6,6 +6,7 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - adjustedProgress / 100 * circumference;
   const titleOffsetPixels = 32;
+  const showFullCircle = adjustedProgress === 100;
 
   return (
     <div
@@ -13,13 +14,14 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
       style={{maxWidth: radius * 2, maxHeight: (radius * 2) + titleOffsetPixels}}
     >
       <h4 className="progress-title">{title}</h4>
-      <div className="progress-ring">
+      <div className="progress-ring" data-testid="progress-ring">
         <svg
           height={radius * 2}
           width={radius * 2}
         >
           <circle
-            stroke={adjustedProgress === 100 ? "#58cc02" : "#235390"}
+            data-full={showFullCircle}
+            stroke={showFullCircle ? "#58cc02" : "#235390"}
             fill="transparent"
             strokeWidth={stroke}
             strokeDasharray={circumference + " " + circumference}
@@ -31,7 +33,7 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
         </svg>
       </div>
       <span className="progress-text">
-        {progressText ? progressText : `${adjustedProgress}%`}
+        {progressText ? progressText : `${progress}%`}
       </span>
     </div>
   )
