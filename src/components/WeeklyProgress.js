@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import Papa from "papaparse";
 import ProgressRing from "./ProgressRing";
+import { parseCsvFile } from "../utils/parsing"
+import { titleCase } from "../utils/strings"
+import { getSearchParams } from "../utils/urls"
 
 const TIME_RANGES = ["This week", "Last week", "Two weeks"];
-
-// the getter on the `useSearchParams` hook doesn't work with the hash router
-// use this function instead to read search params from the URL
-const getSearchParams = () => {
-  return new URL(window.location.toString().replace("/#/", "/")).searchParams;
-}
 
 export default function WeeklyProgress () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
@@ -17,33 +13,10 @@ export default function WeeklyProgress () {
   const [selectedTimeRange, setSelectedTimeRange] = useState(TIME_RANGES[0]);
   const setSearchParams = useSearchParams()[1];
 
-  const titleCase = (string) => {
-    let splitStringArray = string.toLowerCase().split(" ");
-    for (let i = 0; i < splitStringArray.length; i++) {
-      splitStringArray[i] = splitStringArray[i].charAt(0).toUpperCase() + splitStringArray[i].slice(1);
-    }
-    return splitStringArray.join(" ");
-  }
-
-  const parseFile = (file) => {
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: "greedy",
-      complete: (results) => {
-        setParsedCsvData(results.data);
-      }
-    });
-  };
-
-  const selectTimeRange = (timeRange) => {
-    setSearchParams({timeRange});
-    setSelectedTimeRange(timeRange);
-  }
-
   useEffect(() => {
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQpattUOpPKcUSS8bxlk3P-9OdmCHcNB32FINvEfnQg81WN6OsxK6AIho-gijZROruqizBjlukxKscX/pub?gid=1631773302&single=true&output=csv")
       .then(resp => resp.text())
-      .then(csv => parseFile(csv))
+      .then(csv => parseCsvFile(csv, setParsedCsvData))
       .catch(err => console.log(err));
   }, []);
 
@@ -69,6 +42,11 @@ export default function WeeklyProgress () {
       setSelectedTimeRange(urlTimeRange);
     }
   }, [])
+
+  const selectTimeRange = (timeRange) => {
+    setSearchParams({timeRange});
+    setSelectedTimeRange(timeRange);
+  }
 
   if (parsedCsvData.length === 0) {
     return <p className="loading-messsage">Parsing csv file...</p>;

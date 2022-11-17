@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import Papa from "papaparse";
+import { parseCsvFile } from "../utils/parsing"
+import { minutesToHoursAndMinutesString } from "../utils/time"
 
 export default function ActivityTotals () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
@@ -7,26 +8,10 @@ export default function ActivityTotals () {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
-  const parseFile = (file) => {
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: "greedy",
-      complete: (results) => {
-        setParsedCsvData(results.data);
-      }
-    });
-  };
-
-  const toHoursAndMinutes = (totalMinutes) => {
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-    return { hours, minutes };
-  }
-
   useEffect(() => {
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQpattUOpPKcUSS8bxlk3P-9OdmCHcNB32FINvEfnQg81WN6OsxK6AIho-gijZROruqizBjlukxKscX/pub?output=csv")
       .then(resp => resp.text())
-      .then(csv => parseFile(csv))
+      .then(csv => parseCsvFile(csv, setParsedCsvData))
       .catch(err => console.log(err));
   }, []);
 
@@ -81,11 +66,10 @@ export default function ActivityTotals () {
           .entries(totalsByActivity)
           .sort((a, b) => b[1] - a[1])
           .map(([activity, total], i) => {
-            const [ hours, minutes ] = Object.values(toHoursAndMinutes(total));
             return (
               <li key={i} className="activity">
                 <span className="activity-name">{activity}</span>
-                <span className="activity-time">{hours}:{minutes.toString().padEnd(2, "0")}</span>
+                <span className="activity-time">{minutesToHoursAndMinutesString(total)}</span>
               </li>
             )
           })
