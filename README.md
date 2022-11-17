@@ -5,5 +5,5 @@ Immersion Stats is a React 18 side-project I built to put into practice some les
 
 ### Developing and Deployments
 - When developing locally, use `npm run start` to launch the app.
-- To deploy to github pages use `npm run deploy` or `npm run deploy -- -m "My message"`
+- To deploy to GitHub pages use `npm run deploy` or `npm run deploy -- -m "My message"`
 - To run the test suite use `npm run test`

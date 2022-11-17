@@ -13,7 +13,7 @@ export const parseCsvFile = (file, callback, log = false) => {
     complete: (results) => {
       callback(results.data);
       if (log) {
-        console.log(results.data);
+        console.log(results);
       }
     }
   });
