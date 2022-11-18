@@ -1,4 +1,4 @@
-import { getSearchParams } from "../../utils/urls"
+import { getSearchParams } from "../../utils/urls";
 
 describe("getSearchParams", () => {
   delete window.location;
@@ -7,7 +7,7 @@ describe("getSearchParams", () => {
   };
 
   it("returns empty search params when none are present", () => {
-    global.window.location = new URL("https://www.example.com/#/weekly-progress");
+    window.location = new URL("https://www.example.com/#/weekly-progress");
     expect(getSearchParams()).toEqual(new URLSearchParams());
   });
 
@@ -26,4 +26,4 @@ describe("getSearchParams", () => {
     expect(returnedParams).toEqual(expectedParams);
     expect(returnedParams.get("timeRange")).toEqual("Last week");
   });
-})
+});

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { parseCsvFile } from "../utils/parsing"
-import { minutesToHoursAndMinutesString } from "../utils/time"
+import { parseCsvFile } from "../utils/parsing";
+import { minutesToHoursAndMinutesString } from "../utils/time";
 
 export default function ActivityTotals () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
@@ -25,7 +25,7 @@ export default function ActivityTotals () {
         .filter((row) => !isNaN(row))
         .reduce((a, b) => a + b, 0);
       totalsByActivity[activity] = totalTime;
-    })
+    });
     setTotalsByActivity(totalsByActivity);
 
     const sorted = parsedCsvData.sort((a, b) => new Date(b["Date"]) - new Date(a["Date"]));
@@ -38,7 +38,7 @@ export default function ActivityTotals () {
       setEndDate(latestEntry["Date"]);
     }
 
-  }, [parsedCsvData])
+  }, [parsedCsvData]);
 
   if (parsedCsvData.length === 0) {
     return <p className="loading-messsage">Parsing csv file...</p>;
@@ -71,7 +71,7 @@ export default function ActivityTotals () {
                 <span className="activity-name">{activity}</span>
                 <span className="activity-time">{minutesToHoursAndMinutesString(total)}</span>
               </li>
-            )
+            );
           })
         }
       </ul>

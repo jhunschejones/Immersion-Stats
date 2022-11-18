@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProgressRing from "./ProgressRing";
-import { parseCsvFile } from "../utils/parsing"
-import { titleCase } from "../utils/strings"
-import { getSearchParams } from "../utils/urls"
+import { parseCsvFile } from "../utils/parsing";
+import { titleCase } from "../utils/strings";
+import { getSearchParams } from "../utils/urls";
 
 const TIME_RANGES = ["This week", "Last week", "Two weeks"];
 
@@ -29,7 +29,7 @@ export default function WeeklyProgress () {
           progress: progressNumber,
           title: progressReport["Category"],
           progressText: progressReport[titleCase(timeRange)],
-        }
+        };
       });
     });
     setProgressByTimeRange(result);
@@ -41,12 +41,12 @@ export default function WeeklyProgress () {
     if (urlTimeRange && TIME_RANGES.includes(urlTimeRange)) {
       setSelectedTimeRange(urlTimeRange);
     }
-  }, [])
+  }, []);
 
   const selectTimeRange = (timeRange) => {
     setSearchParams({timeRange});
     setSelectedTimeRange(timeRange);
-  }
+  };
 
   if (parsedCsvData.length === 0) {
     return <p className="loading-messsage">Parsing csv file...</p>;
@@ -80,7 +80,7 @@ export default function WeeklyProgress () {
             >
               {timeRange}
             </button>
-          )
+          );
         })}
       </div>
       <div style={{display: "flex", flexWrap: "wrap"}}>
@@ -92,7 +92,7 @@ export default function WeeklyProgress () {
             progress={progressReport["progress"]}
             title={progressReport["title"]}
             progressText={progressReport["progressText"]}
-          />
+          />;
         })}
       </div>
     </div>

@@ -1,4 +1,13 @@
 // Borrowed from https://css-tricks.com/building-progress-ring-quickly/
+import PropTypes from "prop-types";
+
+ProgressRing.propTypes = {
+  radius: PropTypes.number,
+  stroke: PropTypes.number,
+  progress: PropTypes.number,
+  title: PropTypes.string,
+  progressText: PropTypes.string
+};
 
 export default function ProgressRing ({radius, stroke, progress, title, progressText=null}) {
   const adjustedProgress = progress > 100 ? 100 : progress;
@@ -36,5 +45,5 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
         {progressText ? progressText : `${progress}%`}
       </span>
     </div>
-  )
+  );
 }

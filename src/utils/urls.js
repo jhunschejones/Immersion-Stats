@@ -3,4 +3,4 @@
 */
 export const getSearchParams = () => {
   return new URL(window.location.toString().replace("/#/", "/")).searchParams;
-}
+};

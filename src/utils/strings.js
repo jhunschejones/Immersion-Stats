@@ -4,4 +4,4 @@ export const titleCase = (string) => {
     splitStringArray[i] = splitStringArray[i].charAt(0).toUpperCase() + splitStringArray[i].slice(1);
   }
   return splitStringArray.join(" ");
-}
+};

@@ -1,13 +1,13 @@
 import React from "react";
 import {BrowserRouter} from "react-router-dom";
 import {render, screen} from "@testing-library/react";
-import ActivityTotals from "../../components/ActivityTotals"
+import ActivityTotals from "../../components/ActivityTotals";
 import fs from "fs";
 
 describe("ActivityTotals", () => {
   beforeEach(() => {
     const data = fs.readFileSync("src/tests/fixtures/TimeSheet.csv", { encoding: "utf-8"});
-    global.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({
+    window.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({
       text: () => Promise.resolve(data)
     }));
   });
