@@ -11,11 +11,11 @@ it("correctly parses the time sheet csv", () => {
     "Year": "2022"
   };
   const mockCallback = (parsedData) => results = parsedData;
+  const data = fs.readFileSync("src/tests/fixtures/TimeSheet.csv", { encoding: "utf-8"});
 
-  fs.readFile("src/tests/fixtures/TimeSheet.csv", "utf8", (_error, data) => {
-    parseCsvFile(data, mockCallback);
-    expect(results[0]).toEqual(expectedFirstEntry);
-  });
+  parseCsvFile(data, mockCallback);
+
+  expect(results[0]).toEqual(expectedFirstEntry);
 });
 
 it("correctly parses the totals csv", () => {
@@ -35,9 +35,9 @@ it("correctly parses the totals csv", () => {
     "": ""
   };
   const mockCallback = (parsedData) => results = parsedData;
+  const data = fs.readFileSync("src/tests/fixtures/Totals.csv", { encoding: "utf-8"});
 
-  fs.readFile("src/tests/fixtures/Totals.csv", "utf8", (_error, data) => {
-    parseCsvFile(data, mockCallback);
-    expect(results[0]).toEqual(expectedFirstEntry);
-  });
+  parseCsvFile(data, mockCallback);
+
+  expect(results[0]).toEqual(expectedFirstEntry);
 });
