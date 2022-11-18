@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route, NavLink, Link } from "react-router-dom";
 import { HiHome, HiChartPie, HiClipboardList } from "react-icons/hi";
 import HomePage from "./components/HomePage";
 import ActivityTotals from "./components/ActivityTotals";
@@ -10,11 +10,35 @@ export default function App () {
       <div className="App">
         <header>
           <nav>
-            <Link to="/" className="nav-item site-title">Immersion Stats</Link>
+            <Link
+              className="nav-item site-title"
+              data-testid="site-title-nav-link"
+              to="/"
+            >
+              Immersion Stats
+            </Link>
             <span className="nav-item" style={{width: "12px", padding: 0, margin: 0, cursor: "default"}}></span>
-            <Link to="/" className="nav-item"><HiHome/></Link>
-            <Link to="/activity-totals" className="nav-item"><HiClipboardList/></Link>
-            <Link to="/weekly-progress" className="nav-item"><HiChartPie/></Link>
+            <NavLink
+              className="nav-item"
+              data-testid="home-nav-link"
+              to="/"
+            >
+              <HiHome/>
+            </NavLink>
+            <NavLink
+              className="nav-item"
+              data-testid="activity-totals-nav-link"
+              to="/activity-totals"
+            >
+              <HiClipboardList/>
+            </NavLink>
+            <NavLink
+              className="nav-item"
+              data-testid="weekly-progress-nav-link"
+              to="/weekly-progress"
+            >
+              <HiChartPie/>
+            </NavLink>
           </nav>
         </header>
         <main>

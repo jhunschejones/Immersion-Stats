@@ -4,5 +4,8 @@ import App from "../App";
 
 it("renders the App component and nav", async () => {
   render(<App/>);
-  await screen.findByText(/Immersion Stats/i);
+  await screen.findByTestId(/site-title-nav-link/i);
+  await screen.findByTestId(/home-nav-link/i);
+  await screen.findByTestId(/activity-totals-nav-link/i);
+  await screen.findByTestId(/weekly-progress-nav-link/i);
 });
