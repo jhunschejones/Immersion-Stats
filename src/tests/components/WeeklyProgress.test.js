@@ -7,7 +7,7 @@ import fs from "fs";
 
 describe("WeeklyProgress", () => {
   beforeEach(() => {
-    const data = fs.readFileSync("src/tests/fixtures/Totals.csv", { encoding: "utf-8"});
+    const data = fs.readFileSync("src/tests/fixtures/Totals.csv", {encoding: "utf-8"});
     window.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({
       text: () => Promise.resolve(data)
     }));

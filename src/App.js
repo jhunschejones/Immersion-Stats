@@ -3,6 +3,7 @@ import { HiHome, HiChartPie, HiClipboardList } from "react-icons/hi";
 import HomePage from "./components/HomePage";
 import ActivityTotals from "./components/ActivityTotals";
 import WeeklyProgress from "./components/WeeklyProgress";
+import AnkiTotals from "./components/AnkiTotals";
 
 export default function App () {
   return (
@@ -46,6 +47,7 @@ export default function App () {
             <Route path="/" element={<HomePage/>}/>
             <Route path="/activity-totals" element={<ActivityTotals/>}/>
             <Route path="/weekly-progress" element={<WeeklyProgress/>}/>
+            <Route path="/anki-totals" element={<AnkiTotals/>}/>
           </Routes>
         </main>
       </div>

@@ -152,6 +152,28 @@ body {
   }
 }
 
+.AnkiTotals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .heatmap-container {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+    overflow-x: scroll;
+    direction: rtl; // start at right and scroll left
+    .w-heatmap {
+      width: 1500px;
+      height: 150px;
+    }
+  }
+  .react-calendar-heatmap .color-scale-0 { fill: #eeeeee; }
+  .react-calendar-heatmap .color-scale-1 { fill: #d6e685; }
+  .react-calendar-heatmap .color-scale-2 { fill: #8cc665; }
+  .react-calendar-heatmap .color-scale-3 { fill: #44a340; }
+  .react-calendar-heatmap .color-scale-4 { fill: #1e6823; }
+}
+
 .progress-ring-container {
   margin: 5px;
   outline: 1px solid #deedff;
