@@ -80,6 +80,12 @@ export default function AnkiTotals () {
   //   return { date: row["Date"], count: row["Time (mins)"] };
   // });
 
+  const mins = Math.round(
+    parsedCsvData
+      .map((row) => parseFloat(row["Time (mins)"]))
+      .reduce((a, b) => a + b, 0)
+  );
+
   return(
     <div className="AnkiTotals">
       <h1 style={{
@@ -88,9 +94,12 @@ export default function AnkiTotals () {
         fontSize: "28px",
         fontWeight: "600"
       }}>
-        Anki
+        Anki Study Time
       </h1>
       <div className="heatmap-container">
+        <p style={{textAlign: "center"}}>
+          {`${parseInt(mins / 60)}:${mins % 60}`}
+        </p>
       </div>
     </div>
   );
