@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Immersion-Stats/static/css/main.cc6dd0d3.css",
-    "main.js": "/Immersion-Stats/static/js/main.0fc1c7c5.js",
+    "main.css": "/Immersion-Stats/static/css/main.f7e6f712.css",
+    "main.js": "/Immersion-Stats/static/js/main.ac469936.js",
     "index.html": "/Immersion-Stats/index.html",
-    "main.cc6dd0d3.css.map": "/Immersion-Stats/static/css/main.cc6dd0d3.css.map",
-    "main.0fc1c7c5.js.map": "/Immersion-Stats/static/js/main.0fc1c7c5.js.map"
+    "main.f7e6f712.css.map": "/Immersion-Stats/static/css/main.f7e6f712.css.map",
+    "main.ac469936.js.map": "/Immersion-Stats/static/js/main.ac469936.js.map"
   },
   "entrypoints": [
-    "static/css/main.cc6dd0d3.css",
-    "static/js/main.0fc1c7c5.js"
+    "static/css/main.f7e6f712.css",
+    "static/js/main.ac469936.js"
   ]
 }
