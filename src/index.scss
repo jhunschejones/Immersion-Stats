@@ -162,9 +162,12 @@ body {
     max-width: 500px;
     overflow-x: scroll;
     direction: rtl; // start at right and scroll left
-    .w-heatmap {
-      width: 1500px;
-      height: 150px;
+    white-space: nowrap;
+    .react-calendar-heatmap {
+      width: fit-content;
+      height: 120px;
+      padding-bottom: 4px; // leaving space for the scroll bar
+      direction: ltr; // reset the direction so tooltips aren't backwards
     }
   }
   .react-calendar-heatmap .color-scale-0 { fill: #eeeeee; }

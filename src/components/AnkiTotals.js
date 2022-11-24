@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { parseCsvFile } from "../utils/parsing";
 import { getSearchParams } from "../utils/urls";
 
+import CalendarHeatmap from "react-calendar-heatmap";
+import "react-calendar-heatmap/dist/styles.css";
+
 // const sixMonthsAgo = () => {
 //   const date = new Date();
 //   date.setMonth(date.getMonth() - 6);
@@ -58,33 +61,27 @@ export default function AnkiTotals () {
     }
   }, [parsedCsvData]);
 
-  // const colorScaleClassFromValue = (value) => {
-  //   if (!value || !highestValue || !lowestValue) {
-  //     return "color-empty";
-  //   }
-  //   const percentage = (parseFloat(value) - lowestValue) / parseFloat(highestValue - lowestValue);
-  //   // round to nearest .25 then convert to number from 0 to 4
-  //   const colorScaleNumber = (Math.round(percentage * 4) / 4).toFixed(2) / 0.25;
-  //   return `color-scale-${colorScaleNumber}`;
-  // };
+  const colorScaleClassFromValue = (value) => {
+    if (!value || !highestValue || !lowestValue) {
+      return "color-empty";
+    }
+    const percentage = (parseFloat(value) - lowestValue) / parseFloat(highestValue - lowestValue);
+    // round to nearest .25 then convert to number from 0 to 4
+    const colorScaleNumber = (Math.round(percentage * 4) / 4).toFixed(2) / 0.25;
+    return `color-scale-${colorScaleNumber}`;
+  };
 
   if (parsedCsvData.length === 0) {
     return <p className="loading-messsage">Parsing csv file...</p>;
   }
 
-  if (!firstDate || !lastDate || !highestValue || !lowestValue || !startDate) {
+  if (!firstDate || !lastDate || !highestValue || !lowestValue) {
     return <p className="loading-messsage">Processing data...</p>;
   }
 
-  // const heatData = parsedCsvData.map((row) => {
-  //   return { date: row["Date"], count: row["Time (mins)"] };
-  // });
-
-  const mins = Math.round(
-    parsedCsvData
-      .map((row) => parseFloat(row["Time (mins)"]))
-      .reduce((a, b) => a + b, 0)
-  );
+  const heatData = parsedCsvData.map((row) => {
+    return { date: row["Date"], count: row["Time (mins)"] };
+  });
 
   return(
     <div className="AnkiTotals">
@@ -97,9 +94,14 @@ export default function AnkiTotals () {
         Anki Study Time
       </h1>
       <div className="heatmap-container">
-        <p style={{textAlign: "center"}}>
-          {`${parseInt(mins / 60)}:${mins % 60}`}
-        </p>
+        <CalendarHeatmap
+          startDate={startDate}
+          endDate={lastDate}
+          values={heatData}
+          classForValue={(value) => colorScaleClassFromValue(value?.count)}
+          titleForValue={(value) => value && `${value.date}, ${parseInt(value.count)} minutes`}
+          showOutOfRangeDays
+        />
       </div>
     </div>
   );
