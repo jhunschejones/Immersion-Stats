@@ -55,7 +55,7 @@ body {
           color: $green;
           font-weight: 700;
           float: left;
-          @media (max-width: 384px) {
+          @media (max-width: 432px) {
             display: none;
           }
         }
