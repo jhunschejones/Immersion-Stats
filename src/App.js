@@ -18,7 +18,7 @@ export default function App () {
             >
               Immersion Stats
             </Link>
-            <span className="nav-item" style={{width: "12px", padding: 0, margin: 0, cursor: "default"}}></span>
+            <span className="nav-item spacer"></span>
             <NavLink
               className="nav-item"
               data-testid="home-nav-link"

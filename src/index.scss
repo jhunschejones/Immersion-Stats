@@ -40,6 +40,9 @@ body {
         display: flex;
         color: $link-blue;
         padding: 0px 10px;
+        @media (max-width: 432px) {
+          padding: 0px 7px;
+        }
         text-decoration: none;
         float: right;
         &:hover {
@@ -55,9 +58,18 @@ body {
           color: $green;
           font-weight: 700;
           float: left;
-          @media (max-width: 432px) {
+          @media (max-width: 404px) {
             display: none;
           }
+        }
+        &.spacer {
+          width: 12px;
+          @media (max-width: 432px) {
+            width: 8px;
+          }
+          padding: 0;
+          margin: 0;
+          cursor: default;
         }
       }
     }
@@ -159,11 +171,11 @@ body {
   .heatmap-container {
     margin-top: 20px;
     width: 100%;
+    max-width: 900px;
     text-align: center;
     overflow-x: scroll;
     direction: rtl; // start at right and scroll left
     .react-calendar-heatmap {
-      width: fit-content;
       height: 120px;
       padding-bottom: 4px; // leaving space for the scroll bar
       direction: ltr; // reset the direction so tooltips aren't backwards
