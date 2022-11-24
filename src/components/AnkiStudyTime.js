@@ -5,20 +5,13 @@ import { getSearchParams } from "../utils/urls";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 
-// const sixMonthsAgo = () => {
-//   const date = new Date();
-//   date.setMonth(date.getMonth() - 6);
-//   return date;
-// };
-
-export default function AnkiTotals () {
+export default function AnkiStudyTime () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [firstDate, setFirstDate] = useState();
   const [lastDate, setLastDate] = useState();
   const [startDate, setStartDate] = useState();
   const [highestValue, setHighestValue] = useState();
   const [lowestValue, setLowestValue] = useState();
-  // const setSearchParams = useSearchParams()[1];
 
   useEffect(() => {
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRtfhZzd63RTmi_cQ4sTSpLCYbufMKNxdWBrf1fIjqomzeNFRdX1O6DBXUUNcfwNQuRaY-TTp_Fa5M3/pub?gid=0&single=true&output=csv")
@@ -57,7 +50,6 @@ export default function AnkiTotals () {
       setStartDate(new Date(urlStartDate));
     } else {
       setStartDate(firstDate);
-      // setStartDate(firstDate < sixMonthsAgo() ? sixMonthsAgo() : firstDate);
     }
   }, [parsedCsvData]);
 

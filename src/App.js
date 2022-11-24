@@ -1,9 +1,9 @@
 import { HashRouter, Routes, Route, NavLink, Link } from "react-router-dom";
-import { HiHome, HiChartPie, HiClipboardList } from "react-icons/hi";
+import { HiHome, HiChartPie, HiClipboardList, HiCollection } from "react-icons/hi";
 import HomePage from "./components/HomePage";
 import ActivityTotals from "./components/ActivityTotals";
 import WeeklyProgress from "./components/WeeklyProgress";
-import AnkiTotals from "./components/AnkiTotals";
+import AnkiTotals from "./components/AnkiStudyTime";
 
 export default function App () {
   return (
@@ -28,6 +28,13 @@ export default function App () {
             </NavLink>
             <NavLink
               className="nav-item"
+              data-testid="anki-study-time-nav-link"
+              to="/anki-study-time"
+            >
+              <HiCollection/>
+            </NavLink>
+            <NavLink
+              className="nav-item"
               data-testid="activity-totals-nav-link"
               to="/activity-totals"
             >
@@ -47,7 +54,7 @@ export default function App () {
             <Route path="/" element={<HomePage/>}/>
             <Route path="/activity-totals" element={<ActivityTotals/>}/>
             <Route path="/weekly-progress" element={<WeeklyProgress/>}/>
-            <Route path="/anki-totals" element={<AnkiTotals/>}/>
+            <Route path="/anki-study-time" element={<AnkiTotals/>}/>
           </Routes>
         </main>
       </div>

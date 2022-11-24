@@ -159,10 +159,9 @@ body {
   .heatmap-container {
     margin-top: 20px;
     width: 100%;
-    max-width: 500px;
+    text-align: center;
     overflow-x: scroll;
     direction: rtl; // start at right and scroll left
-    white-space: nowrap;
     .react-calendar-heatmap {
       width: fit-content;
       height: 120px;
