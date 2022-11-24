@@ -51,7 +51,7 @@ export default function AnkiStudyTime () {
     } else {
       setStartDate(firstDate);
     }
-  }, [parsedCsvData]);
+  }, [parsedCsvData, firstDate]);
 
   const colorScaleClassFromValue = (value) => {
     if (!value || !highestValue || !lowestValue) {
@@ -67,7 +67,7 @@ export default function AnkiStudyTime () {
     return <p className="loading-messsage">Parsing csv file...</p>;
   }
 
-  if (!firstDate || !lastDate || !highestValue || !lowestValue) {
+  if (!firstDate || !lastDate || !highestValue || !lowestValue || !startDate) {
     return <p className="loading-messsage">Processing data...</p>;
   }
 
