@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { parseCsvFile } from "../utils/parsing";
 import { getSearchParams } from "../utils/urls";
+import { minutesToHoursAndMinutes } from "../utils/time";
 
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
@@ -12,6 +13,7 @@ export default function AnkiStudyTime () {
   const [startDate, setStartDate] = useState();
   const [highestValue, setHighestValue] = useState();
   const [lowestValue, setLowestValue] = useState();
+  const [totalAnkiTimeString, setTotalAnkiTimeString] = useState("");
 
   useEffect(() => {
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRtfhZzd63RTmi_cQ4sTSpLCYbufMKNxdWBrf1fIjqomzeNFRdX1O6DBXUUNcfwNQuRaY-TTp_Fa5M3/pub?gid=0&single=true&output=csv")
@@ -53,6 +55,12 @@ export default function AnkiStudyTime () {
     }
   }, [parsedCsvData, firstDate]);
 
+  useEffect(() => {
+    const totalMinutes = parsedCsvData.map(row => parseInt(row["Time (mins)"])).reduce((a, b) => a + b, 0);
+    const formattedTime = minutesToHoursAndMinutes(totalMinutes);
+    setTotalAnkiTimeString(`${formattedTime.hours}hrs ${formattedTime.minutes}mins`);
+  }, [parsedCsvData]);
+
   const colorScaleClassFromValue = (value) => {
     if (!value || !highestValue || !lowestValue) {
       return "color-empty";
@@ -85,6 +93,9 @@ export default function AnkiStudyTime () {
       }}>
         Anki Study Time
       </h1>
+      <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}}>
+        {totalAnkiTimeString}
+      </p>
       <div className="heatmap-container">
         <CalendarHeatmap
           startDate={startDate}

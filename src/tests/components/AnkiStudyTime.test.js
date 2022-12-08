@@ -15,6 +15,7 @@ describe("AnkiStudyTime", () => {
   it("should render expected totals data", async () => {
     render(<AnkiStudyTime/>, {wrapper: BrowserRouter});
     await screen.findByText(/Anki Study Time/i);
-    await screen.findByText(/11\/20\/2022, 60 minutes/i);
+    await screen.findByText(/11\/20\/2022, 60 minutes/i); // one of the expected heatmap cells
+    await screen.findByText(/636hrs 10mins/i); // total anki time
   });
 });
