@@ -2,5 +2,9 @@
  * router, so use this function instead to read search params from the URL
 */
 export const getSearchParams = () => {
-  return new URL(window.location.toString().replace("/#/", "/")).searchParams;
+  const cleanLocationString = window.location
+    .toString()
+    .replace("/#/", "/")
+    .replace(`${window.location.pathname}#/`, `${window.location.pathname}/`);
+  return new URL(cleanLocationString).searchParams;
 };
