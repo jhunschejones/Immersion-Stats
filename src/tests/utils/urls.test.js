@@ -12,18 +12,18 @@ describe("getSearchParams", () => {
   });
 
   it("returns expected search params when one is present", () => {
-    window.location = new URL("https://www.example.com/#/weekly-progress?timeRange=Last+week");
-    const expectedParams = new URLSearchParams("timeRange=Last+week");
+    window.location = new URL("https://www.example.com/#/weekly-progress?timeRange=last-week");
+    const expectedParams = new URLSearchParams("timeRange=last-week");
     const returnedParams = getSearchParams();
     expect(returnedParams).toEqual(expectedParams);
-    expect(returnedParams.get("timeRange")).toEqual("Last week");
+    expect(returnedParams.get("timeRange")).toEqual("last-week");
   });
 
   it("returns expected search params when more than one is present", () => {
-    window.location = new URL("https://www.example.com/#/weekly-progress?extra=param&timeRange=Last+week");
-    const expectedParams = new URLSearchParams("extra=param&timeRange=Last+week");
+    window.location = new URL("https://www.example.com/#/weekly-progress?extra=param&timeRange=last-week");
+    const expectedParams = new URLSearchParams("extra=param&timeRange=last-week");
     const returnedParams = getSearchParams();
     expect(returnedParams).toEqual(expectedParams);
-    expect(returnedParams.get("timeRange")).toEqual("Last week");
+    expect(returnedParams.get("timeRange")).toEqual("last-week");
   });
 });
