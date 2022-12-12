@@ -16,10 +16,10 @@ export default function HomePage () {
         Let's take a quick look at some of my Japanese language study statistics
       </div>
       <div className="action-buttons">
-        <Link to="/activity-totals" className="button">
+        <Link to="/activities" className="button">
           Activity totals
         </Link>
-        <Link to="/weekly-progress" className="button" style={{marginLeft: "12px"}}>
+        <Link to="/weekly" className="button" style={{marginLeft: "12px"}}>
           Weekly progress
         </Link>
       </div>
