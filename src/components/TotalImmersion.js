@@ -3,7 +3,7 @@ import { parseCsvFile } from "../utils/parsing";
 import { HiFire } from "react-icons/hi";
 import { ImHeadphones, ImBook, ImTrophy } from "react-icons/im";
 
-export default function AllTimeProgress () {
+export default function TotalImmersion () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function AllTimeProgress () {
         fontSize: "28px",
         fontWeight: "600"
       }}>
-        Immersion Progress
+        Total Immersion
       </h1>
       <p className="total-days">
         <HiFire className="days-fire"/>

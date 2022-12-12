@@ -6,7 +6,7 @@ import { minutesToHoursAndMinutes } from "../utils/time";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 
-export default function AnkiStudyTime () {
+export default function AnkiReviews () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [firstDate, setFirstDate] = useState();
   const [lastDate, setLastDate] = useState();
@@ -91,7 +91,7 @@ export default function AnkiStudyTime () {
         fontSize: "28px",
         fontWeight: "600"
       }}>
-        Anki Study Time
+        Anki Reviews
       </h1>
       <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}}>
         {totalAnkiTimeString}

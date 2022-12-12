@@ -1,10 +1,10 @@
 import React from "react";
 import {BrowserRouter} from "react-router-dom";
 import {render, screen} from "@testing-library/react";
-import AllTimeProgress from "../../components/AllTimeProgress";
+import TotalImmersion from "../../components/TotalImmersion";
 import fs from "fs";
 
-describe("AllTimeProgress", () => {
+describe("TotalImmersion", () => {
   beforeEach(() => {
     const data = fs.readFileSync("src/tests/fixtures/Totals.csv", {encoding: "utf-8"});
     window.fetch = jest.fn().mockImplementationOnce(() => Promise.resolve({
@@ -13,7 +13,9 @@ describe("AllTimeProgress", () => {
   });
 
   it("should render expected totals data", async () => {
-    render(<AllTimeProgress/>, {wrapper: BrowserRouter});
+    render(<TotalImmersion/>, {wrapper: BrowserRouter});
+    await screen.findByText(/Total Immersion/i);
+
     await screen.findByText(/Active Immersion/i);
     await screen.findByText(/140:57/i);
 

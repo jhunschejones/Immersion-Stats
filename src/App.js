@@ -3,8 +3,8 @@ import { HiHome, HiChartPie, HiClipboardList, HiCalendar, HiFire } from "react-i
 import HomePage from "./components/HomePage";
 import ActivityTotals from "./components/ActivityTotals";
 import WeeklyProgress from "./components/WeeklyProgress";
-import AnkiTotals from "./components/AnkiStudyTime";
-import AllTimeProgress from "./components/AllTimeProgress";
+import AnkiTotals from "./components/AnkiReviews";
+import TotalImmersion from "./components/TotalImmersion";
 
 export default function App () {
   return (
@@ -29,41 +29,41 @@ export default function App () {
             </NavLink>
             <NavLink
               className="nav-item"
-              data-testid="all-time-progress-nav-link"
-              to="/all-time-progress"
-            >
-              <HiFire/>
-            </NavLink>
-            <NavLink
-              className="nav-item"
-              data-testid="anki-study-time-nav-link"
-              to="/anki-study-time"
+              data-testid="anki-reviews-nav-link"
+              to="/anki"
             >
               <HiCalendar/>
             </NavLink>
             <NavLink
               className="nav-item"
-              data-testid="activity-totals-nav-link"
-              to="/activity-totals"
+              data-testid="activities-nav-link"
+              to="/activities"
             >
               <HiClipboardList/>
             </NavLink>
             <NavLink
               className="nav-item"
               data-testid="weekly-progress-nav-link"
-              to="/weekly-progress"
+              to="/weekly"
             >
               <HiChartPie/>
+            </NavLink>
+            <NavLink
+              className="nav-item"
+              data-testid="total-immersion-nav-link"
+              to="/total"
+            >
+              <HiFire/>
             </NavLink>
           </nav>
         </header>
         <main>
           <Routes>
             <Route path="/" element={<HomePage/>}/>
-            <Route path="/activity-totals" element={<ActivityTotals/>}/>
-            <Route path="/weekly-progress" element={<WeeklyProgress/>}/>
-            <Route path="/anki-study-time" element={<AnkiTotals/>}/>
-            <Route path="/all-time-progress" element={<AllTimeProgress/>}/>
+            <Route path="/activities" element={<ActivityTotals/>}/>
+            <Route path="/weekly" element={<WeeklyProgress/>}/>
+            <Route path="/anki" element={<AnkiTotals/>}/>
+            <Route path="/total" element={<TotalImmersion/>}/>
           </Routes>
         </main>
       </div>
