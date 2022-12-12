@@ -14,6 +14,7 @@ $green: #58cc02;
 $green-darker: #58a700;
 $purple: #ce82ff;
 $purple-darker: #a567cc;
+$orange: #ff9600;
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -50,6 +51,11 @@ body {
         }
         &.active {
           color: $purple;
+        }
+        &.home-nav-link {
+          @media (max-width: 480px) {
+            display: none;
+          }
         }
         &.site-title {
           display: flex;
@@ -186,6 +192,52 @@ body {
   .react-calendar-heatmap .color-scale-2 { fill: #8cc665; }
   .react-calendar-heatmap .color-scale-3 { fill: #44a340; }
   .react-calendar-heatmap .color-scale-4 { fill: #1e6823; }
+}
+
+.AllTimeTotals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .total-days {
+    display: flex;
+    margin: 0;
+    font-weight: 200;
+    font-size: 14px;
+    .days-fire {
+      color: $orange;
+      font-size: 20px;
+      margin: 0 2px;
+    }
+  }
+  .totals-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      &:last-child {
+        margin-top: 5px;
+      }
+    }
+    .totals-card {
+      h2 {
+        font-size: 16px;
+        color: $link-blue;
+        margin: 4px;
+      }
+      p {
+        margin: 4px;
+      }
+      border: 1px solid $light-gray;
+      border-radius: 12px;
+      margin: 6px;
+      padding: 4px 12px;
+      width: fit-content;
+      text-align: center;
+    }
+  }
 }
 
 .progress-ring-container {

@@ -9,4 +9,5 @@ it("renders the App component and nav", async () => {
   await screen.findByTestId(/activity-totals-nav-link/i);
   await screen.findByTestId(/weekly-progress-nav-link/i);
   await screen.findByTestId(/anki-study-time-nav-link/i);
+  await screen.findByTestId(/all-time-progress-nav-link/i);
 });
