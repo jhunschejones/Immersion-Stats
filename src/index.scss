@@ -41,9 +41,6 @@ body {
         display: flex;
         color: $link-blue;
         padding: 0px 10px;
-        @media (max-width: 432px) {
-          padding: 0px 8px;
-        }
         text-decoration: none;
         float: right;
         &:hover {
@@ -52,11 +49,6 @@ body {
         &.active {
           color: $purple;
         }
-        &.home-nav-link {
-          @media (max-width: 480px) {
-            display: none;
-          }
-        }
         &.site-title {
           display: flex;
           font-size: 22px;
@@ -64,18 +56,76 @@ body {
           color: $green;
           font-weight: 700;
           float: left;
-          @media (max-width: 413px) {
-            display: none;
-          }
         }
         &.spacer {
-          width: 12px;
-          @media (max-width: 432px) {
-            width: 9px;
-          }
+          width: 10px;
           padding: 0;
           margin: 0;
           cursor: default;
+        }
+      }
+    }
+
+    .full-nav {
+      height: 100%;
+      .full-text {
+        display: none;
+      }
+      @media (max-width: 550px) {
+        display: none;
+      }
+    }
+
+    .dropdown-nav {
+      height: 100%;
+      float: right;
+      position: relative;
+      display: none;
+      @media (max-width: 550px) {
+        display: flex;
+      }
+
+      .hamburger {
+        -webkit-appearance: none;
+        appearance: none;
+        text-decoration: none;
+        user-select: none;
+        outline: none;
+        background: none;
+        border: none;
+        font-size: 35px;
+        padding: 12px;
+        cursor: pointer;
+      }
+
+      .dropdown-content {
+        margin-top: 60px;
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        background-color: $white;
+        width: fit-content;
+        min-width: 190px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        right: 0;
+        a {
+          padding: 8px 8px 8px 8px;
+          text-decoration: none;
+          display: flex;
+          &:hover {
+            background-color: $light-gray;
+          }
+          .full-text {
+            padding-left: 6px;
+            display: inline-block;
+            font-size: 18px;
+          }
+        }
+      }
+      &.active {
+        .dropdown-content {
+          display: flex;
         }
       }
     }
