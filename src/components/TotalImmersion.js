@@ -47,7 +47,7 @@ export default function TotalImmersion () {
   }
 
   return (
-    <div className="AllTimeTotals">
+    <div className="TotalImmersion">
       <h1 style={{
         margin: "4px 0 2px 0",
         padding: "0",
@@ -81,7 +81,7 @@ export default function TotalImmersion () {
           <div className="totals-card">
             <h2>All Immersion</h2>
             <p>
-              <ImTrophy style={{color: "#ce82ff", paddingRight: "5px", marginBottom: "-2px", opacity: "0.8"}}/>
+              <ImTrophy style={{color: "#ce82ff", paddingRight: "8px", marginBottom: "-3px", opacity: "0.8"}}/>
               {totalAllImmersionTime}
             </p>
           </div>

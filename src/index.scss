@@ -216,7 +216,7 @@ body {
   .react-calendar-heatmap .color-scale-4 { fill: #1e6823; }
 }
 
-.AllTimeTotals {
+.TotalImmersion {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -251,6 +251,7 @@ body {
       }
       p {
         margin: 4px;
+        font-size: 20px;
       }
       border: 1px solid $light-gray;
       border-radius: 12px;
