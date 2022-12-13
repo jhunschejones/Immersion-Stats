@@ -14,7 +14,7 @@ export default function App () {
     return (
       <>
         <NavLink
-          className="nav-item home-nav-link"
+          className="nav-item"
           data-testid="home-nav-link"
           to="/"
         >
