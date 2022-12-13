@@ -87,6 +87,57 @@ body {
   }
 }
 
+.loading-messsage {
+  text-align: center;
+}
+
+.button {
+  -webkit-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  user-select: none;
+  outline: none;
+  padding: 8px 16px;
+  border: solid transparent;
+  border-radius: 12px;
+  border-width: 0px 0px 4px 0px;
+  background-color: $dark-blue;
+  border-color: $dark-blue-darker-still;
+  color: $white;
+  width: fit-content;
+  font-size: 18px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+    background-color: $dark-blue-lighter;
+  }
+}
+
+.progress-ring-container {
+  margin: 5px;
+  outline: 1px solid #deedff;
+  position: relative;
+  .progress-ring svg {
+    transform: rotate(-90);
+    -webkit-transform: rotate(-90deg);
+  }
+  .progress-title {
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 0;
+    text-align: center;
+  }
+  .progress-text {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: calc(50% + 16px); // offset for title
+  }
+}
+
 .HomePage {
   .action-buttons {
     margin-top: 40px;
@@ -138,35 +189,6 @@ body {
         border-color: $green-darker;
       }
     }
-  }
-}
-
-.loading-messsage {
-  text-align: center;
-}
-
-.button {
-  -webkit-appearance: none;
-  appearance: none;
-  text-decoration: none;
-  user-select: none;
-  outline: none;
-  padding: 8px 16px;
-  border: solid transparent;
-  border-radius: 12px;
-  border-width: 0px 0px 4px 0px;
-  background-color: $dark-blue;
-  border-color: $dark-blue-darker-still;
-  color: $white;
-  width: fit-content;
-  font-size: 18px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  &:hover {
-    cursor: pointer;
-    background-color: $dark-blue-lighter;
   }
 }
 
@@ -237,27 +259,5 @@ body {
       width: fit-content;
       text-align: center;
     }
-  }
-}
-
-.progress-ring-container {
-  margin: 5px;
-  outline: 1px solid #deedff;
-  position: relative;
-  .progress-ring svg {
-    transform: rotate(-90);
-    -webkit-transform: rotate(-90deg);
-  }
-  .progress-title {
-    font-size: 16px;
-    margin: 5px 0;
-    padding: 0;
-    text-align: center;
-  }
-  .progress-text {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: calc(50% + 16px); // offset for title
   }
 }
