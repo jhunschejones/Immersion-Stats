@@ -76,7 +76,7 @@ export default function App () {
             </div>
 
             <div className={`dropdown-nav ${dropDownIsOpen && "active"}`}>
-              <button className="hamburger-button" onClick={() => setDropdownOpen(o => !o)}>
+              <button className="hamburger-button" data-testid="hamburger-button" onClick={() => setDropdownOpen(o => !o)}>
                 {dropDownIsOpen ? <HiX style={{color: "#b7b7b7"}}/> : <HiMenu/>}
               </button>
               <div className="dropdown-content">
