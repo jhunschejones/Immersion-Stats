@@ -3,12 +3,6 @@ import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
 
-
-afterEach(() => {
-  global.innerWidth = 1024;
-});
-
-
 it("renders the App component and nav", async () => {
   render(<App/>);
   await screen.findByTestId(/site-title-nav-link/i);
@@ -26,14 +20,35 @@ it("renders the App component and nav", async () => {
   expect(totalImmersionNavLinks.length).toEqual(2);
 });
 
-// it("opens the dropdown on click", async () => {
-//   global.innerWidth = 500;
-//   const user = userEvent.setup();
-//   render(<App/>);
-//   await user.click(screen.getByTestId("hamburger-button"));
-//   await screen.getByText("Total Immersion", {selector: ".dropdown-nav .full-text"});
-// });
+it("opens the dropdown on click", async () => {
+  const user = userEvent.setup();
+  render(<App/>);
+  await user.click(screen.getByTestId("hamburger-button"));
+  await screen.getByText("Total Immersion", {selector: ".dropdown-nav.active .full-text"});
+});
 
-// it("closes the dropdown on click away", async () => {
+it("closes the dropdown on click away", async () => {
+  const user = userEvent.setup();
+  render(<App/>);
 
-// });
+  // open the dropdown nav by clicking the hamburger button
+  await user.click(screen.getByTestId("hamburger-button"));
+  await screen.getByText("Total Immersion", {selector: ".dropdown-nav.active .full-text"});
+
+  // close the dropdown nav by clicking away
+  await user.click(screen.getByTestId("site-title-nav-link"));
+  await screen.getByText("Total Immersion", {selector: ".dropdown-nav .full-text"});
+});
+
+it("closes the dropdown on close button", async () => {
+  const user = userEvent.setup();
+  render(<App/>);
+
+  // open the dropdown nav by clicking the hamburger button
+  await user.click(screen.getByTestId("hamburger-button"));
+  await screen.getByText("Total Immersion", {selector: ".dropdown-nav.active .full-text"});
+
+  // close the dropdown nav by clicking on the hamburger button again
+  await user.click(screen.getByTestId("hamburger-button"));
+  await screen.getByText("Total Immersion", {selector: ".dropdown-nav .full-text"});
+});
