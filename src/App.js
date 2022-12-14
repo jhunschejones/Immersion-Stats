@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { HashRouter, Routes, Route, NavLink, Link } from "react-router-dom";
-import { HiHome, HiChartPie, HiClipboardList, HiCalendar, HiFire, HiMenu } from "react-icons/hi";
+import { HiHome, HiChartPie, HiClipboardList, HiCalendar, HiFire, HiMenu, HiX } from "react-icons/hi";
 import HomePage from "./components/HomePage";
 import ActivityTotals from "./components/ActivityTotals";
 import WeeklyProgress from "./components/WeeklyProgress";
@@ -60,7 +60,7 @@ export default function App () {
   return (
     <HashRouter>
       <div className="App" onClick={(e) => {
-        if (!e.target.closest("button")?.classList?.contains("hamburger")) {
+        if (!e.target.closest("button")?.classList?.contains("hamburger-button")) {
           setDropdownOpen(false);
         }
       }}>
@@ -76,8 +76,8 @@ export default function App () {
             </div>
 
             <div className={`dropdown-nav ${dropDownIsOpen && "active"}`}>
-              <button className="hamburger" onClick={() => setDropdownOpen(o => !o)}>
-                <HiMenu/>
+              <button className="hamburger-button" onClick={() => setDropdownOpen(o => !o)}>
+                {dropDownIsOpen ? <HiX style={{color: "#b7b7b7"}}/> : <HiMenu/>}
               </button>
               <div className="dropdown-content">
                 {navLinks()}
