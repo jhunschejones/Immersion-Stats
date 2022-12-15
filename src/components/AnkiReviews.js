@@ -14,6 +14,7 @@ export default function AnkiReviews () {
   const [highestValue, setHighestValue] = useState();
   const [lowestValue, setLowestValue] = useState();
   const [totalAnkiTimeString, setTotalAnkiTimeString] = useState("");
+  const [timeLabel, setTimeLabel] = useState("");
 
   useEffect(() => {
     fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRtfhZzd63RTmi_cQ4sTSpLCYbufMKNxdWBrf1fIjqomzeNFRdX1O6DBXUUNcfwNQuRaY-TTp_Fa5M3/pub?gid=0&single=true&output=csv")
@@ -59,6 +60,7 @@ export default function AnkiReviews () {
     const totalMinutes = parsedCsvData.map(row => parseInt(row["Time (mins)"])).reduce((a, b) => a + b, 0);
     const formattedTime = minutesToHoursAndMinutes(totalMinutes);
     setTotalAnkiTimeString(`${formattedTime.hours}hrs ${formattedTime.minutes}mins`);
+    setTimeLabel(`${formattedTime.hours}hrs ${formattedTime.minutes}mins`);
   }, [parsedCsvData]);
 
   const colorScaleClassFromValue = (value) => {
@@ -84,7 +86,11 @@ export default function AnkiReviews () {
   });
 
   return(
-    <div className="AnkiTotals">
+    <div className="AnkiTotals" onClick={(e) => {
+      if (e.target.tagName != "rect") {
+        setTimeLabel(totalAnkiTimeString);
+      }
+    }}>
       <h1 style={{
         margin: "4px 0 2px 0",
         padding: "0",
@@ -93,8 +99,8 @@ export default function AnkiReviews () {
       }}>
         Anki Reviews
       </h1>
-      <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}}>
-        {totalAnkiTimeString}
+      <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}} className="time-label">
+        {timeLabel}
       </p>
       <div className="heatmap-container">
         <CalendarHeatmap
@@ -103,6 +109,7 @@ export default function AnkiReviews () {
           values={heatData}
           classForValue={(value) => colorScaleClassFromValue(value?.count)}
           titleForValue={(value) => value && `${value.date}, ${parseInt(value.count)} minutes`}
+          onClick={(value) => value && setTimeLabel(`${value.date}, ${parseInt(value.count)} minutes`)}
           showOutOfRangeDays
         />
       </div>
