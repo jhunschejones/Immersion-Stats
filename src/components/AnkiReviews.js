@@ -110,7 +110,6 @@ export default function AnkiReviews () {
           classForValue={(value) => colorScaleClassFromValue(value?.count)}
           titleForValue={(value) => value && `${value.date}, ${parseInt(value.count)} minutes`}
           onClick={(value) => value && setTimeLabel(`${value.date}, ${parseInt(value.count)} minutes`)}
-          showOutOfRangeDays
         />
       </div>
     </div>
