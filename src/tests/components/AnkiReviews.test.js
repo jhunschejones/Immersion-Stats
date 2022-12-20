@@ -23,13 +23,19 @@ describe("AnkiReviews", () => {
   it("shows time label for a specific day when clicked", async () => {
     const user = userEvent.setup();
     const {container} = render(<AnkiReviews/>, {wrapper: BrowserRouter});
-    await screen.findByText(/636hrs 10mins/i); // total anki time shown in time label
 
+    // default state shows total anki time and days studied
+    await screen.findByText(/636hrs 10mins/i); // total anki time shown in time label
+    await screen.findByText(/747 days/i); // total anki days shown in day label
+
+    // click on a day to see the date and time studied for that day
     await user.click(container.getElementsByClassName("color-scale-2")[0]);
-    await screen.findByText(/09\/10\/2020, 45 minutes/i, {selector: ".time-label"}); // time label with one days time
+    await screen.findByText(/09\/10\/2020/i, {selector: "[data-testid='day-label']"}); // day label with one days date
+    await screen.findByText(/45 minutes/i, {selector: "[data-testid='time-label']"}); // time label with one days time
 
     // click on the body
     await user.click(container.getElementsByClassName("AnkiTotals")[0]);
     await screen.findByText(/636hrs 10mins/i); // total anki time shown in time label
+    await screen.findByText(/747 days/i); // total anki days shown in day label
   });
 });
