@@ -6,6 +6,7 @@ import ActivityTotals from "./components/ActivityTotals";
 import WeeklyProgress from "./components/WeeklyProgress";
 import AnkiTotals from "./components/AnkiReviews";
 import TotalImmersion from "./components/TotalImmersion";
+import TotalsProvider from "./providers/TotalsProvider";
 
 export default function App () {
   const [dropDownIsOpen, setDropdownOpen] = useState(false);
@@ -89,8 +90,8 @@ export default function App () {
           <Routes>
             <Route path="/" element={<HomePage/>}/>
             <Route path="/activities" element={<ActivityTotals/>}/>
-            <Route path="/weekly" element={<WeeklyProgress/>}/>
             <Route path="/anki" element={<AnkiTotals/>}/>
+            <Route path="/weekly" element={<TotalsProvider><WeeklyProgress/></TotalsProvider>}/>
             <Route path="/total" element={<TotalImmersion/>}/>
           </Routes>
         </main>

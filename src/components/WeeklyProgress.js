@@ -4,6 +4,7 @@ import ProgressRing from "./ProgressRing";
 import { parseCsvFile } from "../utils/parsing";
 import { titleCase } from "../utils/strings";
 import { getSearchParams } from "../utils/urls";
+import { TotalsContext } from "../providers/TotalsProvider";
 
 const TIME_RANGES = [
   {name: "This week", key: "this-week"},
@@ -70,6 +71,9 @@ export default function WeeklyProgress () {
       }}>
         Weekly Progress
       </h1>
+      <TotalsContext.Consumer>
+        {value => <h1>{value}</h1>}
+      </TotalsContext.Consumer>
       <div className="time-range-button-container">
         {TIME_RANGES.map((timeRange, index) => {
           let buttonClassName = "button time-range-button";
