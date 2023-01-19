@@ -7,3 +7,9 @@ it("renders the welcome header", async () => {
   render(<HomePage />, {wrapper: BrowserRouter});
   await screen.findByText(/Welcome!/i);
 });
+
+it("renders the expected buttons", async () => {
+  render(<HomePage />, {wrapper: BrowserRouter});
+  await screen.findByText(/Total immersion/i);
+  await screen.findByText(/Weekly progress/i);
+});
