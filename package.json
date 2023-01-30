@@ -44,7 +44,7 @@
     "@testing-library/user-event": "^14.4.3",
     "eslint": "^8.27.0",
     "eslint-plugin-react": "^7.31.10",
-    "gh-pages": "^4.0.0",
+    "gh-pages": "^5.0.0",
     "sass": "^1.56.1"
   }
 }
