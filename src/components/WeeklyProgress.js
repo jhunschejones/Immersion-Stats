@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import ProgressRing from "./ProgressRing";
@@ -14,19 +14,23 @@ const TIME_RANGES = [
 ];
 
 export default function WeeklyProgress () {
-  const [parsedCsvData, setParsedCsvData] = useState([]);
-  const [progressByTimeRangeKey, setProgressByTimeRangeKey] = useState({});
-  const [selectedTimeRangeKey, setSelectedTimeRangeKey] = useState(TIME_RANGES[0].key);
   const {data, isLoading} = useQuery({ queryKey: ["weekly-progress"], queryFn: fetchWeeklyProgress });
   const setSearchParams = useSearchParams()[1];
+  const [selectedTimeRangeKey, setSelectedTimeRangeKey] = useState(() => {
+    const urlTimeRange = getSearchParams().get("timeRange")?.trim();
+    if (urlTimeRange && TIME_RANGES.map(t => t.key).includes(urlTimeRange)) {
+      return urlTimeRange;
+    }
+    return TIME_RANGES[0].key;
+  });
 
-  useEffect(() => {
-    if (isLoading) return;
-    parseCsvFile(data, setParsedCsvData);
+  const parsedCsvData = useMemo(() => {
+    if (isLoading) return [];
+    return parseCsvFile(data);
   }, [isLoading, data]);
 
-  useEffect(() => {
-    let result = {};
+  const progressByTimeRangeKey = useMemo(() => {
+    const result = {};
     TIME_RANGES.forEach((timeRange) => {
       result[timeRange.key] = parsedCsvData.slice(0, 3).map((progressReport) => {
         const progressNumber = (parseInt(progressReport[`${titleCase(timeRange.name)} (mins)`]) / parseInt(progressReport["Weekly Goals (mins)"])) * 100;
@@ -37,28 +41,17 @@ export default function WeeklyProgress () {
         };
       });
     });
-    setProgressByTimeRangeKey(result);
-
+    return result;
   }, [parsedCsvData]);
-
-  useEffect(() => {
-    const urlTimeRange = getSearchParams().get("timeRange")?.trim();
-    if (urlTimeRange && TIME_RANGES.map(t => t.key).includes(urlTimeRange)) {
-      setSelectedTimeRangeKey(urlTimeRange);
-    }
-  }, []);
 
   const selectTimeRange = (timeRangeKey) => {
     setSearchParams({timeRange: timeRangeKey});
     setSelectedTimeRangeKey(timeRangeKey);
   };
 
+
   if (isLoading) {
     return <p className="loading-messsage">Fetching csv file...</p>;
-  }
-
-  if (parsedCsvData.length === 0) {
-    return <p className="loading-messsage">Parsing csv file...</p>;
   }
 
   if (Object.keys(progressByTimeRangeKey).length === 0) {
