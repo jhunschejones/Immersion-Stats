@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useQuery } from "react-query";
 import { fetchAnki } from "../utils/csv-fetching";
 import { parseCsvFile } from "../utils/parsing";
@@ -10,7 +10,6 @@ import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 
 export default function AnkiReviews () {
-  const [parsedCsvData, setParsedCsvData] = useState([]);
   const [firstDate, setFirstDate] = useState();
   const [lastDate, setLastDate] = useState();
   const [startDate, setStartDate] = useState();
@@ -22,20 +21,22 @@ export default function AnkiReviews () {
   const [dayLabel, setDayLabel] = useState("");
   const {data, isLoading} = useQuery({ queryKey: ["anki"], queryFn: fetchAnki });
 
-  useEffect(() => {
-    if (isLoading) return;
-    parseCsvFile(data, setParsedCsvData);
+  const parsedCsvData = useMemo(() => {
+    if (isLoading) return [];
+    return parseCsvFile(data).sort((a, b) => new Date(b["Date"]) - new Date(a["Date"]));
   }, [isLoading, data]);
 
+  const heatData = useMemo(() => parsedCsvData.map((row) => {
+    return { date: row["Date"], count: row["Time (mins)"] };
+  }), [parsedCsvData]);
+
   useEffect(() => {
-    const sorted = parsedCsvData
-      .filter((row) => row["Time (mins)"] > 0)
-      .sort((a, b) => new Date(b["Date"]) - new Date(a["Date"]));
-    const firstEntry = sorted[sorted.length - 1];
+    const daysWithNonZeroStudyTime = parsedCsvData.filter((row) => row["Time (mins)"] > 0);
+    const firstEntry = daysWithNonZeroStudyTime[daysWithNonZeroStudyTime.length - 1];
     if (firstEntry) {
       setFirstDate(new Date(firstEntry["Date"]));
     }
-    const latestEntry = sorted[0];
+    const latestEntry = daysWithNonZeroStudyTime[0];
     if (latestEntry) {
       setLastDate(new Date(latestEntry["Date"]));
     }
@@ -86,17 +87,9 @@ export default function AnkiReviews () {
     return <p className="loading-messsage">Fetching csv file...</p>;
   }
 
-  if (parsedCsvData.length === 0) {
-    return <p className="loading-messsage">Parsing csv file...</p>;
-  }
-
   if (!firstDate || !lastDate || !highestValue || !lowestValue || !startDate) {
     return <p className="loading-messsage">Processing data...</p>;
   }
-
-  const heatData = parsedCsvData.map((row) => {
-    return { date: row["Date"], count: row["Time (mins)"] };
-  });
 
   return(
     <div className="AnkiTotals" onClick={(e) => {
