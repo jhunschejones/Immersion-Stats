@@ -23,20 +23,18 @@ export default function AnkiReviews () {
 
   const parsedCsvData = useMemo(() => {
     if (isLoading) return [];
-    return parseCsvFile(data).sort((a, b) => new Date(b["Date"]) - new Date(a["Date"]));
+    return parseCsvFile(data);
   }, [isLoading, data]);
 
-  const heatData = useMemo(() => parsedCsvData.map((row) => {
-    return { date: row["Date"], count: row["Time (mins)"] };
-  }), [parsedCsvData]);
-
   useEffect(() => {
-    const daysWithNonZeroStudyTime = parsedCsvData.filter((row) => row["Time (mins)"] > 0);
-    const firstEntry = daysWithNonZeroStudyTime[daysWithNonZeroStudyTime.length - 1];
+    const sorted = parsedCsvData
+      .filter((row) => row["Time (mins)"] > 0)
+      .sort((a, b) => new Date(b["Date"]) - new Date(a["Date"]));
+    const firstEntry = sorted[sorted.length - 1];
     if (firstEntry) {
       setFirstDate(new Date(firstEntry["Date"]));
     }
-    const latestEntry = daysWithNonZeroStudyTime[0];
+    const latestEntry = sorted[0];
     if (latestEntry) {
       setLastDate(new Date(latestEntry["Date"]));
     }
@@ -87,9 +85,17 @@ export default function AnkiReviews () {
     return <p className="loading-messsage">Fetching csv file...</p>;
   }
 
+  if (parsedCsvData.length === 0) {
+    return <p className="loading-messsage">Parsing csv file...</p>;
+  }
+
   if (!firstDate || !lastDate || !highestValue || !lowestValue || !startDate) {
     return <p className="loading-messsage">Processing data...</p>;
   }
+
+  const heatData = parsedCsvData.map((row) => {
+    return { date: row["Date"], count: row["Time (mins)"] };
+  });
 
   return(
     <div className="AnkiTotals" onClick={(e) => {
