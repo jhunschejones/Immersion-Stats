@@ -1,17 +1,18 @@
 import { useState, useEffect, useMemo } from "react";
+import { useQuery } from "react-query";
+import { fetchWeeklyProgress } from "../utils/csv-fetching";
 import { parseCsvFile } from "../utils/parsing";
 import { HiFire } from "react-icons/hi";
 import { ImHeadphones, ImBook, ImTrophy } from "react-icons/im";
 
 export default function TotalImmersion () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
+  const {data, isLoading} = useQuery({ queryKey: ["weekly-progress"], queryFn: fetchWeeklyProgress });
 
   useEffect(() => {
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQpattUOpPKcUSS8bxlk3P-9OdmCHcNB32FINvEfnQg81WN6OsxK6AIho-gijZROruqizBjlukxKscX/pub?gid=1631773302&single=true&output=csv")
-      .then(resp => resp.text())
-      .then(csv => parseCsvFile(csv, setParsedCsvData))
-      .catch(err => console.log(err));
-  }, []);
+    if (isLoading) return;
+    parseCsvFile(data, setParsedCsvData);
+  }, [isLoading, data]);
 
   const totalActiveImmersionTime = useMemo(() => {
     if (parsedCsvData.length === 0) {
@@ -41,6 +42,10 @@ export default function TotalImmersion () {
     return parsedCsvData.find(d => d["Category"] == "All total")[""].replace("/ ", "");
   }, [parsedCsvData]);
 
+
+  if (isLoading) {
+    return <p className="loading-messsage">Fetching csv file...</p>;
+  }
 
   if (parsedCsvData.length === 0) {
     return <p className="loading-messsage">Parsing csv file...</p>;

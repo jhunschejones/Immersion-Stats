@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import { parseCsvFile } from "../utils/parsing";
 import { minutesToHoursAndMinutesString } from "../utils/time";
+import { fetchTotals } from "../utils/csv-fetching";
 
 export default function ActivityTotals () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [totalsByActivity, setTotalsByActivity] = useState({});
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const {data, isLoading} = useQuery({ queryKey: ["totals"], queryFn: fetchTotals });
 
   useEffect(() => {
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQpattUOpPKcUSS8bxlk3P-9OdmCHcNB32FINvEfnQg81WN6OsxK6AIho-gijZROruqizBjlukxKscX/pub?output=csv")
-      .then(resp => resp.text())
-      .then(csv => parseCsvFile(csv, setParsedCsvData))
-      .catch(err => console.log(err));
-  }, []);
+    if (isLoading) return;
+    parseCsvFile(data, setParsedCsvData);
+  }, [isLoading, data]);
 
   useEffect(() => {
+    if (isLoading) return;
     const activities = Array.from(new Set(parsedCsvData.map((row) => row["Activity"])));
     const totalsByActivity = {};
     activities.forEach((activity) => {
@@ -37,8 +39,11 @@ export default function ActivityTotals () {
     if (latestEntry) {
       setEndDate(latestEntry["Date"]);
     }
+  }, [isLoading, parsedCsvData]);
 
-  }, [parsedCsvData]);
+  if (isLoading) {
+    return <p className="loading-messsage">Fetching csv file...</p>;
+  }
 
   if (parsedCsvData.length === 0) {
     return <p className="loading-messsage">Parsing csv file...</p>;

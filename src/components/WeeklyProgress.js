@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useQuery } from "react-query";
 import ProgressRing from "./ProgressRing";
 import { parseCsvFile } from "../utils/parsing";
 import { titleCase } from "../utils/strings";
 import { getSearchParams } from "../utils/urls";
+import { fetchWeeklyProgress } from "../utils/csv-fetching";
 
 const TIME_RANGES = [
   {name: "This week", key: "this-week"},
@@ -15,14 +17,13 @@ export default function WeeklyProgress () {
   const [parsedCsvData, setParsedCsvData] = useState([]);
   const [progressByTimeRangeKey, setProgressByTimeRangeKey] = useState({});
   const [selectedTimeRangeKey, setSelectedTimeRangeKey] = useState(TIME_RANGES[0].key);
+  const {data, isLoading} = useQuery({ queryKey: ["weekly-progress"], queryFn: fetchWeeklyProgress });
   const setSearchParams = useSearchParams()[1];
 
   useEffect(() => {
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQpattUOpPKcUSS8bxlk3P-9OdmCHcNB32FINvEfnQg81WN6OsxK6AIho-gijZROruqizBjlukxKscX/pub?gid=1631773302&single=true&output=csv")
-      .then(resp => resp.text())
-      .then(csv => parseCsvFile(csv, setParsedCsvData))
-      .catch(err => console.log(err));
-  }, []);
+    if (isLoading) return;
+    parseCsvFile(data, setParsedCsvData);
+  }, [isLoading, data]);
 
   useEffect(() => {
     let result = {};
@@ -51,6 +52,10 @@ export default function WeeklyProgress () {
     setSearchParams({timeRange: timeRangeKey});
     setSelectedTimeRangeKey(timeRangeKey);
   };
+
+  if (isLoading) {
+    return <p className="loading-messsage">Fetching csv file...</p>;
+  }
 
   if (parsedCsvData.length === 0) {
     return <p className="loading-messsage">Parsing csv file...</p>;

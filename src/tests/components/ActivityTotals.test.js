@@ -3,6 +3,7 @@ import {BrowserRouter} from "react-router-dom";
 import {render, screen} from "@testing-library/react";
 import ActivityTotals from "../../components/ActivityTotals";
 import fs from "fs";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 describe("ActivityTotals", () => {
   beforeEach(() => {
@@ -13,7 +14,14 @@ describe("ActivityTotals", () => {
   });
 
   it("should render expected totals data", async () => {
-    render(<ActivityTotals/>, {wrapper: BrowserRouter});
+    const queryClient = new QueryClient();
+    render(
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <ActivityTotals/>
+        </BrowserRouter>
+      </QueryClientProvider>
+    );
     await screen.findByText(/Podcasts, passive/i);
     await screen.findByText(/Satori Reader/i);
   });

@@ -1,11 +1,21 @@
 import { useState } from "react";
 import { HashRouter, Routes, Route, NavLink, Link } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { HiHome, HiChartPie, HiClipboardList, HiCalendar, HiFire, HiMenu, HiX } from "react-icons/hi";
+
 import HomePage from "./components/HomePage";
 import ActivityTotals from "./components/ActivityTotals";
 import WeeklyProgress from "./components/WeeklyProgress";
 import AnkiTotals from "./components/AnkiReviews";
 import TotalImmersion from "./components/TotalImmersion";
+
+import { fetchAnki, fetchTotals, fetchWeeklyProgress } from "./utils/csv-fetching";
+
+const queryClient = new QueryClient();
+
+queryClient.prefetchQuery("anki", fetchAnki);
+queryClient.prefetchQuery("totals", fetchTotals);
+queryClient.prefetchQuery("weekly-progress", fetchWeeklyProgress);
 
 export default function App () {
   const [dropDownIsOpen, setDropdownOpen] = useState(false);
@@ -58,43 +68,45 @@ export default function App () {
   };
 
   return (
-    <HashRouter>
-      <div className="App" onClick={(e) => {
-        if (!e.target.closest("button")?.classList?.contains("hamburger-button")) {
-          setDropdownOpen(false);
-        }
-      }}>
-        <header>
-          <nav>
-            <Link to="/" className="nav-item site-title" data-testid="site-title-nav-link">
-              Immersion Stats
-            </Link>
+    <QueryClientProvider client={queryClient}>
+      <HashRouter>
+        <div className="App" onClick={(e) => {
+          if (!e.target.closest("button")?.classList?.contains("hamburger-button")) {
+            setDropdownOpen(false);
+          }
+        }}>
+          <header>
+            <nav>
+              <Link to="/" className="nav-item site-title" data-testid="site-title-nav-link">
+                Immersion Stats
+              </Link>
 
-            <div className="full-nav">
-              <span className="nav-item spacer"></span>
-              {navLinks()}
-            </div>
-
-            <div className={`dropdown-nav ${dropDownIsOpen && "active"}`}>
-              <button className="hamburger-button" data-testid="hamburger-button" onClick={() => setDropdownOpen(o => !o)}>
-                {dropDownIsOpen ? <HiX style={{color: "#b7b7b7"}}/> : <HiMenu/>}
-              </button>
-              <div className="dropdown-content">
+              <div className="full-nav">
+                <span className="nav-item spacer"></span>
                 {navLinks()}
               </div>
-            </div>
-          </nav>
-        </header>
-        <main>
-          <Routes>
-            <Route path="/" element={<HomePage/>}/>
-            <Route path="/activities" element={<ActivityTotals/>}/>
-            <Route path="/weekly" element={<WeeklyProgress/>}/>
-            <Route path="/anki" element={<AnkiTotals/>}/>
-            <Route path="/total" element={<TotalImmersion/>}/>
-          </Routes>
-        </main>
-      </div>
-    </HashRouter>
+
+              <div className={`dropdown-nav ${dropDownIsOpen && "active"}`}>
+                <button className="hamburger-button" data-testid="hamburger-button" onClick={() => setDropdownOpen(o => !o)}>
+                  {dropDownIsOpen ? <HiX style={{color: "#b7b7b7"}}/> : <HiMenu/>}
+                </button>
+                <div className="dropdown-content">
+                  {navLinks()}
+                </div>
+              </div>
+            </nav>
+          </header>
+          <main>
+            <Routes>
+              <Route path="/" element={<HomePage/>}/>
+              <Route path="/activities" element={<ActivityTotals/>}/>
+              <Route path="/weekly" element={<WeeklyProgress/>}/>
+              <Route path="/anki" element={<AnkiTotals/>}/>
+              <Route path="/total" element={<TotalImmersion/>}/>
+            </Routes>
+          </main>
+        </div>
+      </HashRouter>
+    </QueryClientProvider>
   );
 }

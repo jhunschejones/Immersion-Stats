@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { fetchAnki } from "../utils/csv-fetching";
 import { parseCsvFile } from "../utils/parsing";
 import { getSearchParams } from "../utils/urls";
 import { minutesToHoursAndMinutes } from "../utils/time";
@@ -18,13 +20,12 @@ export default function AnkiReviews () {
   const [totalAnkiDaysString, setTotalAnkiDaysString] = useState("");
   const [timeLabel, setTimeLabel] = useState("");
   const [dayLabel, setDayLabel] = useState("");
+  const {data, isLoading} = useQuery({ queryKey: ["anki"], queryFn: fetchAnki });
 
   useEffect(() => {
-    fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRtfhZzd63RTmi_cQ4sTSpLCYbufMKNxdWBrf1fIjqomzeNFRdX1O6DBXUUNcfwNQuRaY-TTp_Fa5M3/pub?gid=0&single=true&output=csv")
-      .then(resp => resp.text())
-      .then(csv => parseCsvFile(csv, setParsedCsvData))
-      .catch(err => console.log(err));
-  }, []);
+    if (isLoading) return;
+    parseCsvFile(data, setParsedCsvData);
+  }, [isLoading, data]);
 
   useEffect(() => {
     const sorted = parsedCsvData
@@ -81,6 +82,9 @@ export default function AnkiReviews () {
     return `color-scale-${colorScaleNumber}`;
   };
 
+  if (isLoading) {
+    return <p className="loading-messsage">Fetching csv file...</p>;
+  }
 
   if (parsedCsvData.length === 0) {
     return <p className="loading-messsage">Parsing csv file...</p>;

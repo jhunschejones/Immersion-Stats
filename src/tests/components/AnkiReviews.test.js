@@ -1,7 +1,8 @@
 import React from "react";
-import {BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "react-query";
 import userEvent from "@testing-library/user-event";
-import {render, screen} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import AnkiReviews from "../../components/AnkiReviews";
 import fs from "fs";
 
@@ -14,7 +15,14 @@ describe("AnkiReviews", () => {
   });
 
   it("should render expected totals data", async () => {
-    render(<AnkiReviews/>, {wrapper: BrowserRouter});
+    const queryClient = new QueryClient();
+    render(
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AnkiReviews/>
+        </BrowserRouter>
+      </QueryClientProvider>
+    );
     await screen.findByText(/Anki Reviews/i);
     await screen.findByText(/11\/20\/2022, 60 minutes/i); // one of the expected heatmap cells
     await screen.findByText(/636hrs 10mins/i); // total anki time shown in time label
@@ -22,7 +30,14 @@ describe("AnkiReviews", () => {
 
   it("shows time label for a specific day when clicked", async () => {
     const user = userEvent.setup();
-    const {container} = render(<AnkiReviews/>, {wrapper: BrowserRouter});
+    const queryClient = new QueryClient();
+    const {container} = render(
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AnkiReviews/>
+        </BrowserRouter>
+      </QueryClientProvider>
+    );
 
     // default state shows total anki time and days studied
     await screen.findByText(/636hrs 10mins/i); // total anki time shown in time label

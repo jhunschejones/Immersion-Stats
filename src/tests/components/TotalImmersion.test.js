@@ -1,6 +1,7 @@
 import React from "react";
-import {BrowserRouter} from "react-router-dom";
-import {render, screen} from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { render, screen } from "@testing-library/react";
 import TotalImmersion from "../../components/TotalImmersion";
 import fs from "fs";
 
@@ -13,7 +14,14 @@ describe("TotalImmersion", () => {
   });
 
   it("should render expected totals data", async () => {
-    render(<TotalImmersion/>, {wrapper: BrowserRouter});
+    const queryClient = new QueryClient();
+    render(
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <TotalImmersion/>
+        </BrowserRouter>
+      </QueryClientProvider>
+    );
     await screen.findByText(/Total Immersion/i);
 
     await screen.findByText(/Active Immersion/i);

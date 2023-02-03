@@ -6,15 +6,18 @@ import Papa from "papaparse";
  * @param {function} callback - the callback to pass the parsed data to
  * @param {boolean} log - whether to console log out the results of the file parsing
  */
-export const parseCsvFile = (file, callback, log = false) => {
+export const parseCsvFile = (file, callback = undefined, log = false) => {
   Papa.parse(file, {
     header: true,
     skipEmptyLines: "greedy",
     complete: (results) => {
-      callback(results.data);
+      if (callback) {
+        callback(results.data);
+      }
       if (log) {
         console.log(results);
       }
+      return results.data;
     }
   });
 };
