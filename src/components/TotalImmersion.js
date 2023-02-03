@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useQuery } from "react-query";
 import { fetchWeeklyProgress } from "../utils/csv-fetching";
 import { parseCsvFile } from "../utils/parsing";
@@ -6,12 +6,11 @@ import { HiFire } from "react-icons/hi";
 import { ImHeadphones, ImBook, ImTrophy } from "react-icons/im";
 
 export default function TotalImmersion () {
-  const [parsedCsvData, setParsedCsvData] = useState([]);
   const {data, isLoading} = useQuery({ queryKey: ["weekly-progress"], queryFn: fetchWeeklyProgress });
 
-  useEffect(() => {
-    if (isLoading) return;
-    parseCsvFile(data, setParsedCsvData);
+  const parsedCsvData = useMemo(() => {
+    if (isLoading) return [];
+    return parseCsvFile(data);
   }, [isLoading, data]);
 
   const totalActiveImmersionTime = useMemo(() => {
@@ -45,10 +44,6 @@ export default function TotalImmersion () {
 
   if (isLoading) {
     return <p className="loading-messsage">Fetching csv file...</p>;
-  }
-
-  if (parsedCsvData.length === 0) {
-    return <p className="loading-messsage">Parsing csv file...</p>;
   }
 
   return (
