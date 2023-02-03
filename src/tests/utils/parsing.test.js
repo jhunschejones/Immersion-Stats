@@ -2,7 +2,6 @@ import { parseCsvFile } from "../../utils/parsing";
 import fs from "fs";
 
 it("correctly parses the time sheet csv", () => {
-  let results = {};
   let expectedFirstEntry = {
     "Activity": "Satori Reader",
     "Date": "11/16/2022",
@@ -10,16 +9,11 @@ it("correctly parses the time sheet csv", () => {
     "Weeknum": "47",
     "Year": "2022"
   };
-  const mockCallback = (parsedData) => results = parsedData;
   const data = fs.readFileSync("src/tests/fixtures/TimeSheet.csv", { encoding: "utf-8"});
-
-  parseCsvFile(data, mockCallback);
-
-  expect(results[0]).toEqual(expectedFirstEntry);
+  expect(parseCsvFile(data)[0]).toEqual(expectedFirstEntry);
 });
 
 it("correctly parses the totals csv", () => {
-  let results = {};
   let expectedFirstEntry = {
     "Category": "Active Reading",
     "This Week (mins)": "84",
@@ -34,10 +28,6 @@ it("correctly parses the totals csv", () => {
     "All Time": "70:35",
     "": ""
   };
-  const mockCallback = (parsedData) => results = parsedData;
   const data = fs.readFileSync("src/tests/fixtures/Totals.csv", { encoding: "utf-8"});
-
-  parseCsvFile(data, mockCallback);
-
-  expect(results[0]).toEqual(expectedFirstEntry);
+  expect(parseCsvFile(data)[0]).toEqual(expectedFirstEntry);
 });
