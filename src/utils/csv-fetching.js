@@ -13,3 +13,9 @@ export const fetchAnki = async () => {
   const csv = await response.text();
   return csv;
 };
+
+export const fetchJpdb = async () => {
+  const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQdhJ2te76EStGko41NZ8GGge8Sv2C9tG6Qh2gspis6G7-e28NUHjDhG-xGbDMsApNxLCWFPwtGOgTi/pub?gid=0&single=true&output=csv");
+  const csv = await response.text();
+  return csv;
+};
