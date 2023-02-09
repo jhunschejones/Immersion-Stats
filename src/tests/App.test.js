@@ -14,8 +14,8 @@ it("renders the App component and nav", async () => {
   expect(activitiesNavLinks.length).toEqual(2);
   const weeklyProgressNavLinks = await screen.findAllByTestId(/weekly-progress-nav-link/i);
   expect(weeklyProgressNavLinks.length).toEqual(2);
-  const ankiReviewsNavLinks = await screen.findAllByTestId(/anki-reviews-nav-link/i);
-  expect(ankiReviewsNavLinks.length).toEqual(2);
+  const reviewsNavLinks = await screen.findAllByTestId(/reviews-nav-link/i);
+  expect(reviewsNavLinks.length).toEqual(2);
   const totalImmersionNavLinks = await screen.findAllByTestId(/total-immersion-nav-link/i);
   expect(totalImmersionNavLinks.length).toEqual(2);
 });

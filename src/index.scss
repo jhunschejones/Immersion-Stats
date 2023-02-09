@@ -209,6 +209,19 @@ body {
   }
 }
 
+.ReviewsPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .action-buttons {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .ActivityTotals {
   display: flex;
   flex-direction: column;

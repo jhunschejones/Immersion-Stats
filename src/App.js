@@ -6,15 +6,17 @@ import { HiHome, HiChartPie, HiClipboardList, HiCalendar, HiFire, HiMenu, HiX } 
 import HomePage from "./components/HomePage";
 import ActivityTotals from "./components/ActivityTotals";
 import WeeklyProgress from "./components/WeeklyProgress";
+import ReviewsPage from "./components/ReviewsPage";
 import AnkiTotals from "./components/AnkiReviews";
 import JpdbReviews from "./components/JpdbReviews";
 import TotalImmersion from "./components/TotalImmersion";
 
-import { fetchAnki, fetchTotals, fetchWeeklyProgress } from "./utils/csv-fetching";
+import { fetchAnki, fetchJpdb, fetchTotals, fetchWeeklyProgress } from "./utils/csv-fetching";
 
 const queryClient = new QueryClient();
 
 queryClient.prefetchQuery("anki", fetchAnki);
+queryClient.prefetchQuery("jpdb", fetchJpdb);
 queryClient.prefetchQuery("totals", fetchTotals);
 queryClient.prefetchQuery("weekly-progress", fetchWeeklyProgress);
 
@@ -34,11 +36,11 @@ export default function App () {
         </NavLink>
         <NavLink
           className="nav-item"
-          data-testid="anki-reviews-nav-link"
-          to="/anki"
+          data-testid="reviews-nav-link"
+          to="/reviews"
         >
           <HiCalendar/>
-          <span className="full-text">Anki Reviews</span>
+          <span className="full-text">Reviews</span>
         </NavLink>
         <NavLink
           className="nav-item"
@@ -102,6 +104,7 @@ export default function App () {
               <Route path="/" element={<HomePage/>}/>
               <Route path="/activities" element={<ActivityTotals/>}/>
               <Route path="/weekly" element={<WeeklyProgress/>}/>
+              <Route path="/reviews" element={<ReviewsPage/>}/>
               <Route path="/anki" element={<AnkiTotals/>}/>
               <Route path="/jpdb" element={<JpdbReviews/>}/>
               <Route path="/total" element={<TotalImmersion/>}/>
