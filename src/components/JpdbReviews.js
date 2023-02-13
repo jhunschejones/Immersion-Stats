@@ -25,26 +25,32 @@ export default function JpdbReviews () {
   }, [isLoading, data]);
 
   useEffect(() => {
-    const sorted = parsedCsvData
+    // sort by date, removing days with 0 minutes of study because these can't
+    // be the first or last days of actual study
+    const csvDataSortedByDate = parsedCsvData
       .filter((row) => row["Time (mins)"] > 0)
       .sort((a, b) => new Date(b["Date"]) - new Date(a["Date"]));
-    const firstEntry = sorted[sorted.length - 1];
+
+    const firstEntry = csvDataSortedByDate[csvDataSortedByDate.length - 1];
     if (firstEntry) {
       setFirstDate(new Date(firstEntry["Date"]));
     }
-    const latestEntry = sorted[0];
+    const latestEntry = csvDataSortedByDate[0];
     if (latestEntry) {
       setLastDate(new Date(latestEntry["Date"]));
     }
   }, [parsedCsvData]);
 
   useEffect(() => {
-    const sorted = parsedCsvData.sort((a, b) => b["Time (mins)"] - a["Time (mins)"]);
-    if (sorted[sorted.length - 1]) {
-      setLowestValue(sorted[sorted.length - 1]["Time (mins)"]);
+    const csvDataSortedByStudyTime = parsedCsvData.sort((a, b) => b["Time (mins)"] - a["Time (mins)"]);
+
+    const highestEntry = csvDataSortedByStudyTime[0];
+    if (highestEntry) {
+      setHighestValue(highestEntry["Time (mins)"]);
     }
-    if (sorted[0]) {
-      setHighestValue(sorted[0]["Time (mins)"]);
+    const lowestEntry = csvDataSortedByStudyTime[csvDataSortedByStudyTime.length - 1];
+    if (lowestEntry) {
+      setLowestValue(lowestEntry["Time (mins)"]);
     }
   }, [parsedCsvData]);
 
