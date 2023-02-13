@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from "react";
 import { useQuery } from "react-query";
 import { fetchAnki } from "../utils/csv-fetching";
 import { parseCsvFile } from "../utils/parsing";
-import { getSearchParams } from "../utils/urls";
 import { minutesToHoursAndMinutes } from "../utils/time";
 import { HiFire } from "react-icons/hi";
 
@@ -12,7 +11,6 @@ import "react-calendar-heatmap/dist/styles.css";
 export default function AnkiReviews () {
   const [firstDate, setFirstDate] = useState();
   const [lastDate, setLastDate] = useState();
-  const [startDate, setStartDate] = useState();
   const [highestValue, setHighestValue] = useState();
   const [lowestValue, setLowestValue] = useState();
   const [totalAnkiTimeString, setTotalAnkiTimeString] = useState("");
@@ -51,15 +49,6 @@ export default function AnkiReviews () {
   }, [parsedCsvData]);
 
   useEffect(() => {
-    const urlStartDate = getSearchParams().get("startDate")?.trim();
-    if (urlStartDate && new Date(urlStartDate) != "Invalid Date") {
-      setStartDate(new Date(urlStartDate));
-    } else {
-      setStartDate(firstDate);
-    }
-  }, [parsedCsvData, firstDate]);
-
-  useEffect(() => {
     const totalMinutes = parsedCsvData.map(row => parseInt(row["Time (mins)"])).reduce((a, b) => a + b, 0);
     const formattedTime = minutesToHoursAndMinutes(totalMinutes);
     setTotalAnkiTimeString(`${formattedTime.hours}hrs ${formattedTime.minutes}mins`);
@@ -89,7 +78,7 @@ export default function AnkiReviews () {
     return <p className="loading-messsage">Parsing csv file...</p>;
   }
 
-  if (!firstDate || !lastDate || !highestValue || !lowestValue || !startDate) {
+  if (!firstDate || !lastDate || !highestValue || !lowestValue) {
     return <p className="loading-messsage">Processing data...</p>;
   }
 
@@ -121,7 +110,7 @@ export default function AnkiReviews () {
       </div>
       <div className="heatmap-container">
         <CalendarHeatmap
-          startDate={startDate}
+          startDate={firstDate}
           endDate={lastDate}
           values={heatData}
           classForValue={(value) => colorScaleClassFromValue(value?.count)}
