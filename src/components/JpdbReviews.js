@@ -74,10 +74,6 @@ export default function JpdbReviews () {
     return <p className="loading-messsage">Fetching csv file...</p>;
   }
 
-  if (parsedCsvData.length === 0) {
-    return <p className="loading-messsage">Parsing csv file...</p>;
-  }
-
   if (!firstDate || !lastDate || !highestValue || !lowestValue) {
     return <p className="loading-messsage">Processing data...</p>;
   }
