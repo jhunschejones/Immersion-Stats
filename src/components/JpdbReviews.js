@@ -82,10 +82,6 @@ export default function JpdbReviews () {
     return <p className="loading-messsage">Processing data...</p>;
   }
 
-  const heatData = parsedCsvData.map((row) => {
-    return { date: row["Date"], count: row["Time (mins)"] };
-  });
-
   return(
     <div className="JpdbReviews" onClick={(e) => {
       if (e.target.tagName != "rect") {
@@ -112,7 +108,9 @@ export default function JpdbReviews () {
         <CalendarHeatmap
           startDate={firstDate}
           endDate={lastDate}
-          values={heatData}
+          values={parsedCsvData.map((row) => {
+            return { date: row["Date"], count: row["Time (mins)"] };
+          })}
           classForValue={(value) => colorScaleClassFromValue(value?.count)}
           titleForValue={(value) => value && `${value.date}, ${parseInt(value.count)} minutes`}
           onClick={(value) => {
