@@ -49,7 +49,7 @@ describe("JpdbReviews", () => {
     await screen.findByText(/75 minutes/i, {selector: "[data-testid='time-label']"}); // time label with one days time
 
     // click on the body
-    await user.click(container.getElementsByClassName("JpdbReviews")[0]);
+    await user.click(container.getElementsByClassName("ReviewHeatmap")[0]);
     await screen.findByText(/3hrs 28mins/i); // total study time shown in time label
     await screen.findByText(/4 days/i); // total study days shown in day label
   });
