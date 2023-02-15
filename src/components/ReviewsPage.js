@@ -13,7 +13,7 @@ export default function ReviewsPage () {
         My Reviews
       </h1>
       <div style={{textAlign: "center", maxWidth: "500px"}}>
-        My daily review routine is always changing, but here are two important review activities I do every day.
+        Here are two important review activities I do every day to help boost my language learning retention
       </div>
       <div className="action-buttons">
         <Link to="/anki" className="button">

@@ -47,7 +47,7 @@ export default function ActivityTotals () {
         fontSize: "28px",
         fontWeight: "600"
       }}>
-        Study Activities
+        Immersion Activities
       </h1>
       <p style={{margin: "0", fontWeight: "200", fontSize: "14px"}}>
         {startDate} - {endDate}
