@@ -49,7 +49,7 @@ describe("AnkiReviews", () => {
     await screen.findByText(/45 minutes/i, {selector: "[data-testid='time-label']"}); // time label with one days time
 
     // click on the body
-    await user.click(container.getElementsByClassName("ReviewHeatmap")[0]);
+    await user.click(container.getElementsByClassName("ReviewsHeatmap")[0]);
     await screen.findByText(/636hrs 10mins/i); // total anki time shown in time label
     await screen.findByText(/747 days/i); // total anki days shown in day label
   });

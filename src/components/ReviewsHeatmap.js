@@ -8,7 +8,7 @@ import { HiFire } from "react-icons/hi";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 
-ReviewHeatmap.propTypes = {
+ReviewsHeatmap.propTypes = {
   dataFetchFunction: PropTypes.func,
   dataFetchQueryKey: PropTypes.string,
   chartTitle: PropTypes.string
@@ -30,7 +30,7 @@ ReviewHeatmap.propTypes = {
  * `react-query` cache for the provided `dataFetchFunction` request function.
  * @param {string} chartTitle - The title to be displayed over the heatmap chart.
  */
-export default function ReviewHeatmap ({dataFetchFunction, dataFetchQueryKey, chartTitle}) {
+export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, chartTitle}) {
   const [firstDate, setFirstDate] = useState();
   const [lastDate, setLastDate] = useState();
   const [highestValue, setHighestValue] = useState();
@@ -118,7 +118,7 @@ export default function ReviewHeatmap ({dataFetchFunction, dataFetchQueryKey, ch
   }
 
   return(
-    <div className="ReviewHeatmap" onClick={(e) => {
+    <div className="ReviewsHeatmap" onClick={(e) => {
       if (e.target.tagName != "rect") {
         setTimeLabel(totalTimeString);
         setDayLabel(totalDaysString);
