@@ -200,12 +200,21 @@ body {
 }
 
 .HomePage {
-  .action-buttons {
-    margin-top: 40px;
+  .activity-buttons {
+    margin-top: 30px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     width: 100%;
     height: 100%;
+    .button {
+      height: 75px;
+      width: 75px;
+      margin: 6px;
+      display: flex;
+      justify-content: center;
+      font-size: 3.7em;
+    }
   }
 }
 

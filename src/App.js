@@ -20,55 +20,55 @@ queryClient.prefetchQuery("jpdb", fetchJpdb);
 queryClient.prefetchQuery("totals", fetchTotals);
 queryClient.prefetchQuery("weekly-progress", fetchWeeklyProgress);
 
+function NavLinks () {
+  return (
+    <>
+      <NavLink
+        className="nav-item"
+        data-testid="home-nav-link"
+        to="/"
+      >
+        <HiHome/>
+        <span className="full-text">Home</span>
+      </NavLink>
+      <NavLink
+        className="nav-item"
+        data-testid="reviews-nav-link"
+        to="/reviews"
+      >
+        <HiCalendar/>
+        <span className="full-text">Reviews</span>
+      </NavLink>
+      <NavLink
+        className="nav-item"
+        data-testid="activities-nav-link"
+        to="/activities"
+      >
+        <HiClipboardList/>
+        <span className="full-text">Activities</span>
+      </NavLink>
+      <NavLink
+        className="nav-item"
+        data-testid="weekly-progress-nav-link"
+        to="/weekly"
+      >
+        <HiChartPie/>
+        <span className="full-text">Weekly Progress</span>
+      </NavLink>
+      <NavLink
+        className="nav-item"
+        data-testid="total-immersion-nav-link"
+        to="/total"
+      >
+        <HiFire/>
+        <span className="full-text">Total Immersion</span>
+      </NavLink>
+    </>
+  );
+}
+
 export default function App () {
   const [dropDownIsOpen, setDropdownOpen] = useState(false);
-
-  const navLinks = () => {
-    return (
-      <>
-        <NavLink
-          className="nav-item"
-          data-testid="home-nav-link"
-          to="/"
-        >
-          <HiHome/>
-          <span className="full-text">Home</span>
-        </NavLink>
-        <NavLink
-          className="nav-item"
-          data-testid="reviews-nav-link"
-          to="/reviews"
-        >
-          <HiCalendar/>
-          <span className="full-text">Reviews</span>
-        </NavLink>
-        <NavLink
-          className="nav-item"
-          data-testid="activities-nav-link"
-          to="/activities"
-        >
-          <HiClipboardList/>
-          <span className="full-text">Activities</span>
-        </NavLink>
-        <NavLink
-          className="nav-item"
-          data-testid="weekly-progress-nav-link"
-          to="/weekly"
-        >
-          <HiChartPie/>
-          <span className="full-text">Weekly Progress</span>
-        </NavLink>
-        <NavLink
-          className="nav-item"
-          data-testid="total-immersion-nav-link"
-          to="/total"
-        >
-          <HiFire/>
-          <span className="full-text">Total Immersion</span>
-        </NavLink>
-      </>
-    );
-  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -86,7 +86,7 @@ export default function App () {
 
               <div className="full-nav">
                 <span className="nav-item spacer"></span>
-                {navLinks()}
+                <NavLinks/>
               </div>
 
               <div className={`dropdown-nav ${dropDownIsOpen && "active"}`}>
@@ -94,7 +94,7 @@ export default function App () {
                   {dropDownIsOpen ? <HiX style={{color: "#b7b7b7"}}/> : <HiMenu/>}
                 </button>
                 <div className="dropdown-content">
-                  {navLinks()}
+                  <NavLinks/>
                 </div>
               </div>
             </nav>

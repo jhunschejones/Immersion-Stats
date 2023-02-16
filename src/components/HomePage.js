@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { HiChartPie, HiClipboardList, HiCalendar, HiFire } from "react-icons/hi";
 
 export default function HomePage () {
   return(
@@ -13,14 +14,20 @@ export default function HomePage () {
         Welcome!
       </h1>
       <div style={{textAlign: "center"}}>
-        Let's take a quick look at some of my Japanese language study statistics
+        Let's take a look at some of my Japanese language study statistics!
       </div>
-      <div className="action-buttons">
-        <Link to="/total" className="button">
-          Total immersion
+      <div className="activity-buttons">
+        <Link to="/total" className="button" data-testid="totals-button">
+          <HiFire />
         </Link>
-        <Link to="/weekly" className="button" style={{marginLeft: "12px"}}>
-          Weekly progress
+        <Link to="/weekly" className="button" data-testid="weekly-button">
+          <HiChartPie/>
+        </Link>
+        <Link to="/activities" className="button" data-testid="activities-button">
+          <HiClipboardList/>
+        </Link>
+        <Link to="/reviews" className="button" data-testid="reviews-button">
+          <HiCalendar/>
         </Link>
       </div>
     </div>

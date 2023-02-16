@@ -13,7 +13,7 @@ export default function ReviewsPage () {
         My Reviews
       </h1>
       <div style={{textAlign: "center", maxWidth: "500px"}}>
-        Here are two important review activities I do every day to help boost my language learning retention
+        Here are two important review activities I do every day to help boost my Japanese language retention
       </div>
       <div className="action-buttons">
         <Link to="/anki" className="button">
