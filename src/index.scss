@@ -217,6 +217,10 @@ body {
     .button {
       height: 140px;
       width: 140px;
+      @media (max-width: 399px) {
+        height: 126px;
+        width: 126px;
+      }
       margin: 6px;
       display: flex;
       flex-direction: column;
@@ -234,7 +238,10 @@ body {
       }
 
       svg {
-        font-size: 80px;
+        font-size: 85px;
+        @media (max-width: 399px) {
+          font-size: 80px;
+        }
         color: $light-gray-darker;
         padding: 10px 0;
       }
@@ -243,6 +250,9 @@ body {
         font-size: 17px;
         color: $text-black;
         font-weight: 600;
+        @media (max-width: 399px) {
+          font-size: 15px;
+        }
       }
     }
   }
