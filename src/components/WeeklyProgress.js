@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import ProgressRing from "./ProgressRing";
@@ -23,6 +23,10 @@ export default function WeeklyProgress () {
     }
     return TIME_RANGES[0].key;
   });
+  const [windowDimensions, setWindowDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth
+  });
 
   const parsedCsvData = useMemo(() => {
     if (isLoading) return [];
@@ -44,6 +48,18 @@ export default function WeeklyProgress () {
     return result;
   }, [parsedCsvData]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth
+      });
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const selectTimeRange = (timeRangeKey) => {
     setSearchParams({timeRange: timeRangeKey});
     setSelectedTimeRangeKey(timeRangeKey);
@@ -61,7 +77,7 @@ export default function WeeklyProgress () {
   return (
     <div className="WeeklyProgress">
       <h1 style={{
-        margin: "4px 0 28px 0",
+        margin: "4px 0 25px 0",
         padding: "0",
         fontSize: "28px",
         fontWeight: "600"
@@ -90,7 +106,7 @@ export default function WeeklyProgress () {
           return <ProgressRing
             key={index}
             stroke={8}
-            radius={85}
+            radius={windowDimensions.width > 419 ? 85 : 75}
             progress={progressReport["progress"]}
             title={progressReport["title"]}
             progressText={progressReport["progressText"]}
