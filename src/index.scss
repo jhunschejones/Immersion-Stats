@@ -185,9 +185,14 @@ body {
 }
 
 .progress-ring-container {
-  margin: 5px;
-  outline: 1px solid #deedff;
+  margin: 8px;
+  @media (max-width: 419px) {
+    margin: 6px;
+  }
+  outline: 2px solid $light-gray;
   position: relative;
+  border-radius: 12px;
+  padding: 6px;
   .progress-ring svg {
     transform: rotate(-90);
     -webkit-transform: rotate(-90deg);

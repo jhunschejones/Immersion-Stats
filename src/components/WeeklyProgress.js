@@ -85,7 +85,7 @@ export default function WeeklyProgress () {
           );
         })}
       </div>
-      <div style={{display: "flex", flexWrap: "wrap"}}>
+      <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
         {progressByTimeRangeKey[selectedTimeRangeKey].map((progressReport, index) => {
           return <ProgressRing
             key={index}
