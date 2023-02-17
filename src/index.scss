@@ -31,6 +31,10 @@ body {
   header {
     display: flex;
     border-bottom: 2px solid $light-gray;
+    position: fixed;
+    width: 100%;
+    background-color: $white;
+    z-index: 1;
 
     nav {
       height: 60px;
@@ -155,7 +159,8 @@ body {
     }
   }
   main {
-    padding: 12px;
+    // padding-top has to accomidate fixed header + border
+    padding: 74px 12px 12px 12px;
     width: calc(100% - 24px);
     height: calc(100vh - 50px - 24px);
   }
