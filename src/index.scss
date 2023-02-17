@@ -184,11 +184,11 @@ body {
 }
 
 .progress-ring-container {
-  margin: 8px;
+  margin: 6px;
   @media (max-width: 419px) {
-    margin: 6px;
+    margin: 4px;
   }
-  outline: 2px solid $light-gray;
+  border: 2px solid $light-gray;
   position: relative;
   border-radius: 12px;
   padding: 6px;
