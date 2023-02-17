@@ -294,14 +294,14 @@ body {
 
   .activity-list {
     width: 100%;
-    max-width: 320px;
+    max-width: 310px;
     margin: 18px 0 0 0;
     list-style-type: none;
     padding: 0;
     .activity {
-      border: 1px solid $light-gray;
+      border: 2px solid $light-gray;
       border-radius: 12px;
-      margin: 6px 0;
+      margin: 5px 0;
       padding: 4px 12px;
     }
     .activity-name {
