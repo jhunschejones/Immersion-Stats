@@ -1,15 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 
 $white: #FFF;
+$light-gray-lighter: #f7f7f7;
 $light-gray: #e5e5e5;
 $light-gray-darker: #b7b7b7;
-$text-black: #3c3c3c;
+// $text-black: #3c3c3c;
+$text-black: #4b4b4b;
 $text-gray: #777;
 $link-blue: #1cb0f6;
 $dark-blue: #235390;
 $dark-blue-lighter: #2a67b1;
 $dark-blue-darker: #1f4b82;
 $dark-blue-darker-still: #022c60;
+$green-lighter: #5dcc06;
 $green: #58cc02;
 $green-darker: #58a700;
 $purple: #ce82ff;
@@ -175,6 +178,10 @@ body {
     cursor: pointer;
     background-color: $dark-blue-lighter;
   }
+  &:active {
+    border-bottom-width: 2px;
+    margin-top: 2px;
+  }
 }
 
 .progress-ring-container {
@@ -208,12 +215,35 @@ body {
     width: 100%;
     height: 100%;
     .button {
-      height: 75px;
-      width: 75px;
+      height: 140px;
+      width: 140px;
       margin: 6px;
       display: flex;
-      justify-content: center;
-      font-size: 3.7em;
+      flex-direction: column;
+      align-items: center;
+      background-color: $white;
+      border-width: 2px;
+      border-bottom-width: 4px;
+      border-color: $light-gray;
+      &:hover {
+        background-color: $light-gray-lighter;
+      }
+      &:active {
+        border-bottom-width: 2px;
+        margin-top: 8px;
+      }
+
+      svg {
+        font-size: 80px;
+        color: $light-gray-darker;
+        padding: 10px 0;
+      }
+      .button-text {
+        text-align: center;
+        font-size: 17px;
+        color: $text-black;
+        font-weight: 600;
+      }
     }
   }
 }

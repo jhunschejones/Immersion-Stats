@@ -18,16 +18,20 @@ export default function HomePage () {
       </div>
       <div className="activity-buttons">
         <Link to="/total" className="button" data-testid="totals-button">
-          <HiFire />
+          <HiFire style={{color: "#ff9600"}} />
+          <span className="button-text">Total Immersion</span>
         </Link>
         <Link to="/weekly" className="button" data-testid="weekly-button">
-          <HiChartPie/>
+          <HiChartPie style={{color: "#2a67b1"}} />
+          <span className="button-text">Weekly Progress</span>
         </Link>
         <Link to="/activities" className="button" data-testid="activities-button">
-          <HiClipboardList/>
+          <HiClipboardList style={{color: "#ce82ff"}} />
+          <span className="button-text">Activities</span>
         </Link>
         <Link to="/reviews" className="button" data-testid="reviews-button">
-          <HiCalendar/>
+          <HiCalendar style={{color: "#5dcc06"}} />
+          <span className="button-text">Reviews</span>
         </Link>
       </div>
     </div>
