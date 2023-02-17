@@ -113,7 +113,7 @@ body {
       .dropdown-content {
         margin-top: 280px;
         display: none;
-        flex-direction: column;
+        flex-direction: column-reverse;
         position: absolute;
         background-color: $white;
         width: fit-content;
