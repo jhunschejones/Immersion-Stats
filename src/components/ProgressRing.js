@@ -30,7 +30,7 @@ export default function ProgressRing ({radius, stroke, progress, title, progress
         >
           <circle
             data-full={showFullCircle}
-            stroke={showFullCircle ? "#58cc02" : "#235390"}
+            stroke={showFullCircle ? "#5dcc06" : "#235390"}
             fill="transparent"
             strokeWidth={stroke}
             strokeDasharray={circumference + " " + circumference}
