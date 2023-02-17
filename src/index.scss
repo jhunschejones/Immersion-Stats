@@ -111,28 +111,39 @@ body {
       }
 
       .dropdown-content {
-        margin-top: 280px;
+        margin-top: 285px;
         display: none;
         flex-direction: column-reverse;
         position: absolute;
         background-color: $white;
-        width: fit-content;
-        min-width: 196px;
+        width: 208px;
         box-shadow: -4px 6px 12px 0px rgba(0,0,0,0.15);
         z-index: 1;
         right: 0;
+        border: solid 2px $light-gray;
+        border-radius: 12px;
         a {
-          padding: 8px 8px 8px 8px;
+          padding: 9px 12px;
           text-decoration: none;
           display: flex;
           &:hover {
-            background-color: $light-gray;
+            background-color: $light-gray-lighter;
           }
           .full-text {
             padding-left: 6px;
             display: inline-block;
-            font-size: 18px;
+            font-size: 16px;
             color: $text-gray;
+            font-weight: 500;
+            text-transform: uppercase;
+          }
+          // because of `flex-direction: column-reverse;` this is the top dropdown item
+          &:last-child {
+            border-radius: 12px 12px 0 0;
+          }
+          // because of `flex-direction: column-reverse;` this is the bottom dropdown item
+          &:first-child {
+            border-radius: 0 0 12px 12px;
           }
         }
       }
