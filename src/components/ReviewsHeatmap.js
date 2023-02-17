@@ -118,12 +118,16 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
   }
 
   return(
-    <div className="ReviewsHeatmap" onClick={(e) => {
-      if (e.target.tagName != "rect") {
-        setTimeLabel(totalTimeString);
-        setDayLabel(totalDaysString);
-      }
-    }}>
+    <div
+      className="ReviewsHeatmap"
+      onClick={(e) => {
+        if (e.target.tagName != "rect") {
+          setTimeLabel(totalTimeString);
+          setDayLabel(totalDaysString);
+        }
+      }}
+      style={{width: "100%"}}
+    >
       <h1 style={{
         margin: "4px 0 2px 0",
         padding: "0",
