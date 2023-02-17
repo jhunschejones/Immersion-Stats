@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { HashRouter, Routes, Route, NavLink, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { HashRouter, Routes, Route, NavLink, Link, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { HiHome, HiChartPie, HiClipboardList, HiCalendar, HiFire, HiMenu, HiX } from "react-icons/hi";
 
@@ -67,12 +67,24 @@ function NavLinks () {
   );
 }
 
+// From https://v5.reactrouter.com/web/guides/scroll-restoration
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 export default function App () {
   const [dropDownIsOpen, setDropdownOpen] = useState(false);
 
   return (
     <QueryClientProvider client={queryClient}>
       <HashRouter>
+        <ScrollToTop />
         <div className="App" onClick={(e) => {
           if (!e.target.closest("button")?.classList?.contains("hamburger-button")) {
             setDropdownOpen(false);
