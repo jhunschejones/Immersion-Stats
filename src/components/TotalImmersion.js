@@ -61,7 +61,7 @@ export default function TotalImmersion () {
         {daysTracked}
       </p>
       <div className="totals-container">
-        <div className="row">
+        <div className="totals-row">
           <div className="totals-card">
             <h2>Active Immersion</h2>
             <p>
@@ -76,8 +76,6 @@ export default function TotalImmersion () {
               {totalPassiveImmersionTime}
             </p>
           </div>
-        </div>
-        <div className="row">
           <div className="totals-card">
             <h2>All Immersion</h2>
             <p>

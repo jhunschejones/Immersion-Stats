@@ -376,29 +376,28 @@ body {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    .row {
+    .totals-row {
       display: flex;
       flex-direction: row;
       justify-content: center;
-      &:last-child {
-        margin-top: 5px;
-      }
-    }
-    .totals-card {
-      border: 1px solid $light-gray;
-      border-radius: 12px;
-      margin: 6px;
-      padding: 4px 12px;
-      width: 150px;
-      text-align: center;
-      h2 {
-        font-size: 16px;
-        color: $link-blue;
-        margin: 4px 0;
-      }
-      p {
-        margin: 4px 0;
-        font-size: 20px;
+      flex-wrap: wrap;
+      max-width: 500px;
+      .totals-card {
+        border: 2px solid $light-gray;
+        border-radius: 12px;
+        margin: 5px;
+        padding: 6px 14px;
+        width: 150px;
+        text-align: center;
+        h2 {
+          font-size: 16px;
+          color: $link-blue;
+          margin: 4px 0;
+        }
+        p {
+          margin: 4px 0;
+          font-size: 20px;
+        }
       }
     }
   }
