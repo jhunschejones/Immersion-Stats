@@ -150,7 +150,10 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
             return { date: row["Date"], count: row["Time (mins)"] };
           })}
           classForValue={(value) => colorScaleClassFromValue(value?.count, lowestValue, highestValue)}
-          titleForValue={(value) => value && `${value.date}, ${parseInt(value.count)} minutes`}
+          titleForValue={(value) => {
+            if (value) return `${value.date}, ${parseInt(value.count)} minutes`;
+            return "No value";
+          }}
           onClick={(value) => {
             if (value) {
               setTimeLabel(`${parseInt(value.count)} minutes`);
