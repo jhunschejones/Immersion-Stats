@@ -8,6 +8,16 @@ import { HiFire } from "react-icons/hi";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 
+export const colorScaleClassFromValue = (value, lowestValue, highestValue) => {
+  if (!value || !lowestValue || !highestValue || value == 0) {
+    return "color-empty";
+  }
+  const percentage = (parseFloat(value) - lowestValue) / parseFloat(highestValue - lowestValue);
+  // round to nearest .25 then convert to number from 0 to 4
+  const colorScaleNumber = (Math.round(percentage * 4) / 4).toFixed(2) / 0.25;
+  return `color-scale-${colorScaleNumber}`;
+};
+
 ReviewsHeatmap.propTypes = {
   dataFetchFunction: PropTypes.func,
   dataFetchQueryKey: PropTypes.string,
@@ -98,17 +108,6 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
     setDayLabel(`${totalDays} days`);
   }, [parsedCsvData]);
 
-
-  const colorScaleClassFromValue = (value) => {
-    if (!value || !highestValue || !lowestValue) {
-      return "color-empty";
-    }
-    const percentage = (parseFloat(value) - lowestValue) / parseFloat(highestValue - lowestValue);
-    // round to nearest .25 then convert to number from 0 to 4
-    const colorScaleNumber = (Math.round(percentage * 4) / 4).toFixed(2) / 0.25;
-    return `color-scale-${colorScaleNumber}`;
-  };
-
   if (isLoading) {
     return <p className="loading-messsage">Fetching csv file...</p>;
   }
@@ -150,7 +149,7 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
           values={parsedCsvData.map((row) => {
             return { date: row["Date"], count: row["Time (mins)"] };
           })}
-          classForValue={(value) => colorScaleClassFromValue(value?.count)}
+          classForValue={(value) => colorScaleClassFromValue(value?.count, lowestValue, highestValue)}
           titleForValue={(value) => value && `${value.date}, ${parseInt(value.count)} minutes`}
           onClick={(value) => {
             if (value) {
