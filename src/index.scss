@@ -352,20 +352,17 @@ body {
     margin-top: 20px;
     width: 100%;
     max-width: 900px;
-    text-align: center;
     overflow-x: scroll;
     direction: rtl; // start at right and scroll left
-    .react-calendar-heatmap {
-      height: 120px;
+    .w-heatmap {
+      height: 133px;
       padding-bottom: 4px; // leaving space for the scroll bar
       direction: ltr; // reset the direction so tooltips aren't backwards
+      color: $light-gray-darker;
+      font-size: 13px;
+      text-align: center;
     }
   }
-  .react-calendar-heatmap .color-scale-0 { fill: #eeeeee; }
-  .react-calendar-heatmap .color-scale-1 { fill: #d6e685; }
-  .react-calendar-heatmap .color-scale-2 { fill: #8cc665; }
-  .react-calendar-heatmap .color-scale-3 { fill: #44a340; }
-  .react-calendar-heatmap .color-scale-4 { fill: #1e6823; }
 }
 
 .TotalImmersion {
