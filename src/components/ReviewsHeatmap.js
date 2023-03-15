@@ -5,17 +5,17 @@ import { parseCsvFile } from "../utils/parsing";
 import { minutesToHoursAndMinutes } from "../utils/time";
 import { HiFire } from "react-icons/hi";
 
-import HeatMap from "@uiw/react-heat-map";
+import CalendarHeatmap from "react-calendar-heatmap";
+import "react-calendar-heatmap/dist/styles.css";
 
-const startOfWeek = (dt) => {
-  const day = 24 * 60 * 60 * 1000;
-  const weekday = dt.getDay();
-  return new Date(dt.getTime() - Math.abs(0 - weekday) * day);
-};
-
-const weeksBetween = (d1, d2) => {
-  const week = 7 * 24 * 60 * 60 * 1000;
-  return Math.ceil((startOfWeek(d2) - startOfWeek(d1)) / week);
+export const colorScaleClassFromValue = (value, lowestValue, highestValue) => {
+  if (!value || !lowestValue || !highestValue || value == 0) {
+    return "color-empty";
+  }
+  const percentage = (parseFloat(value) - lowestValue) / parseFloat(highestValue - lowestValue);
+  // round to nearest .25 then convert to number from 0 to 4
+  const colorScaleNumber = (Math.round(percentage * 4) / 4).toFixed(2) / 0.25;
+  return `color-scale-${colorScaleNumber}`;
 };
 
 ReviewsHeatmap.propTypes = {
@@ -116,13 +116,6 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
     return <p className="loading-messsage">Processing data...</p>;
   }
 
-  const valueDifference = highestValue - lowestValue;
-  const panelColors = { 0: "#eeeeee" };
-  panelColors[parseInt(valueDifference * 0.35)] = "#d6e685";
-  panelColors[parseInt(valueDifference * 0.6)] = "#8cc665";
-  panelColors[parseInt(valueDifference * 0.85)] = "#44a340";
-  panelColors[parseInt(valueDifference * 0.95)] = "#1e6823";
-
   return(
     <div
       className="ReviewsHeatmap"
@@ -150,29 +143,23 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
         <p style={{margin: "0"}} data-testid="time-label">{timeLabel}</p>
       </div>
       <div className="heatmap-container">
-        <HeatMap
-          width={(weeksBetween(firstDate, lastDate) + 1.5) * (1.5 + 14)}
+        <CalendarHeatmap
           startDate={firstDate}
-          value={parsedCsvData.map((row) => {
+          endDate={lastDate}
+          values={parsedCsvData.map((row) => {
             return { date: row["Date"], count: row["Time (mins)"] };
           })}
-          panelColors={panelColors}
-          rectRender={(props, data) => {
-            return (
-              <rect
-                {...props}
-                onClick={() => {
-                  setTimeLabel(`${data.count ? parseInt(data.count) : 0} minutes`);
-                  setDayLabel(new Date(data.date).toLocaleDateString());
-                }}
-                title={`${new Date(data.date).toLocaleDateString()}`}
-              />
-            );
+          classForValue={(value) => colorScaleClassFromValue(value?.count, lowestValue, highestValue)}
+          titleForValue={(value) => {
+            if (value) return `${value.date}, ${parseInt(value.count)} minutes`;
+            return "No value";
           }}
-          legendCellSize={0}
-          rectSize={14}
-          weekLabels={null}
-          space={1.5}
+          onClick={(value) => {
+            if (value) {
+              setTimeLabel(`${parseInt(value.count)} minutes`);
+              setDayLabel(value.date);
+            }
+          }}
         />
       </div>
     </div>

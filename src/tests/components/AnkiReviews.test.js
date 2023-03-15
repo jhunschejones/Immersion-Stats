@@ -24,8 +24,8 @@ describe("AnkiReviews", () => {
       </QueryClientProvider>
     );
     await screen.findByText(/Anki Reviews/i);
+    await screen.findByText(/11\/20\/2022, 60 minutes/i); // one of the expected heatmap cells
     await screen.findByText(/636hrs 10mins/i); // total anki time shown in time label
-    await screen.findByText(/747 days/i); // total anki days shown in day label
   });
 
   it("shows time label for a specific day when clicked", async () => {
@@ -44,9 +44,9 @@ describe("AnkiReviews", () => {
     await screen.findByText(/747 days/i); // total anki days shown in day label
 
     // click on a day to see the date and time studied for that day
-    // await user.click(container.getElementsByClassName("heatmap-container")[0].firstChild.lastChild.lastChild.firstChild);
-    // await screen.findByText(/09\/10\/2020/i, {selector: "[data-testid='day-label']"}); // day label with one days date
-    // await screen.findByText(/45 minutes/i, {selector: "[data-testid='time-label']"}); // time label with one days time
+    await user.click(container.getElementsByClassName("color-scale-2")[0]);
+    await screen.findByText(/09\/10\/2020/i, {selector: "[data-testid='day-label']"}); // day label with one days date
+    await screen.findByText(/45 minutes/i, {selector: "[data-testid='time-label']"}); // time label with one days time
 
     // click on the body
     await user.click(container.getElementsByClassName("ReviewsHeatmap")[0]);
