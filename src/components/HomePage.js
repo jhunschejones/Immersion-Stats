@@ -5,7 +5,7 @@ export default function HomePage () {
   return(
     <div className="HomePage">
       <h1 style={{
-        margin: "4px 0 18px 0",
+        margin: "4px 0 12px 0",
         padding: "0",
         fontSize: "28px",
         fontWeight: "600",
@@ -13,8 +13,10 @@ export default function HomePage () {
       }}>
         Welcome!
       </h1>
-      <div style={{textAlign: "center"}}>
-        Let's take a look at some of my Japanese language study statistics!
+      <div style={{display: "flex", justifyContent: "center"}}>
+        <p style={{textAlign: "center", maxWidth: 720}}>
+          I started learning Japanese in the fall of 2020. Through self-study and with the help of some great iTalki tutors, I've been slowly and steadily making progress. Along the way I measured as many of my daily study activities as I could. Here are a few stats that I reference for inspiration!
+        </p>
       </div>
       <div className="activity-buttons">
         <Link to="/total" className="button" data-testid="totals-button">
