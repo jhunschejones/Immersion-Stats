@@ -14,8 +14,8 @@ export default function HomePage () {
         Welcome!
       </h1>
       <div style={{display: "flex", justifyContent: "center"}}>
-        <p style={{textAlign: "center", maxWidth: 720}}>
-          I started learning Japanese in the fall of 2020. Through self-study and with the help of some great iTalki tutors, I've been slowly and steadily making progress. Along the way I measured as many of my daily study activities as I could. Here are a few stats that I reference for inspiration!
+        <p style={{textAlign: "center", maxWidth: 500}}>
+          Take a look at some of my Japanese language learning statistics or learn a little more <Link to="/about" style={{color: "#1cb0f6", textDecoration: "none"}}>about</Link> this site.
         </p>
       </div>
       <div className="activity-buttons">

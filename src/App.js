@@ -10,6 +10,7 @@ import ReviewsPage from "./components/ReviewsPage";
 import AnkiTotals from "./components/AnkiReviews";
 import JpdbReviews from "./components/JpdbReviews";
 import TotalImmersion from "./components/TotalImmersion";
+import AboutPage from "./components/AboutPage";
 
 import { fetchAnki, fetchJpdb, fetchTotals, fetchWeeklyProgress } from "./utils/csv-fetching";
 
@@ -120,6 +121,7 @@ export default function App () {
               <Route path="/anki" element={<AnkiTotals/>}/>
               <Route path="/jpdb" element={<JpdbReviews/>}/>
               <Route path="/total" element={<TotalImmersion/>}/>
+              <Route path="/about" element={<AboutPage/>}/>
             </Routes>
           </main>
         </div>
