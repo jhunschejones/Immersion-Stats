@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useQuery } from "react-query";
+import Modal from "./Modal";
 import { parseCsvFile } from "../utils/parsing";
 import { minutesToHoursAndMinutes } from "../utils/time";
 import { HiFire } from "react-icons/hi";
@@ -21,7 +22,7 @@ export const colorScaleClassFromValue = (value, lowestValue, highestValue) => {
 ReviewsHeatmap.propTypes = {
   dataFetchFunction: PropTypes.func,
   dataFetchQueryKey: PropTypes.string,
-  chartTitle: PropTypes.string
+  chartTitle: PropTypes.string,
 };
 
 /**
@@ -49,6 +50,7 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
   const [totalDaysString, setTotalDaysString] = useState("");
   const [timeLabel, setTimeLabel] = useState("");
   const [dayLabel, setDayLabel] = useState("");
+  const [showDataModal, setShowDataModal] = useState(false);
   const {data, isLoading} = useQuery({ queryKey: [dataFetchQueryKey], queryFn: dataFetchFunction });
 
   /**
@@ -66,6 +68,32 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
     if (isLoading) return [];
     return parseCsvFile(data);
   }, [isLoading, data]);
+
+  const dataModalContent = useMemo(() => {
+    return(
+      <div>
+        <h2
+          style={{
+            margin: "-14px 0",
+            padding: "0",
+            fontSize: "22px",
+            fontWeight: "500"
+          }}
+        >
+          Review Data
+        </h2>
+        <ul style={{marginTop: "24px"}}>
+          {parsedCsvData.map((row, index) => {
+            return(
+              <li key={index}>
+                {(new Date(row["Date"])).toLocaleDateString("en-US", {timeStyle: undefined, day: "2-digit", month: "2-digit", year: "numeric"})}: {row["Time (mins)"]} mins
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }, [parsedCsvData]);
 
   useEffect(() => {
     // sort by date, removing days with 0 minutes of study because these can't
@@ -127,12 +155,15 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
       }}
       style={{width: "100%"}}
     >
-      <h1 style={{
-        margin: "4px 0 2px 0",
-        padding: "0",
-        fontSize: "28px",
-        fontWeight: "600"
-      }}>
+      <h1
+        onClick={() => setShowDataModal(s => !s)}
+        style={{
+          margin: "4px 0 2px 0",
+          padding: "0",
+          fontSize: "28px",
+          fontWeight: "600"
+        }}
+      >
         {chartTitle}
       </h1>
       <div style={{margin: "0", fontWeight: "200", fontSize: "14px", textAlign: "center"}}>
@@ -162,6 +193,7 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
           }}
         />
       </div>
+      {showDataModal && <Modal onClose={() => setShowDataModal(s => !s)}>{dataModalContent}</Modal>}
     </div>
   );
 }
