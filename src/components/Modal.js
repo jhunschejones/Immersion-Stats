@@ -18,7 +18,7 @@ export default function Modal({onClose, children}) {
 
   return createPortal(
     <>
-      <div className="modal-backdrop" onClick={onClose}></div>
+      <div className="modal-backdrop" data-testid="modal-backdrop" onClick={onClose}></div>
       <dialog className="modal-dialog" open>
         <button className="modal-close-button" onClick={onClose}>
           <HiX style={{color: "#b7b7b7"}}  />
