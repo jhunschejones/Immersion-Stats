@@ -153,7 +153,7 @@ export default function StudyTrendsPage () {
   }, [paddedJpdbData, paddedBunproData, paddedAnkiData, paddedImmersionData, paddedAllTimeData]);
 
   return(
-    <div style={{maxHeight: "calc(100vh - 180px)", padding: "0 12px 12px 12px", display: "flex", flexDirection: "column", alignItems: "center"}}>
+    <div style={{maxHeight: "calc(100vh - 220px)", padding: "0 12px 12px 12px", display: "flex", flexDirection: "column", alignItems: "center"}}>
       <h1 style={{
         margin: "4px 0 24px 0",
         padding: "0",
