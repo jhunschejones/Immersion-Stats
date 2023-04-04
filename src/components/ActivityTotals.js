@@ -2,11 +2,11 @@ import { useMemo } from "react";
 import { useQuery } from "react-query";
 import { parseCsvFile } from "../utils/parsing";
 import { minutesToHoursAndMinutesString } from "../utils/time";
-import { fetchTotals } from "../utils/csv-fetching";
+import { fetchImmersion } from "../utils/csv-fetching";
 import { dig } from "../utils/objects";
 
 export default function ActivityTotals () {
-  const {data, isLoading} = useQuery({ queryKey: ["totals"], queryFn: fetchTotals });
+  const {data, isLoading} = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
 
   const parsedCsvData = useMemo(() => {
     if (isLoading) return [];

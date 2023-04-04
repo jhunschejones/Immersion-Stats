@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HiChartPie, HiClipboardList, HiCalendar, HiFire } from "react-icons/hi";
+import { HiChartPie, HiClipboardList, HiCalendar, HiFire, HiPresentationChartLine } from "react-icons/hi";
 
 export default function HomePage () {
   return(
@@ -23,12 +23,16 @@ export default function HomePage () {
           <HiFire style={{color: "#ff9600"}} />
           <span className="button-text">Total Immersion</span>
         </Link>
+        <Link to="/trends" className="button" data-testid="trends-button">
+          <HiPresentationChartLine style={{color: "#1cb0f6"}} />
+          <span className="button-text">Trends</span>
+        </Link>
         <Link to="/weekly" className="button" data-testid="weekly-button">
           <HiChartPie style={{color: "#2a67b1"}} />
           <span className="button-text">Weekly Progress</span>
         </Link>
         <Link to="/activities" className="button" data-testid="activities-button">
-          <HiClipboardList style={{color: "#ce82ff"}} />
+          <HiClipboardList style={{color: "#ff85d0"}} />
           <span className="button-text">Activities</span>
         </Link>
         <Link to="/reviews" className="button" data-testid="reviews-button">

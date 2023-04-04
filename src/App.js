@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { HashRouter, Routes, Route, NavLink, Link, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { HiHome, HiChartPie, HiClipboardList, HiCalendar, HiFire, HiMenu, HiX } from "react-icons/hi";
+import { HiHome, HiChartPie, HiClipboardList, HiCalendar, HiFire, HiMenu, HiX, HiPresentationChartLine } from "react-icons/hi";
 
 import HomePage from "./components/HomePage";
 import ActivityTotals from "./components/ActivityTotals";
@@ -11,15 +11,17 @@ import AnkiTotals from "./components/AnkiReviews";
 import JpdbReviews from "./components/JpdbReviews";
 import TotalImmersion from "./components/TotalImmersion";
 import AboutPage from "./components/AboutPage";
+import StudyTrendsPage from "./components/StudyTrendsPage";
 
-import { fetchAnki, fetchJpdb, fetchTotals, fetchWeeklyProgress } from "./utils/csv-fetching";
+import { fetchAnki, fetchJpdb, fetchImmersion, fetchWeeklyProgress, fetchBunpro } from "./utils/csv-fetching";
 
 const queryClient = new QueryClient();
 
 queryClient.prefetchQuery("anki", fetchAnki);
 queryClient.prefetchQuery("jpdb", fetchJpdb);
-queryClient.prefetchQuery("totals", fetchTotals);
+queryClient.prefetchQuery("immersion", fetchImmersion);
 queryClient.prefetchQuery("weekly-progress", fetchWeeklyProgress);
+queryClient.prefetchQuery("bunpro", fetchBunpro);
 
 function NavLinks () {
   return (
@@ -55,6 +57,14 @@ function NavLinks () {
       >
         <HiChartPie/>
         <span className="full-text">Weekly Progress</span>
+      </NavLink>
+      <NavLink
+        className="nav-item"
+        data-testid="trends-nav-link"
+        to="/trends"
+      >
+        <HiPresentationChartLine/>
+        <span className="full-text">Trends</span>
       </NavLink>
       <NavLink
         className="nav-item"
@@ -122,6 +132,7 @@ export default function App () {
               <Route path="/jpdb" element={<JpdbReviews/>}/>
               <Route path="/total" element={<TotalImmersion/>}/>
               <Route path="/about" element={<AboutPage/>}/>
+              <Route path="/trends" element={<StudyTrendsPage/>}/>
             </Routes>
           </main>
         </div>
