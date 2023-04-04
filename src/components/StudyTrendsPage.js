@@ -68,6 +68,7 @@ const standardizedCsvToPaddedDataSet = (csvData) => {
 
 const chartOptions = {
   responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       position: "top",
