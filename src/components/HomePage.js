@@ -24,7 +24,7 @@ export default function HomePage () {
           <span className="button-text">Total Immersion</span>
         </Link>
         <Link to="/trends" className="button" data-testid="trends-button">
-          <HiPresentationChartLine style={{color: "#1cb0f6"}} />
+          <HiPresentationChartLine style={{color: "#ff4c4b"}} />
           <span className="button-text">Trends</span>
         </Link>
         <Link to="/weekly" className="button" data-testid="weekly-button">
@@ -32,7 +32,7 @@ export default function HomePage () {
           <span className="button-text">Weekly Progress</span>
         </Link>
         <Link to="/activities" className="button" data-testid="activities-button">
-          <HiClipboardList style={{color: "#ff85d0"}} />
+          <HiClipboardList style={{color: "#ce82ff"}} />
           <span className="button-text">Activities</span>
         </Link>
         <Link to="/reviews" className="button" data-testid="reviews-button">

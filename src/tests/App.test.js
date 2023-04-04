@@ -25,6 +25,8 @@ describe("App", () => {
     expect(reviewsNavLinks.length).toEqual(2);
     const totalImmersionNavLinks = await screen.findAllByTestId(/total-immersion-nav-link/i);
     expect(totalImmersionNavLinks.length).toEqual(2);
+    const trendsNavLinks = await screen.findAllByTestId(/trends-nav-link/i);
+    expect(trendsNavLinks.length).toEqual(2);
   });
 
   it("opens the dropdown on click", async () => {

@@ -11,6 +11,7 @@ it("renders the welcome header", async () => {
 it("renders the expected buttons", async () => {
   render(<HomePage />, {wrapper: BrowserRouter});
   await screen.findByTestId("totals-button");
+  await screen.findByTestId("trends-button");
   await screen.findByTestId("weekly-button");
   await screen.findByTestId("activities-button");
   await screen.findByTestId("reviews-button");
