@@ -2,8 +2,11 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Line } from "react-chartjs-2";
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
+import { useSearchParams } from "react-router-dom";
+import { getSearchParams } from "../utils/urls";
 import { parseCsvFile } from "../utils/parsing";
 import { fetchJpdb, fetchBunpro, fetchAnki, fetchImmersion } from "../utils/csv-fetching";
+import { useCallback } from "react";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
@@ -25,21 +28,34 @@ const getDatesBetween = (startDate, endDate) => {
   return dates;
 };
 
-// const twoYearsAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 2));
-// const threeMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 3));
+const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+const threeMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 3));
 const oneMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1));
-const chartDateRange = getDatesBetween(oneMonthAgo, new Date());
+
+const oneMonthDateRange = getDatesBetween(oneMonthAgo, new Date());
+const threeMonthsDateRange = getDatesBetween(threeMonthsAgo, new Date());
+const oneYearDateRange = getDatesBetween(oneYearAgo, new Date());
+
+const datesForDateRange = (dateRange) => {
+  if (dateRange == "3M") {
+    return threeMonthsDateRange;
+  }
+  if (dateRange == "1Y") {
+    return oneYearDateRange;
+  }
+  return oneMonthDateRange;
+};
 
 /**
  * A helper method to pad a `dataSet` over a given `dateRange` filling in `0`s
  * for missing days and summing days with multiple entries.
  *
  * @param {array<{ date: Date, minutesStudied: Number }>} dataSet - the data set to pad
- * @param {array<Date>} dateRange - the date range to pad the `dataSet` over
+ * @param {string} dateRange - the date range to pad the `dataSet` over
  * @returns {array<{ date: Date, minutesStudied: Number }>}
  */
-const padDataSetForDateRange = (dataSet, dateRange = chartDateRange) => {
-  return dateRange.map((date) => {
+const padDataSetForDateRange = (dataSet, dateRange) => {
+  return datesForDateRange(dateRange).map((date) => {
     const entriesMatchingDate = dataSet.filter(entry => {
       // Compare without timezone
       return entry.date.toISOString().split("T")[0] == date.toISOString().split("T")[0];
@@ -58,12 +74,12 @@ const padDataSetForDateRange = (dataSet, dateRange = chartDateRange) => {
  * @param {array<{ "Date": string, "Time (mins)": string }>} csvData
  * @returns {array<{ date: Date, minutesStudied: Number }>}
  */
-const standardizedCsvToPaddedDataSet = (csvData) => {
-  const parsedCsv = parseCsvFile(csvData)
-    .map((d) => { return { date: new Date(d["Date"]), minutesStudied: parseFloat(d["Time (mins)"]) }; })
-    .sort((a, b) => a.date - b.date);
+const standardizedCsvToPaddedDataSet = (csvData, dateRange) => {
+  const parsedCsv = parseCsvFile(csvData).map((d) => {
+    return { date: new Date(d["Date"]), minutesStudied: parseFloat(d["Time (mins)"]) };
+  });
 
-  return padDataSetForDateRange(parsedCsv);
+  return padDataSetForDateRange(parsedCsv, dateRange);
 };
 
 const chartOptions = {
@@ -76,6 +92,8 @@ const chartOptions = {
   },
 };
 
+const DATE_RANGES = ["1M", "3M", "1Y"];
+
 export default function StudyTrendsPage () {
   const [chartData, setChartData] = useState({});
   const jpdbResponse = useQuery({ queryKey: ["jpdb"], queryFn: fetchJpdb });
@@ -83,40 +101,53 @@ export default function StudyTrendsPage () {
   const ankiResponse = useQuery({ queryKey: ["anki"], queryFn: fetchAnki });
   const immersionResponse = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
 
+  const setSearchParams = useSearchParams()[1];
+  const [selectedDateRange, setSelectedDateRange] = useState(() => {
+    const urlDateRange = getSearchParams().get("dateRange")?.trim();
+    if (urlDateRange && DATE_RANGES.includes(urlDateRange)) {
+      return urlDateRange;
+    }
+    return DATE_RANGES[0];
+  });
+
+  const selectTimeRange = useCallback((dateRange) => {
+    setSearchParams({dateRange: dateRange});
+    setSelectedDateRange(dateRange);
+  }, []);
+
   const paddedJpdbData = useMemo(() => {
     if (jpdbResponse.isLoading) return [];
-    return standardizedCsvToPaddedDataSet(jpdbResponse.data);
-  }, [jpdbResponse.isLoading, jpdbResponse.data]);
+    return standardizedCsvToPaddedDataSet(jpdbResponse.data, selectedDateRange);
+  }, [jpdbResponse.isLoading, jpdbResponse.data, selectedDateRange]);
 
   const paddedBunproData = useMemo(() => {
     if (bunproResponse.isLoading) return [];
-    return standardizedCsvToPaddedDataSet(bunproResponse.data);
-  }, [bunproResponse.isLoading, bunproResponse.data]);
+    return standardizedCsvToPaddedDataSet(bunproResponse.data, selectedDateRange);
+  }, [bunproResponse.isLoading, bunproResponse.data, selectedDateRange]);
 
   const paddedAnkiData = useMemo(() => {
     if (ankiResponse.isLoading) return [];
-    return standardizedCsvToPaddedDataSet(ankiResponse.data);
-  }, [ankiResponse.isLoading, ankiResponse.data]);
+    return standardizedCsvToPaddedDataSet(ankiResponse.data, selectedDateRange);
+  }, [ankiResponse.isLoading, ankiResponse.data, selectedDateRange]);
 
   const paddedImmersionData = useMemo(() => {
     if (immersionResponse.isLoading) return [];
-    return standardizedCsvToPaddedDataSet(immersionResponse.data);
-  }, [immersionResponse.isLoading, immersionResponse.data]);
+    return standardizedCsvToPaddedDataSet(immersionResponse.data, selectedDateRange);
+  }, [immersionResponse.isLoading, immersionResponse.data, selectedDateRange]);
 
   const paddedAllTimeData = useMemo(() => {
     if (paddedJpdbData.length == 0 || paddedBunproData.length == 0 || paddedAnkiData.length == 0 || paddedImmersionData.length == 0) {
       return [];
     }
-    return padDataSetForDateRange(paddedJpdbData.concat(paddedBunproData).concat(paddedAnkiData).concat(paddedImmersionData));
-  }, [paddedJpdbData, paddedBunproData, paddedAnkiData, paddedImmersionData]);
+    return padDataSetForDateRange(paddedJpdbData.concat(paddedBunproData).concat(paddedAnkiData).concat(paddedImmersionData), selectedDateRange);
+  }, [paddedJpdbData, paddedBunproData, paddedAnkiData, paddedImmersionData, selectedDateRange]);
 
   useEffect(() => {
-    if (paddedJpdbData.length == 0 || paddedBunproData.length == 0 || paddedAnkiData.length == 0 || paddedImmersionData.length == 0 || paddedAllTimeData.length == 0) {
-      return setChartData({});
-    }
-
+    // if (paddedJpdbData.length == 0 || paddedBunproData.length == 0 || paddedAnkiData.length == 0 || paddedImmersionData.length == 0 || paddedAllTimeData.length == 0) {
+    //   return setChartData({});
+    // }
     setChartData({
-      labels: chartDateRange.map(d => d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })),
+      labels: datesForDateRange(selectedDateRange).map(d => d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })),
       datasets: [
         {
           label: "JPDB Study Time",
@@ -139,8 +170,8 @@ export default function StudyTrendsPage () {
         {
           label: "Total Immersion Time",
           data: paddedImmersionData.map(d => d.minutesStudied),
-          borderColor: "#ce82ff",
-          backgroundColor: "#ce82ff",
+          borderColor: "#cc348d",
+          backgroundColor: "#cc348d",
         },
         {
           label: "All Study Time",
@@ -150,16 +181,30 @@ export default function StudyTrendsPage () {
         }
       ],
     });
-  }, [paddedJpdbData, paddedBunproData, paddedAnkiData, paddedImmersionData, paddedAllTimeData]);
+  }, [paddedJpdbData, paddedBunproData, paddedAnkiData, paddedImmersionData, paddedAllTimeData, selectedDateRange]);
 
   return(
     <div style={{maxHeight: "calc(100vh - 220px)", padding: "0 12px 12px 12px", display: "flex", flexDirection: "column", alignItems: "center"}}>
       <h1 style={{
-        margin: "4px 0 24px 0",
+        margin: "4px 0 18px 0",
         padding: "0",
         fontSize: "28px",
         fontWeight: "600"
       }}>Study Trends</h1>
+      <div style={{display: "flex", marginBottom: "12px"}}>
+        {DATE_RANGES.map((dateRange, index) => {
+          const buttonStyles = { backgroundColor: "#1baff6", borderColor: "#1a99d6", margin: "0 2px" };
+          if (selectedDateRange === dateRange) {
+            buttonStyles.backgroundColor = "#ce82ff";
+            buttonStyles.borderColor = "#a567cc";
+          }
+          return (
+            <button key={index} className="button" style={buttonStyles} onClick={() => selectTimeRange(dateRange)}>
+              {dateRange}
+            </button>
+          );
+        })}
+      </div>
       {
         !chartData?.datasets ?
           <p style={{textAlign: "center"}}>Loading...</p> :
