@@ -28,22 +28,29 @@ const getDatesBetween = (startDate, endDate) => {
   return dates;
 };
 
-const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-const threeMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 3));
-const oneMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1));
+const DATE_RANGES = ["10D", "1M", "3M"];
 
+const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 10));
+const oneMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1));
+const threeMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 3));
+// const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+
+const tenDaysAgoDateRange = getDatesBetween(tenDaysAgo, new Date());
 const oneMonthDateRange = getDatesBetween(oneMonthAgo, new Date());
 const threeMonthsDateRange = getDatesBetween(threeMonthsAgo, new Date());
-const oneYearDateRange = getDatesBetween(oneYearAgo, new Date());
+// const oneYearDateRange = getDatesBetween(oneYearAgo, new Date());
 
 const datesForDateRange = (dateRange) => {
+  if (dateRange == "1M") {
+    return oneMonthDateRange;
+  }
   if (dateRange == "3M") {
     return threeMonthsDateRange;
   }
-  if (dateRange == "1Y") {
-    return oneYearDateRange;
-  }
-  return oneMonthDateRange;
+  // if (dateRange == "1Y") {
+  //   return oneYearDateRange;
+  // }
+  return tenDaysAgoDateRange;
 };
 
 /**
@@ -92,8 +99,6 @@ const chartOptions = {
   },
 };
 
-const DATE_RANGES = ["1M", "3M", "1Y"];
-
 export default function StudyTrendsPage () {
   const [chartData, setChartData] = useState({});
   const jpdbResponse = useQuery({ queryKey: ["jpdb"], queryFn: fetchJpdb });
@@ -110,7 +115,7 @@ export default function StudyTrendsPage () {
     return DATE_RANGES[0];
   });
 
-  const selectTimeRange = useCallback((dateRange) => {
+  const selectDateRange = useCallback((dateRange) => {
     setSearchParams({dateRange: dateRange});
     setSelectedDateRange(dateRange);
   }, []);
@@ -147,7 +152,7 @@ export default function StudyTrendsPage () {
     //   return setChartData({});
     // }
     setChartData({
-      labels: datesForDateRange(selectedDateRange).map(d => d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })),
+      labels: datesForDateRange(selectedDateRange).map(d => d.toLocaleDateString("en-US", { month: "numeric", day: "numeric", weekday: "short" })),
       datasets: [
         {
           label: "JPDB Study Time",
@@ -199,7 +204,7 @@ export default function StudyTrendsPage () {
             buttonStyles.borderColor = "#a567cc";
           }
           return (
-            <button key={index} className="button" style={buttonStyles} onClick={() => selectTimeRange(dateRange)}>
+            <button key={index} className="button" style={buttonStyles} onClick={() => selectDateRange(dateRange)}>
               {dateRange}
             </button>
           );
