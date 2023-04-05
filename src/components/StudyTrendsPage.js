@@ -163,31 +163,31 @@ export default function StudyTrendsPage () {
       labels: datesForDateRange(selectedDateRange).map(d => d.toLocaleDateString("en-US", { month: "numeric", day: "numeric", weekday: "short" })),
       datasets: [
         {
-          label: "JPDB Study Time",
+          label: "jpdb.io",
           data: paddedJpdbData.map(d => d.minutesStudied),
           borderColor: "#5dcc06",
           backgroundColor: "#5dcc06",
         },
         {
-          label: "Bunpro Study Time",
+          label: "Bunpro",
           data: paddedBunproData.map(d => d.minutesStudied),
           borderColor: "#ff9600",
           backgroundColor: "#ff9600",
         },
         {
-          label: "Anki Study Time",
+          label: "Anki",
           data: paddedAnkiData.map(d => d.minutesStudied),
           borderColor: "#235390",
           backgroundColor: "#235390",
         },
         {
-          label: "Total Immersion Time",
+          label: "Immersion",
           data: paddedImmersionData.map(d => d.minutesStudied),
           borderColor: "#cc348d",
           backgroundColor: "#cc348d",
         },
         {
-          label: "All Study Time",
+          label: "Total",
           data: paddedAllTimeData.map(d => d.minutesStudied),
           borderColor: "#e5e5e5",
           backgroundColor: "#e5e5e5",
