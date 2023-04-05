@@ -97,6 +97,14 @@ const chartOptions = {
       position: "top",
     },
   },
+  scales: {
+    y: {
+      title: {
+        display: true,
+        text: "Study minutes"
+      }
+    }
+  },
 };
 
 export default function StudyTrendsPage () {
