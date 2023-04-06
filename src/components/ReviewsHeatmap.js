@@ -144,6 +144,11 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
     return <p className="loading-messsage">Processing data...</p>;
   }
 
+  // 🐛 https://github.com/kevinsqi/react-calendar-heatmap/issues/203
+  // if the start date is after 11/11/2022, 03/13/2023 gets dropped from the calendar
+  const maxStartDate = new Date("11/11/2022");
+  const bugfixStartDate = firstDate >  maxStartDate ? maxStartDate : firstDate;
+
   return(
     <div
       className="ReviewsHeatmap"
@@ -175,7 +180,7 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
       </div>
       <div className="heatmap-container">
         <CalendarHeatmap
-          startDate={firstDate}
+          startDate={bugfixStartDate}
           endDate={lastDate}
           values={parsedCsvData.map((row) => {
             return { date: row["Date"], count: row["Time (mins)"] };
