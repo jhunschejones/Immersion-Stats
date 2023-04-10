@@ -28,17 +28,17 @@ const getDatesBetween = (startDate, endDate) => {
   return dates;
 };
 
-const DATE_RANGES = ["10D", "1M", "3M"];
+const DATE_RANGES = ["10D", "1M", "3M", "1Y"];
 
 const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 10));
 const oneMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1));
 const threeMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 3));
-// const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
 
 const tenDaysAgoDateRange = getDatesBetween(tenDaysAgo, new Date());
 const oneMonthDateRange = getDatesBetween(oneMonthAgo, new Date());
 const threeMonthsDateRange = getDatesBetween(threeMonthsAgo, new Date());
-// const oneYearDateRange = getDatesBetween(oneYearAgo, new Date());
+const oneYearDateRange = getDatesBetween(oneYearAgo, new Date());
 
 const datesForDateRange = (dateRange) => {
   if (dateRange == "1M") {
@@ -47,11 +47,18 @@ const datesForDateRange = (dateRange) => {
   if (dateRange == "3M") {
     return threeMonthsDateRange;
   }
-  // if (dateRange == "1Y") {
-  //   return oneYearDateRange;
-  // }
+  if (dateRange == "1Y") {
+    return oneYearDateRange;
+  }
+  // default date range is 10D
   return tenDaysAgoDateRange;
 };
+
+const chartLablesByDateRange = {};
+DATE_RANGES.forEach((dateRange) => {
+  chartLablesByDateRange[dateRange] = datesForDateRange(dateRange).map(d => d.toLocaleDateString("en-US", { month: "numeric", day: "numeric", weekday: "short" }));
+});
+
 
 /**
  * A helper method to pad a `dataSet` over a given `dateRange` filling in `0`s
@@ -107,6 +114,7 @@ const chartOptions = {
   },
 };
 
+
 export default function StudyTrendsPage () {
   const [chartData, setChartData] = useState({});
   const jpdbResponse = useQuery({ queryKey: ["jpdb"], queryFn: fetchJpdb });
@@ -160,7 +168,7 @@ export default function StudyTrendsPage () {
     //   return setChartData({});
     // }
     setChartData({
-      labels: datesForDateRange(selectedDateRange).map(d => d.toLocaleDateString("en-US", { month: "numeric", day: "numeric", weekday: "short" })),
+      labels: chartLablesByDateRange[selectedDateRange],
       datasets: [
         {
           label: "jpdb.io",
