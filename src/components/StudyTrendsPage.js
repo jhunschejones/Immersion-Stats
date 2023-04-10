@@ -1,12 +1,11 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useQuery } from "react-query";
 import { useSearchParams } from "react-router-dom";
 import { getSearchParams } from "../utils/urls";
 import { parseCsvFile } from "../utils/parsing";
 import { fetchJpdb, fetchBunpro, fetchAnki, fetchImmersion } from "../utils/csv-fetching";
-import { useCallback } from "react";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
@@ -121,6 +120,8 @@ export default function StudyTrendsPage () {
   const { data: ankiData, isLoading: ankiDataIsLoading } = useQuery({ queryKey: ["anki"], queryFn: fetchAnki });
   const { data: immersionData, isLoading: immersionIsLoading } = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
 
+  const [ cachedParsedData, setCachedParsedData ] = useState({});
+
   const setSearchParams = useSearchParams()[1];
   const [selectedDateRange, setSelectedDateRange] = useState(() => {
     const urlDateRange = getSearchParams().get("dateRange")?.trim();
@@ -135,19 +136,28 @@ export default function StudyTrendsPage () {
     setSelectedDateRange(dateRange);
   }, []);
 
-  const paddedData = useMemo(() => {
+  const buildPaddedData = useCallback((dateRange) => {
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
 
     const result = {
-      paddedJpdbData: standardizedCsvToPaddedDataSet(jpdbData, selectedDateRange),
-      paddedBunproData: standardizedCsvToPaddedDataSet(bunproData, selectedDateRange),
-      paddedAnkiData: standardizedCsvToPaddedDataSet(ankiData, selectedDateRange),
-      paddedImmersionData: standardizedCsvToPaddedDataSet(immersionData, selectedDateRange),
+      paddedJpdbData: standardizedCsvToPaddedDataSet(jpdbData, dateRange),
+      paddedBunproData: standardizedCsvToPaddedDataSet(bunproData, dateRange),
+      paddedAnkiData: standardizedCsvToPaddedDataSet(ankiData, dateRange),
+      paddedImmersionData: standardizedCsvToPaddedDataSet(immersionData, dateRange),
     };
-
     result["paddedAllTimeData"] = padDataSetForDateRange(
-      result.paddedJpdbData.concat(result.paddedBunproData).concat(result.paddedAnkiData).concat(result.paddedImmersionData), selectedDateRange
+      result.paddedJpdbData.concat(result.paddedBunproData).concat(result.paddedAnkiData).concat(result.paddedImmersionData), dateRange
     );
+
+    return result;
+  });
+
+  const paddedData = useMemo(() => {
+    if (cachedParsedData[selectedDateRange]) return cachedParsedData[selectedDateRange];
+    if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
+
+    const result = buildPaddedData(selectedDateRange);
+    setCachedParsedData((dataCache) => dataCache[selectedDateRange] = result);
 
     return result;
   }, [jpdbIsLoading, jpdbData, bunproIsLoading, bunproData, ankiDataIsLoading, ankiData, immersionIsLoading, immersionData, selectedDateRange]);
