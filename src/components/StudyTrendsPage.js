@@ -136,27 +136,19 @@ export default function StudyTrendsPage () {
     setSelectedDateRange(dateRange);
   }, []);
 
-  const buildPaddedData = useCallback((dateRange) => {
-    if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
-
-    const result = {
-      paddedJpdbData: standardizedCsvToPaddedDataSet(jpdbData, dateRange),
-      paddedBunproData: standardizedCsvToPaddedDataSet(bunproData, dateRange),
-      paddedAnkiData: standardizedCsvToPaddedDataSet(ankiData, dateRange),
-      paddedImmersionData: standardizedCsvToPaddedDataSet(immersionData, dateRange),
-    };
-    result["paddedAllTimeData"] = padDataSetForDateRange(
-      result.paddedJpdbData.concat(result.paddedBunproData).concat(result.paddedAnkiData).concat(result.paddedImmersionData), dateRange
-    );
-
-    return result;
-  });
-
   const paddedData = useMemo(() => {
     if (cachedParsedData[selectedDateRange]) return cachedParsedData[selectedDateRange];
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
 
-    const result = buildPaddedData(selectedDateRange);
+    const result = {
+      paddedJpdbData: standardizedCsvToPaddedDataSet(jpdbData, selectedDateRange),
+      paddedBunproData: standardizedCsvToPaddedDataSet(bunproData, selectedDateRange),
+      paddedAnkiData: standardizedCsvToPaddedDataSet(ankiData, selectedDateRange),
+      paddedImmersionData: standardizedCsvToPaddedDataSet(immersionData, selectedDateRange),
+    };
+    result["paddedAllTimeData"] = padDataSetForDateRange(
+      result.paddedJpdbData.concat(result.paddedBunproData).concat(result.paddedAnkiData).concat(result.paddedImmersionData), selectedDateRange
+    );
     setCachedParsedData((dataCache) => dataCache[selectedDateRange] = result);
 
     return result;
