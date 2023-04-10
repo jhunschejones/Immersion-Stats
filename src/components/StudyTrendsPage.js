@@ -150,7 +150,10 @@ export default function StudyTrendsPage () {
     result["paddedAllTimeData"] = padDataSetForDateRange(
       result.paddedJpdbData.concat(result.paddedBunproData).concat(result.paddedAnkiData).concat(result.paddedImmersionData), selectedDateRange
     );
-    setCachedParsedData((dataCache) => dataCache[selectedDateRange] = result);
+
+    const newCache = {...cachedParsedData};
+    newCache[selectedDateRange] = result;
+    setCachedParsedData(newCache);
 
     return result;
   }, [jpdbIsLoading, jpdbData, bunproIsLoading, bunproData, ankiDataIsLoading, ankiData, immersionIsLoading, immersionData, selectedDateRange]);
