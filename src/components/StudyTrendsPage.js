@@ -121,7 +121,6 @@ export default function StudyTrendsPage () {
   const { data: immersionData, isLoading: immersionIsLoading } = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
 
   const [ cachedParsedData, setCachedParsedData ] = useState({});
-  console.log(cachedParsedData);
 
   const setSearchParams = useSearchParams()[1];
   const [selectedDateRange, setSelectedDateRange] = useState(() => {
