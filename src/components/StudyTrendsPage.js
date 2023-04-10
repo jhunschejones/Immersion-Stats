@@ -1,6 +1,6 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "react-query";
 import { useSearchParams } from "react-router-dom";
 import { getSearchParams } from "../utils/urls";
@@ -116,11 +116,10 @@ const chartOptions = {
 
 
 export default function StudyTrendsPage () {
-  const [chartData, setChartData] = useState({});
-  const jpdbResponse = useQuery({ queryKey: ["jpdb"], queryFn: fetchJpdb });
-  const bunproResponse = useQuery({ queryKey: ["bunpro"], queryFn: fetchBunpro });
-  const ankiResponse = useQuery({ queryKey: ["anki"], queryFn: fetchAnki });
-  const immersionResponse = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
+  const { data: jpdbData, isLoading: jpdbIsLoading } = useQuery({ queryKey: ["jpdb"], queryFn: fetchJpdb });
+  const { data: bunproData, isLoading: bunproIsLoading } = useQuery({ queryKey: ["bunpro"], queryFn: fetchBunpro });
+  const { data: ankiData, isLoading: ankiDataIsLoading } = useQuery({ queryKey: ["anki"], queryFn: fetchAnki });
+  const { data: immersionData, isLoading: immersionIsLoading } = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
 
   const setSearchParams = useSearchParams()[1];
   const [selectedDateRange, setSelectedDateRange] = useState(() => {
@@ -136,73 +135,61 @@ export default function StudyTrendsPage () {
     setSelectedDateRange(dateRange);
   }, []);
 
-  const paddedJpdbData = useMemo(() => {
-    if (jpdbResponse.isLoading) return [];
-    return standardizedCsvToPaddedDataSet(jpdbResponse.data, selectedDateRange);
-  }, [jpdbResponse.isLoading, jpdbResponse.data, selectedDateRange]);
+  const paddedData = useMemo(() => {
+    if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
 
-  const paddedBunproData = useMemo(() => {
-    if (bunproResponse.isLoading) return [];
-    return standardizedCsvToPaddedDataSet(bunproResponse.data, selectedDateRange);
-  }, [bunproResponse.isLoading, bunproResponse.data, selectedDateRange]);
+    const result = {
+      paddedJpdbData: standardizedCsvToPaddedDataSet(jpdbData, selectedDateRange),
+      paddedBunproData: standardizedCsvToPaddedDataSet(bunproData, selectedDateRange),
+      paddedAnkiData: standardizedCsvToPaddedDataSet(ankiData, selectedDateRange),
+      paddedImmersionData: standardizedCsvToPaddedDataSet(immersionData, selectedDateRange),
+    };
 
-  const paddedAnkiData = useMemo(() => {
-    if (ankiResponse.isLoading) return [];
-    return standardizedCsvToPaddedDataSet(ankiResponse.data, selectedDateRange);
-  }, [ankiResponse.isLoading, ankiResponse.data, selectedDateRange]);
+    result["paddedAllTimeData"] = padDataSetForDateRange(
+      result.paddedJpdbData.concat(result.paddedBunproData).concat(result.paddedAnkiData).concat(result.paddedImmersionData), selectedDateRange
+    );
 
-  const paddedImmersionData = useMemo(() => {
-    if (immersionResponse.isLoading) return [];
-    return standardizedCsvToPaddedDataSet(immersionResponse.data, selectedDateRange);
-  }, [immersionResponse.isLoading, immersionResponse.data, selectedDateRange]);
+    return result;
+  }, [jpdbIsLoading, jpdbData, bunproIsLoading, bunproData, ankiDataIsLoading, ankiData, immersionIsLoading, immersionData, selectedDateRange]);
 
-  const paddedAllTimeData = useMemo(() => {
-    if (paddedJpdbData.length == 0 || paddedBunproData.length == 0 || paddedAnkiData.length == 0 || paddedImmersionData.length == 0) {
-      return [];
-    }
-    return padDataSetForDateRange(paddedJpdbData.concat(paddedBunproData).concat(paddedAnkiData).concat(paddedImmersionData), selectedDateRange);
-  }, [paddedJpdbData, paddedBunproData, paddedAnkiData, paddedImmersionData, selectedDateRange]);
-
-  useEffect(() => {
-    // if (paddedJpdbData.length == 0 || paddedBunproData.length == 0 || paddedAnkiData.length == 0 || paddedImmersionData.length == 0 || paddedAllTimeData.length == 0) {
-    //   return setChartData({});
-    // }
-    setChartData({
+  const chartData = useMemo(() => {
+    if (Object.keys(paddedData).length == 0) return {};
+    return {
       labels: chartLablesByDateRange[selectedDateRange],
       datasets: [
         {
           label: "jpdb.io",
-          data: paddedJpdbData.map(d => d.minutesStudied),
+          data: paddedData.paddedJpdbData.map(d => d.minutesStudied),
           borderColor: "#5dcc06",
           backgroundColor: "#5dcc06",
         },
         {
           label: "Bunpro",
-          data: paddedBunproData.map(d => d.minutesStudied),
+          data: paddedData.paddedBunproData.map(d => d.minutesStudied),
           borderColor: "#ff9600",
           backgroundColor: "#ff9600",
         },
         {
           label: "Anki",
-          data: paddedAnkiData.map(d => d.minutesStudied),
+          data: paddedData.paddedAnkiData.map(d => d.minutesStudied),
           borderColor: "#235390",
           backgroundColor: "#235390",
         },
         {
           label: "Immersion",
-          data: paddedImmersionData.map(d => d.minutesStudied),
+          data: paddedData.paddedImmersionData.map(d => d.minutesStudied),
           borderColor: "#cc348d",
           backgroundColor: "#cc348d",
         },
         {
           label: "Total",
-          data: paddedAllTimeData.map(d => d.minutesStudied),
+          data: paddedData.paddedAllTimeData.map(d => d.minutesStudied),
           borderColor: "#e5e5e5",
           backgroundColor: "#e5e5e5",
         }
       ],
-    });
-  }, [paddedJpdbData, paddedBunproData, paddedAnkiData, paddedImmersionData, paddedAllTimeData, selectedDateRange]);
+    };
+  }, [paddedData, selectedDateRange]);
 
   return(
     <div style={{maxHeight: "calc(100vh - 220px)", padding: "0 12px 12px 12px", display: "flex", flexDirection: "column", alignItems: "center"}}>
