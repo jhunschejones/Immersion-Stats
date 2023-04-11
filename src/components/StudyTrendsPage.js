@@ -1,6 +1,6 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { useState, useMemo, useCallback } from "react";
+import { useMemo } from "react";
 import { useQuery } from "react-query";
 import { useSearchParams } from "react-router-dom";
 import { getSearchParams } from "../utils/urls";
