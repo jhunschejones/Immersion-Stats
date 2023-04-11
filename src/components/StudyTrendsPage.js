@@ -149,59 +149,47 @@ export default function StudyTrendsPage () {
     };
   }, [jpdbIsLoading, jpdbData, bunproIsLoading, bunproData, ankiDataIsLoading, ankiData, immersionIsLoading, immersionData]);
 
-  const paddedData = useMemo(() => {
-    if (Object.keys(dataSetsBySource).length == 0) return {};
-
-    return {
-      jpdb: datasetToPaddedArray(dataSetsBySource.jpdb, selectedDateRange),
-      bunpro: datasetToPaddedArray(dataSetsBySource.bunpro, selectedDateRange),
-      anki: datasetToPaddedArray(dataSetsBySource.anki, selectedDateRange),
-      immersion: datasetToPaddedArray(dataSetsBySource.immersion, selectedDateRange),
-      allTime: datasetToPaddedArray(
-        [dataSetsBySource.jpdb, dataSetsBySource.bunpro, dataSetsBySource.anki, dataSetsBySource.immersion],
-        selectedDateRange
-      )
-    };
-  }, [dataSetsBySource, selectedDateRange]);
-
   const chartData = useMemo(() => {
-    if (Object.keys(paddedData).length == 0) return {};
+    if (Object.keys(dataSetsBySource).length == 0) return {};
     return {
       labels: chartLablesByDateRange[selectedDateRange],
       datasets: [
         {
           label: "jpdb.io",
-          data: paddedData.jpdb.map(d => d.minutesStudied),
+          data: datasetToPaddedArray(dataSetsBySource.jpdb, selectedDateRange).map(d => d.minutesStudied),
           borderColor: "#5dcc06",
           backgroundColor: "#5dcc06",
         },
         {
           label: "Bunpro",
-          data: paddedData.bunpro.map(d => d.minutesStudied),
+          data: datasetToPaddedArray(dataSetsBySource.bunpro, selectedDateRange).map(d => d.minutesStudied),
           borderColor: "#ff9600",
           backgroundColor: "#ff9600",
         },
         {
           label: "Anki",
-          data: paddedData.anki.map(d => d.minutesStudied),
+          data: datasetToPaddedArray(dataSetsBySource.anki, selectedDateRange).map(d => d.minutesStudied),
           borderColor: "#235390",
           backgroundColor: "#235390",
         },
         {
           label: "Immersion",
-          data: paddedData.immersion.map(d => d.minutesStudied),
+          data: datasetToPaddedArray(dataSetsBySource.immersion, selectedDateRange).map(d => d.minutesStudied),
           borderColor: "#cc348d",
           backgroundColor: "#cc348d",
         },
         {
           label: "Total",
-          data: paddedData.allTime.map(d => d.minutesStudied),
+          data: datasetToPaddedArray(
+            [dataSetsBySource.jpdb, dataSetsBySource.bunpro, dataSetsBySource.anki, dataSetsBySource.immersion],
+            selectedDateRange
+          ).map(d => d.minutesStudied),
           borderColor: "#e5e5e5",
           backgroundColor: "#e5e5e5",
         }
       ],
     };
-  }, [paddedData, selectedDateRange]);
+  }, [dataSetsBySource, selectedDateRange]);
 
   return(
     <div style={{maxHeight: "calc(100vh - 220px)", padding: "0 12px 12px 12px", display: "flex", flexDirection: "column", alignItems: "center"}}>
