@@ -60,39 +60,44 @@ DATE_RANGES.forEach((dateRange) => {
 
 
 /**
- * A helper method to pad a `dataSet` over a given `dateRange` filling in `0`s
- * for missing days and summing days with multiple entries.
+ * A helper method to transform a `dataset` or several datasets into an array of chart data for a given `dateRange`,
+ * filling in `0`s for missing days.
  *
- * @param {array<{ date: Date, minutesStudied: Number }>} dataSet - the data set to pad
- * @param {string} dateRange - the date range to pad the `dataSet` over
- * @returns {array<{ date: Date, minutesStudied: Number }>}
+ * @param {{}|[]} dataset - a single dataset or an array of datasets
+ * @param {string} dateRange
+ * @returns {array<{ "Date": string, "Time (mins)": string }>}
  */
-const padDataSetForDateRange = (dataSet, dateRange) => {
+const datasetToPaddedArray = (dataset, dateRange) => {
+  const datasetArray = Array(dataset).flat(); // support a single dataset or an array of datasets
   return datesForDateRange(dateRange).map((date) => {
-    const entriesMatchingDate = dataSet.filter(entry => {
-      // Compare without timezone
-      return entry.date.toISOString().split("T")[0] == date.toISOString().split("T")[0];
-    });
-    let minutesStudied = 0;
-    if (entriesMatchingDate.length > 0) {
-      minutesStudied = entriesMatchingDate.map((entry) => entry.minutesStudied).reduce((a, b) => a + b);
+    const dateKey = date.toISOString().split("T")[0];
+    const matchingDataEntries = datasetArray.map((d) => d[dateKey]).filter((d) => d != undefined);
+    if (matchingDataEntries.length > 0) {
+      return { date: date, minutesStudied: matchingDataEntries.map((d) => d.minutesStudied).reduce((a, b) => a + b, 0) };
     }
-    return { date: date, minutesStudied: minutesStudied };
+    return { date: date, minutesStudied: 0 };
   });
 };
 
 /**
- * Parses a CSV with at least `Date` and `Time (mins)` columns out into a standardized, padded dataset
+ * Parses a CSV with at least `Date` and `Time (mins)` columns into a standardized dataset object, summing
+ * `Time (mins)` for duplicate entries.
  *
  * @param {array<{ "Date": string, "Time (mins)": string }>} csvData
- * @returns {array<{ date: Date, minutesStudied: Number }>}
+ * @returns {{string: {date: Date, minutesStudied: number}}} - data set keyed by date string
  */
-const standardizedCsvToPaddedDataSet = (csvData, dateRange) => {
-  const parsedCsv = parseCsvFile(csvData).map((d) => {
-    return { date: new Date(d["Date"]), minutesStudied: parseFloat(d["Time (mins)"]) };
+const standardizedCsvToDataset = (csvData) => {
+  const result = {};
+  parseCsvFile(csvData).forEach((d) => {
+    const date = new Date(d["Date"]);
+    if (result[date.toISOString().split("T")[0]]) {
+      const previousMinutesStudied = result[date.toISOString().split("T")[0]].minutesStudied;
+      result[date.toISOString().split("T")[0]] = { date: date, minutesStudied: parseFloat(d["Time (mins)"]) + previousMinutesStudied };
+    } else {
+      result[date.toISOString().split("T")[0]] = { date: date, minutesStudied: parseFloat(d["Time (mins)"]) };
+    }
   });
-
-  return padDataSetForDateRange(parsedCsv, dateRange);
+  return result;
 };
 
 const chartOptions = {
@@ -120,8 +125,6 @@ export default function StudyTrendsPage () {
   const { data: ankiData, isLoading: ankiDataIsLoading } = useQuery({ queryKey: ["anki"], queryFn: fetchAnki });
   const { data: immersionData, isLoading: immersionIsLoading } = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
 
-  const [ cachedParsedData, setCachedParsedData ] = useState({});
-
   const setSearchParams = useSearchParams()[1];
   const [selectedDateRange, setSelectedDateRange] = useState(() => {
     const urlDateRange = getSearchParams().get("dateRange")?.trim();
@@ -136,26 +139,30 @@ export default function StudyTrendsPage () {
     setSelectedDateRange(dateRange);
   }, []);
 
-  const paddedData = useMemo(() => {
-    if (cachedParsedData[selectedDateRange]) return cachedParsedData[selectedDateRange];
+  const dataSetsBySource = useMemo(() => {
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
-
-    const result = {
-      paddedJpdbData: standardizedCsvToPaddedDataSet(jpdbData, selectedDateRange),
-      paddedBunproData: standardizedCsvToPaddedDataSet(bunproData, selectedDateRange),
-      paddedAnkiData: standardizedCsvToPaddedDataSet(ankiData, selectedDateRange),
-      paddedImmersionData: standardizedCsvToPaddedDataSet(immersionData, selectedDateRange),
+    return {
+      jpdb: standardizedCsvToDataset(jpdbData),
+      bunpro: standardizedCsvToDataset(bunproData),
+      anki: standardizedCsvToDataset(ankiData),
+      immersion: standardizedCsvToDataset(immersionData)
     };
-    result["paddedAllTimeData"] = padDataSetForDateRange(
-      result.paddedJpdbData.concat(result.paddedBunproData).concat(result.paddedAnkiData).concat(result.paddedImmersionData), selectedDateRange
-    );
+  }, [jpdbIsLoading, jpdbData, bunproIsLoading, bunproData, ankiDataIsLoading, ankiData, immersionIsLoading, immersionData]);
 
-    const newCache = {...cachedParsedData};
-    newCache[selectedDateRange] = result;
-    setCachedParsedData(newCache);
+  const paddedData = useMemo(() => {
+    if (Object.keys(dataSetsBySource).length == 0) return {};
 
-    return result;
-  }, [jpdbIsLoading, jpdbData, bunproIsLoading, bunproData, ankiDataIsLoading, ankiData, immersionIsLoading, immersionData, selectedDateRange]);
+    return {
+      jpdb: datasetToPaddedArray(dataSetsBySource.jpdb, selectedDateRange),
+      bunpro: datasetToPaddedArray(dataSetsBySource.bunpro, selectedDateRange),
+      anki: datasetToPaddedArray(dataSetsBySource.anki, selectedDateRange),
+      immersion: datasetToPaddedArray(dataSetsBySource.immersion, selectedDateRange),
+      allTime: datasetToPaddedArray(
+        [dataSetsBySource.jpdb, dataSetsBySource.bunpro, dataSetsBySource.anki, dataSetsBySource.immersion],
+        selectedDateRange
+      )
+    };
+  }, [dataSetsBySource, selectedDateRange]);
 
   const chartData = useMemo(() => {
     if (Object.keys(paddedData).length == 0) return {};
@@ -164,31 +171,31 @@ export default function StudyTrendsPage () {
       datasets: [
         {
           label: "jpdb.io",
-          data: paddedData.paddedJpdbData.map(d => d.minutesStudied),
+          data: paddedData.jpdb.map(d => d.minutesStudied),
           borderColor: "#5dcc06",
           backgroundColor: "#5dcc06",
         },
         {
           label: "Bunpro",
-          data: paddedData.paddedBunproData.map(d => d.minutesStudied),
+          data: paddedData.bunpro.map(d => d.minutesStudied),
           borderColor: "#ff9600",
           backgroundColor: "#ff9600",
         },
         {
           label: "Anki",
-          data: paddedData.paddedAnkiData.map(d => d.minutesStudied),
+          data: paddedData.anki.map(d => d.minutesStudied),
           borderColor: "#235390",
           backgroundColor: "#235390",
         },
         {
           label: "Immersion",
-          data: paddedData.paddedImmersionData.map(d => d.minutesStudied),
+          data: paddedData.immersion.map(d => d.minutesStudied),
           borderColor: "#cc348d",
           backgroundColor: "#cc348d",
         },
         {
           label: "Total",
-          data: paddedData.paddedAllTimeData.map(d => d.minutesStudied),
+          data: paddedData.allTime.map(d => d.minutesStudied),
           borderColor: "#e5e5e5",
           backgroundColor: "#e5e5e5",
         }
