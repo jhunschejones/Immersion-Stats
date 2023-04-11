@@ -125,19 +125,12 @@ export default function StudyTrendsPage () {
   const { data: ankiData, isLoading: ankiDataIsLoading } = useQuery({ queryKey: ["anki"], queryFn: fetchAnki });
   const { data: immersionData, isLoading: immersionIsLoading } = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
 
-  const setSearchParams = useSearchParams()[1];
-  const [selectedDateRange, setSelectedDateRange] = useState(() => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedDateRange = useMemo(() => {
     const urlDateRange = getSearchParams().get("dateRange")?.trim();
-    if (urlDateRange && DATE_RANGES.includes(urlDateRange)) {
-      return urlDateRange;
-    }
+    if (urlDateRange && DATE_RANGES.includes(urlDateRange)) return urlDateRange;
     return DATE_RANGES[0];
-  });
-
-  const selectDateRange = useCallback((dateRange) => {
-    setSearchParams({dateRange: dateRange});
-    setSelectedDateRange(dateRange);
-  }, []);
+  }, [searchParams]);
 
   const dataSetsBySource = useMemo(() => {
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
@@ -207,7 +200,7 @@ export default function StudyTrendsPage () {
             buttonStyles.borderColor = "#a567cc";
           }
           return (
-            <button key={index} className="button" style={buttonStyles} onClick={() => selectDateRange(dateRange)}>
+            <button key={index} className="button" style={buttonStyles} onClick={() => setSearchParams({dateRange: dateRange})}>
               {dateRange}
             </button>
           );

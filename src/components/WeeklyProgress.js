@@ -15,18 +15,17 @@ const TIME_RANGES = [
 
 export default function WeeklyProgress () {
   const {data, isLoading} = useQuery({ queryKey: ["weekly-progress"], queryFn: fetchWeeklyProgress });
-  const setSearchParams = useSearchParams()[1];
-  const [selectedTimeRangeKey, setSelectedTimeRangeKey] = useState(() => {
-    const urlTimeRange = getSearchParams().get("timeRange")?.trim();
-    if (urlTimeRange && TIME_RANGES.map(t => t.key).includes(urlTimeRange)) {
-      return urlTimeRange;
-    }
-    return TIME_RANGES[0].key;
-  });
   const [windowDimensions, setWindowDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth
   });
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedTimeRangeKey = useMemo(() => {
+    const urlTimeRange = getSearchParams().get("timeRange")?.trim();
+    if (urlTimeRange && TIME_RANGES.map(t => t.key).includes(urlTimeRange)) return urlTimeRange;
+    return TIME_RANGES[0].key;
+  }, [searchParams]);
 
   const parsedCsvData = useMemo(() => {
     if (isLoading) return [];
@@ -60,12 +59,6 @@ export default function WeeklyProgress () {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const selectTimeRange = (timeRangeKey) => {
-    setSearchParams({timeRange: timeRangeKey});
-    setSelectedTimeRangeKey(timeRangeKey);
-  };
-
-
   if (isLoading) {
     return <p className="loading-messsage">Fetching csv file...</p>;
   }
@@ -94,7 +87,7 @@ export default function WeeklyProgress () {
             <button
               key={index}
               className={buttonClassName}
-              onClick={() => selectTimeRange(timeRange.key)}
+              onClick={() => setSearchParams({timeRange: timeRange.key})}
             >
               {timeRange.name}
             </button>
