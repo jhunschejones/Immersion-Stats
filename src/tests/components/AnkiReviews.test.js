@@ -5,6 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import AnkiReviews from "../../components/AnkiReviews";
 import fs from "fs";
+import AnkiProvider from "../../providers/AnkiProvider";
 
 describe("AnkiReviews", () => {
   beforeEach(() => {
@@ -18,9 +19,11 @@ describe("AnkiReviews", () => {
     const queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <AnkiReviews/>
-        </BrowserRouter>
+        <AnkiProvider>
+          <BrowserRouter>
+            <AnkiReviews/>
+          </BrowserRouter>
+        </AnkiProvider>
       </QueryClientProvider>
     );
     await screen.findByText(/Anki Reviews/i);
@@ -33,9 +36,11 @@ describe("AnkiReviews", () => {
     const queryClient = new QueryClient();
     const {container} = render(
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <AnkiReviews/>
-        </BrowserRouter>
+        <AnkiProvider>
+          <BrowserRouter>
+            <AnkiReviews/>
+          </BrowserRouter>
+        </AnkiProvider>
       </QueryClientProvider>
     );
 

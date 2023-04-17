@@ -5,6 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import JpdbReviews from "../../components/JpdbReviews";
 import fs from "fs";
+import JpdbProvider from "../../providers/JpdbProvider";
 
 describe("JpdbReviews", () => {
   beforeEach(() => {
@@ -18,9 +19,11 @@ describe("JpdbReviews", () => {
     const queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <JpdbReviews/>
-        </BrowserRouter>
+        <JpdbProvider>
+          <BrowserRouter>
+            <JpdbReviews/>
+          </BrowserRouter>
+        </JpdbProvider>
       </QueryClientProvider>
     );
     await screen.findByText(/jpdb.io Reviews/i);
@@ -33,9 +36,11 @@ describe("JpdbReviews", () => {
     const queryClient = new QueryClient();
     const {container} = render(
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <JpdbReviews/>
-        </BrowserRouter>
+        <JpdbProvider>
+          <BrowserRouter>
+            <JpdbReviews/>
+          </BrowserRouter>
+        </JpdbProvider>
       </QueryClientProvider>
     );
 

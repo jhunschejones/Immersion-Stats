@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { useQuery } from "react-query";
 import Modal from "./Modal";
 import { parseCsvFile } from "../utils/parsing";
 import { minutesToHoursAndMinutes } from "../utils/time";
@@ -20,28 +19,18 @@ export const colorScaleClassFromValue = (value, lowestValue, highestValue) => {
 };
 
 ReviewsHeatmap.propTypes = {
-  dataFetchFunction: PropTypes.func,
-  dataFetchQueryKey: PropTypes.string,
+  csvData: PropTypes.any,
+  csvDataIsLoading: PropTypes.bool,
   chartTitle: PropTypes.string,
 };
 
 /**
- * @param {function} dataFetchFunction - Expects a function which will perform a
- * `fetch` request and returns CSV file with two columns named `Date` and
- * `Time (mins)`.
- * @example Valid CSV file contents:
- * ```csv
- * Date,Time (mins)
- * 2/6/2023,36
- * 2/5/2023,96
- * 2/4/2023,75
- * 2/3/2023,1
- * ```
- * @param {string} dataFetchQueryKey - A string to be used as the key for the
- * `react-query` cache for the provided `dataFetchFunction` request function.
+ * @param {array<{"Date": string, "Time (mins)": number}> | undefined} csvData - Data from a CSV request, should contain at least
+ * `Date` and `"Time (mins)"` columns, represented as keys in the objects in the array
+ * @param {boolean} csvDataIsLoading - Indicates that the data is still being loaded
  * @param {string} chartTitle - The title to be displayed over the heatmap chart.
  */
-export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, chartTitle}) {
+export default function ReviewsHeatmap ({csvData, csvDataIsLoading, chartTitle}) {
   const [firstDate, setFirstDate] = useState();
   const [lastDate, setLastDate] = useState();
   const [highestValue, setHighestValue] = useState();
@@ -51,7 +40,6 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
   const [timeLabel, setTimeLabel] = useState("");
   const [dayLabel, setDayLabel] = useState("");
   const [showDataModal, setShowDataModal] = useState(false);
-  const {data, isLoading} = useQuery({ queryKey: [dataFetchQueryKey], queryFn: dataFetchFunction });
 
   /**
    * Expects a CSV with at least two columns named `Date` and `Time (mins)`.
@@ -65,9 +53,8 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
    * ```
    */
   const parsedCsvData = useMemo(() => {
-    if (isLoading) return [];
-    return parseCsvFile(data);
-  }, [isLoading, data]);
+    return csvDataIsLoading ? [] : parseCsvFile(csvData);
+  }, [csvData, csvDataIsLoading]);
 
   const dataModalContent = useMemo(() => {
     return(
@@ -136,7 +123,7 @@ export default function ReviewsHeatmap ({dataFetchFunction, dataFetchQueryKey, c
     setDayLabel(`${totalDays} days`);
   }, [parsedCsvData]);
 
-  if (isLoading) {
+  if (csvDataIsLoading) {
     return <p className="loading-messsage">Fetching csv file...</p>;
   }
 

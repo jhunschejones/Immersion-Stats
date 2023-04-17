@@ -1,11 +1,13 @@
 import ReviewsHeatmap from "./ReviewsHeatmap";
-import { fetchAnki } from "../utils/csv-fetching";
+import { AnkiContext } from "../providers/AnkiProvider";
+import { useContext } from "react";
 
-export default function AnkiReviews () {
+export default function AnkiReviews() {
+  const {ankiData, ankiIsLoading} = useContext(AnkiContext);
   return(
     <ReviewsHeatmap
-      dataFetchFunction={fetchAnki}
-      dataFetchQueryKey="anki"
+      csvData={ankiData}
+      csvDataIsLoading={ankiIsLoading}
       chartTitle="Anki Reviews"
     />
   );

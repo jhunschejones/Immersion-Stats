@@ -1,11 +1,13 @@
 import ReviewsHeatmap from "./ReviewsHeatmap";
-import { fetchJpdb } from "../utils/csv-fetching";
+import { useContext } from "react";
+import { JpdbContext } from "../providers/JpdbProvider";
 
-export default function AnkiReviews () {
+export default function JpdbReviews() {
+  const {jpdbData, jpdbIsLoading} = useContext(JpdbContext);
   return(
     <ReviewsHeatmap
-      dataFetchFunction={fetchJpdb}
-      dataFetchQueryKey="jpdb"
+      csvData={jpdbData}
+      csvDataIsLoading={jpdbIsLoading}
       chartTitle="jpdb.io Reviews"
     />
   );
