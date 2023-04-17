@@ -1,11 +1,13 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { useMemo } from "react";
-import { useQuery } from "react-query";
+import { useContext, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getSearchParams } from "../utils/urls";
 import { parseCsvFile } from "../utils/parsing";
-import { fetchJpdb, fetchBunpro, fetchAnki, fetchImmersion } from "../utils/csv-fetching";
+import { JpdbContext } from "../providers/JpdbProvider";
+import { BunproContenxt } from "../providers/BunproProvider";
+import { AnkiContext } from "../providers/AnkiProvider";
+import { ImmersionContext } from "../providers/ImmersionProvider";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
@@ -121,10 +123,10 @@ const chartOptions = {
 
 
 export default function StudyTrendsPage () {
-  const { data: jpdbData, isLoading: jpdbIsLoading } = useQuery({ queryKey: ["jpdb"], queryFn: fetchJpdb });
-  const { data: bunproData, isLoading: bunproIsLoading } = useQuery({ queryKey: ["bunpro"], queryFn: fetchBunpro });
-  const { data: ankiData, isLoading: ankiDataIsLoading } = useQuery({ queryKey: ["anki"], queryFn: fetchAnki });
-  const { data: immersionData, isLoading: immersionIsLoading } = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
+  const {jpdbData, jpdbIsLoading} = useContext(JpdbContext);
+  const {bunproData, bunproIsLoading} = useContext(BunproContenxt);
+  const {ankiData, ankiDataIsLoading} = useContext(AnkiContext);
+  const {immersionData, immersionIsLoading} = useContext(ImmersionContext);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedDateRange = useMemo(() => {

@@ -14,6 +14,10 @@ import AboutPage from "./components/AboutPage";
 import StudyTrendsPage from "./components/StudyTrendsPage";
 
 import { fetchAnki, fetchJpdb, fetchImmersion, fetchWeeklyProgress, fetchBunpro } from "./utils/csv-fetching";
+import JpdbProvider from "./providers/JpdbProvider";
+import BunproProvider from "./providers/BunproProvider";
+import AnkiProvider from "./providers/AnkiProvider";
+import ImmersionProvider from "./providers/ImmersionProvider";
 
 const queryClient = new QueryClient();
 
@@ -123,17 +127,25 @@ export default function App () {
             </nav>
           </header>
           <main>
-            <Routes>
-              <Route path="/" element={<HomePage/>}/>
-              <Route path="/activities" element={<ActivityTotals/>}/>
-              <Route path="/weekly" element={<WeeklyProgress/>}/>
-              <Route path="/reviews" element={<ReviewsPage/>}/>
-              <Route path="/anki" element={<AnkiTotals/>}/>
-              <Route path="/jpdb" element={<JpdbReviews/>}/>
-              <Route path="/total" element={<TotalImmersion/>}/>
-              <Route path="/about" element={<AboutPage/>}/>
-              <Route path="/trends" element={<StudyTrendsPage/>}/>
-            </Routes>
+            <ImmersionProvider>
+              <AnkiProvider>
+                <JpdbProvider>
+                  <BunproProvider>
+                    <Routes>
+                      <Route path="/" element={<HomePage/>}/>
+                      <Route path="/activities" element={<ActivityTotals/>}/>
+                      <Route path="/weekly" element={<WeeklyProgress/>}/>
+                      <Route path="/reviews" element={<ReviewsPage/>}/>
+                      <Route path="/anki" element={<AnkiTotals/>}/>
+                      <Route path="/jpdb" element={<JpdbReviews/>}/>
+                      <Route path="/total" element={<TotalImmersion/>}/>
+                      <Route path="/about" element={<AboutPage/>}/>
+                      <Route path="/trends" element={<StudyTrendsPage/>}/>
+                    </Routes>
+                  </BunproProvider>
+                </JpdbProvider>
+              </AnkiProvider>
+            </ImmersionProvider>
           </main>
         </div>
       </HashRouter>
