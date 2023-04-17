@@ -5,10 +5,6 @@ import PropTypes from "prop-types";
 
 const QUERY_CACHE_KEY = "anki";
 
-export const prefetchAnki = (queryClient) => {
-  queryClient.prefetchQuery(QUERY_CACHE_KEY, fetchAnki);
-};
-
 export const AnkiContext = createContext({
   ankiData: undefined,
   ankiIsLoading: true,

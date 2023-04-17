@@ -5,10 +5,6 @@ import PropTypes from "prop-types";
 
 const QUERY_CACHE_KEY = "jpdb";
 
-export const prefetchJpdb = (queryClient) => {
-  queryClient.prefetchQuery(QUERY_CACHE_KEY, fetchJpdb);
-};
-
 export const JpdbContext = createContext({
   jpdbData: undefined,
   jpdbIsLoading: true,

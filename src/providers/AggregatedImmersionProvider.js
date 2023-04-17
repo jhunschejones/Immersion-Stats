@@ -5,10 +5,6 @@ import PropTypes from "prop-types";
 
 const QUERY_CACHE_KEY = "aggregated-immersion";
 
-export const prefetchAggregatedImmersion = (queryClient) => {
-  queryClient.prefetchQuery(QUERY_CACHE_KEY, fetchAggregatedImmersion);
-};
-
 export const AggregatedImmersionContext = createContext({
   aggregatedImmersionData: undefined,
   aggregatedImmersionIsLoading: true,

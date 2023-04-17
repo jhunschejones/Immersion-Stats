@@ -13,19 +13,13 @@ import TotalImmersion from "./components/TotalImmersion";
 import AboutPage from "./components/AboutPage";
 import StudyTrendsPage from "./components/StudyTrendsPage";
 
-import JpdbProvider, { prefetchJpdb } from "./providers/JpdbProvider";
-import BunproProvider, { prefetchBunpro } from "./providers/BunproProvider";
-import AnkiProvider, { prefetchAnki } from "./providers/AnkiProvider";
-import ImmersionProvider, { prefetchImmersion } from "./providers/ImmersionProvider";
-import AggregatedImmersionProvider, { prefetchAggregatedImmersion } from "./providers/AggregatedImmersionProvider";
+import JpdbProvider from "./providers/JpdbProvider";
+import BunproProvider from "./providers/BunproProvider";
+import AnkiProvider from "./providers/AnkiProvider";
+import ImmersionProvider from "./providers/ImmersionProvider";
+import AggregatedImmersionProvider from "./providers/AggregatedImmersionProvider";
 
 const queryClient = new QueryClient();
-
-prefetchAnki(queryClient);
-prefetchBunpro(queryClient);
-prefetchImmersion(queryClient);
-prefetchJpdb(queryClient);
-prefetchAggregatedImmersion(queryClient);
 
 function NavLinks () {
   return (

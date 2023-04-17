@@ -5,10 +5,6 @@ import PropTypes from "prop-types";
 
 const QUERY_CACHE_KEY = "immersion";
 
-export const prefetchImmersion = (queryClient) => {
-  queryClient.prefetchQuery(QUERY_CACHE_KEY, fetchImmersion);
-};
-
 export const ImmersionContext = createContext({
   immersionData: undefined,
   immersionIsLoading: true,

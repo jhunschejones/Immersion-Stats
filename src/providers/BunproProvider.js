@@ -5,10 +5,6 @@ import PropTypes from "prop-types";
 
 const QUERY_CACHE_KEY = "bunpro";
 
-export const prefetchBunpro = (queryClient) => {
-  queryClient.prefetchQuery(QUERY_CACHE_KEY, fetchBunpro);
-};
-
 export const BunproContenxt = createContext({
   bunproData: undefined,
   bunproIsLoading: true,
