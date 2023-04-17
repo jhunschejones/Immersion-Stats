@@ -90,11 +90,12 @@ const standardizedCsvToDataset = (csvData) => {
   const result = {};
   parseCsvFile(csvData).forEach((d) => {
     const date = new Date(d["Date"]);
-    if (result[date.toISOString().split("T")[0]]) {
-      const previousMinutesStudied = result[date.toISOString().split("T")[0]].minutesStudied;
-      result[date.toISOString().split("T")[0]] = { date: date, minutesStudied: parseFloat(d["Time (mins)"]) + previousMinutesStudied };
+    const dateStringKey = date.toISOString().split("T")[0];
+    if (result[dateStringKey]) {
+      const previousMinutesStudied = result[dateStringKey].minutesStudied;
+      result[dateStringKey] = { date: date, minutesStudied: parseFloat(d["Time (mins)"]) + previousMinutesStudied };
     } else {
-      result[date.toISOString().split("T")[0]] = { date: date, minutesStudied: parseFloat(d["Time (mins)"]) };
+      result[dateStringKey] = { date: date, minutesStudied: parseFloat(d["Time (mins)"]) };
     }
   });
   return result;
