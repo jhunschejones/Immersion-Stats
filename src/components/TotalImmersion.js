@@ -1,12 +1,11 @@
-import { useMemo } from "react";
-import { useQuery } from "react-query";
-import { fetchAggregatedImmersion } from "../utils/csv-fetching";
+import { useContext, useMemo } from "react";
 import { parseCsvFile } from "../utils/parsing";
 import { HiFire } from "react-icons/hi";
 import { ImHeadphones, ImBook, ImTrophy } from "react-icons/im";
+import { AggregatedImmersionContext } from "../providers/AggregatedImmersionProvider";
 
 export default function TotalImmersion () {
-  const {data, isLoading} = useQuery({ queryKey: ["weekly-progress"], queryFn: fetchAggregatedImmersion });
+  const { aggregatedImmersionData: data, aggregatedImmersionIsLoading: isLoading } = useContext(AggregatedImmersionContext);
 
   const parsedCsvData = useMemo(() => {
     if (isLoading) return [];

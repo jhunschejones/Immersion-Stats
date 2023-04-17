@@ -4,6 +4,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import { render, screen } from "@testing-library/react";
 import TotalImmersion from "../../components/TotalImmersion";
 import fs from "fs";
+import AggregatedImmersionProvider from "../../providers/AggregatedImmersionProvider";
 
 describe("TotalImmersion", () => {
   beforeEach(() => {
@@ -17,9 +18,11 @@ describe("TotalImmersion", () => {
     const queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <TotalImmersion/>
-        </BrowserRouter>
+        <AggregatedImmersionProvider>
+          <BrowserRouter>
+            <TotalImmersion/>
+          </BrowserRouter>
+        </AggregatedImmersionProvider>
       </QueryClientProvider>
     );
     await screen.findByText(/Total Immersion/i);

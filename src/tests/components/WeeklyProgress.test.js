@@ -5,6 +5,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import WeeklyProgress from "../../components/WeeklyProgress";
 import fs from "fs";
+import AggregatedImmersionProvider from "../../providers/AggregatedImmersionProvider";
 
 describe("WeeklyProgress", () => {
   beforeEach(() => {
@@ -19,9 +20,11 @@ describe("WeeklyProgress", () => {
     const queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <WeeklyProgress/>
-        </BrowserRouter>
+        <AggregatedImmersionProvider>
+          <BrowserRouter>
+            <WeeklyProgress/>
+          </BrowserRouter>
+        </AggregatedImmersionProvider>
       </QueryClientProvider>
     );
 
@@ -38,9 +41,11 @@ describe("WeeklyProgress", () => {
     const queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <WeeklyProgress/>
-        </BrowserRouter>
+        <AggregatedImmersionProvider>
+          <BrowserRouter>
+            <WeeklyProgress/>
+          </BrowserRouter>
+        </AggregatedImmersionProvider>
       </QueryClientProvider>
     );
 
@@ -57,9 +62,11 @@ describe("WeeklyProgress", () => {
     const queryClient = new QueryClient();
     render(
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <WeeklyProgress/>
-        </BrowserRouter>
+        <AggregatedImmersionProvider>
+          <BrowserRouter>
+            <WeeklyProgress/>
+          </BrowserRouter>
+        </AggregatedImmersionProvider>
       </QueryClientProvider>
     );
 

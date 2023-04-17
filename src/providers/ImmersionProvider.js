@@ -10,8 +10,8 @@ export const prefetchImmersion = (queryClient) => {
 };
 
 export const ImmersionContext = createContext({
-  ankiData: undefined,
-  ankiIsLoading: true,
+  immersionData: undefined,
+  immersionIsLoading: true,
 });
 
 ImmersionProvider.propTypes = {

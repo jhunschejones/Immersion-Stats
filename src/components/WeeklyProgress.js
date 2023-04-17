@@ -1,11 +1,10 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useQuery } from "react-query";
 import ProgressRing from "./ProgressRing";
 import { parseCsvFile } from "../utils/parsing";
 import { titleCase } from "../utils/strings";
 import { getSearchParams } from "../utils/urls";
-import { fetchAggregatedImmersion } from "../utils/csv-fetching";
+import { AggregatedImmersionContext } from "../providers/AggregatedImmersionProvider";
 
 const TIME_RANGES = [
   {name: "This week", key: "this-week"},
@@ -14,7 +13,7 @@ const TIME_RANGES = [
 ];
 
 export default function WeeklyProgress () {
-  const {data, isLoading} = useQuery({ queryKey: ["weekly-progress"], queryFn: fetchAggregatedImmersion });
+  const { aggregatedImmersionData: data, aggregatedImmersionIsLoading: isLoading } = useContext(AggregatedImmersionContext);
   const [windowDimensions, setWindowDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth

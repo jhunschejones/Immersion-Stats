@@ -17,7 +17,7 @@ import JpdbProvider, { prefetchJpdb } from "./providers/JpdbProvider";
 import BunproProvider, { prefetchBunpro } from "./providers/BunproProvider";
 import AnkiProvider, { prefetchAnki } from "./providers/AnkiProvider";
 import ImmersionProvider, { prefetchImmersion } from "./providers/ImmersionProvider";
-import { fetchAggregatedImmersion } from "./utils/csv-fetching";
+import AggregatedImmersionProvider, { prefetchAggregatedImmersion } from "./providers/AggregatedImmersionProvider";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +25,7 @@ prefetchAnki(queryClient);
 prefetchBunpro(queryClient);
 prefetchImmersion(queryClient);
 prefetchJpdb(queryClient);
-queryClient.prefetchQuery("weekly-progress", fetchAggregatedImmersion);
+prefetchAggregatedImmersion(queryClient);
 
 function NavLinks () {
   return (
@@ -128,23 +128,25 @@ export default function App () {
           </header>
           <main>
             <ImmersionProvider>
-              <AnkiProvider>
-                <JpdbProvider>
-                  <BunproProvider>
-                    <Routes>
-                      <Route path="/" element={<HomePage/>}/>
-                      <Route path="/activities" element={<ActivityTotals/>}/>
-                      <Route path="/weekly" element={<WeeklyProgress/>}/>
-                      <Route path="/reviews" element={<ReviewsPage/>}/>
-                      <Route path="/anki" element={<AnkiTotals/>}/>
-                      <Route path="/jpdb" element={<JpdbReviews/>}/>
-                      <Route path="/total" element={<TotalImmersion/>}/>
-                      <Route path="/about" element={<AboutPage/>}/>
-                      <Route path="/trends" element={<StudyTrendsPage/>}/>
-                    </Routes>
-                  </BunproProvider>
-                </JpdbProvider>
-              </AnkiProvider>
+              <AggregatedImmersionProvider>
+                <AnkiProvider>
+                  <JpdbProvider>
+                    <BunproProvider>
+                      <Routes>
+                        <Route path="/" element={<HomePage/>}/>
+                        <Route path="/activities" element={<ActivityTotals/>}/>
+                        <Route path="/weekly" element={<WeeklyProgress/>}/>
+                        <Route path="/reviews" element={<ReviewsPage/>}/>
+                        <Route path="/anki" element={<AnkiTotals/>}/>
+                        <Route path="/jpdb" element={<JpdbReviews/>}/>
+                        <Route path="/total" element={<TotalImmersion/>}/>
+                        <Route path="/about" element={<AboutPage/>}/>
+                        <Route path="/trends" element={<StudyTrendsPage/>}/>
+                      </Routes>
+                    </BunproProvider>
+                  </JpdbProvider>
+                </AnkiProvider>
+              </AggregatedImmersionProvider>
             </ImmersionProvider>
           </main>
         </div>
