@@ -17,7 +17,7 @@ import JpdbProvider, { prefetchJpdb } from "./providers/JpdbProvider";
 import BunproProvider, { prefetchBunpro } from "./providers/BunproProvider";
 import AnkiProvider, { prefetchAnki } from "./providers/AnkiProvider";
 import ImmersionProvider, { prefetchImmersion } from "./providers/ImmersionProvider";
-import { fetchWeeklyProgress } from "./utils/csv-fetching";
+import { fetchAggregatedImmersion } from "./utils/csv-fetching";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +25,7 @@ prefetchAnki(queryClient);
 prefetchBunpro(queryClient);
 prefetchImmersion(queryClient);
 prefetchJpdb(queryClient);
-queryClient.prefetchQuery("weekly-progress", fetchWeeklyProgress);
+queryClient.prefetchQuery("weekly-progress", fetchAggregatedImmersion);
 
 function NavLinks () {
   return (

@@ -5,7 +5,7 @@ import ProgressRing from "./ProgressRing";
 import { parseCsvFile } from "../utils/parsing";
 import { titleCase } from "../utils/strings";
 import { getSearchParams } from "../utils/urls";
-import { fetchWeeklyProgress } from "../utils/csv-fetching";
+import { fetchAggregatedImmersion } from "../utils/csv-fetching";
 
 const TIME_RANGES = [
   {name: "This week", key: "this-week"},
@@ -14,7 +14,7 @@ const TIME_RANGES = [
 ];
 
 export default function WeeklyProgress () {
-  const {data, isLoading} = useQuery({ queryKey: ["weekly-progress"], queryFn: fetchWeeklyProgress });
+  const {data, isLoading} = useQuery({ queryKey: ["weekly-progress"], queryFn: fetchAggregatedImmersion });
   const [windowDimensions, setWindowDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth

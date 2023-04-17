@@ -3,7 +3,7 @@ export const fetchImmersion = async () => {
   return await response.text();
 };
 
-export const fetchWeeklyProgress = async () => {
+export const fetchAggregatedImmersion = async () => {
   const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQpattUOpPKcUSS8bxlk3P-9OdmCHcNB32FINvEfnQg81WN6OsxK6AIho-gijZROruqizBjlukxKscX/pub?gid=1631773302&single=true&output=csv");
   return await response.text();
 };
