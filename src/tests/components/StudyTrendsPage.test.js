@@ -82,7 +82,7 @@ describe("datasetToPaddedArray", () => {
         "date": new Date("2022-11-18"),
         "minutesStudied": 20,
       },
-      // Missing date was replaced with a 0 here
+      // Missing date was replaced with a 0 value here
       {
         "date": new Date("2022-11-19"),
         "minutesStudied": 0,
@@ -103,7 +103,7 @@ describe("datasetToPaddedArray", () => {
         "date": new Date("2022-11-23"),
         "minutesStudied": 68,
       },
-    ]
+    ];
     const result = datasetToPaddedArray(dataSet, dateRange);
     expect(result).toEqual(expectedResult);
   });

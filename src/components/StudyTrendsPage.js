@@ -41,7 +41,7 @@ const oneMonthDateRange = getDatesBetween(oneMonthAgo, new Date());
 const threeMonthsDateRange = getDatesBetween(threeMonthsAgo, new Date());
 const oneYearDateRange = getDatesBetween(oneYearAgo, new Date());
 
-const datesForDateRange = (dateRange) => {
+const datesForDateRangeString = (dateRange) => {
   if (dateRange == "1M") {
     return oneMonthDateRange;
   }
@@ -57,7 +57,7 @@ const datesForDateRange = (dateRange) => {
 
 const chartLablesByDateRange = {};
 DATE_RANGES.forEach((dateRange) => {
-  chartLablesByDateRange[dateRange] = datesForDateRange(dateRange).map(d => d.toLocaleDateString("en-US", { month: "numeric", day: "numeric", weekday: "short" }));
+  chartLablesByDateRange[dateRange] = datesForDateRangeString(dateRange).map(d => d.toLocaleDateString("en-US", { month: "numeric", day: "numeric", weekday: "short" }));
 });
 
 
@@ -65,19 +65,13 @@ DATE_RANGES.forEach((dateRange) => {
  * A helper method to transform a `dataset` or several datasets into an array of chart data for a given `dateRange`,
  * filling in `0`s for missing days.
  *
- * @param {{}|[]} dataset - a single dataset or an array of datasets
- * @param {string|array<Date>} dateRange
+ * @param {{} | []} dataset - a single dataset or an array of datasets
+ * @param {string | array<Date>} dateRange
  * @returns {array<{ "Date": string, "Time (mins)": string }>}
  */
 export const datasetToPaddedArray = (dataset, dateRange) => {
   const datasetArray = Array(dataset).flat(); // support a single dataset or an array of datasets
-
-  let range;
-  if (typeof dateRange == "string") {
-    range = datesForDateRange(dateRange);
-  } else {
-    range = dateRange;
-  }
+  const range = (typeof dateRange == "string") ? datesForDateRangeString(dateRange) : dateRange;
 
   return range.map((date) => {
     const dateKey = date.toISOString().split("T")[0];
