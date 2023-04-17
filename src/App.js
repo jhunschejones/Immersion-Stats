@@ -13,19 +13,19 @@ import TotalImmersion from "./components/TotalImmersion";
 import AboutPage from "./components/AboutPage";
 import StudyTrendsPage from "./components/StudyTrendsPage";
 
-import { fetchAnki, fetchJpdb, fetchImmersion, fetchWeeklyProgress, fetchBunpro } from "./utils/csv-fetching";
-import JpdbProvider from "./providers/JpdbProvider";
-import BunproProvider from "./providers/BunproProvider";
-import AnkiProvider from "./providers/AnkiProvider";
-import ImmersionProvider from "./providers/ImmersionProvider";
+import JpdbProvider, { prefetchJpdb } from "./providers/JpdbProvider";
+import BunproProvider, { prefetchBunpro } from "./providers/BunproProvider";
+import AnkiProvider, { prefetchAnki } from "./providers/AnkiProvider";
+import ImmersionProvider, { prefetchImmersion } from "./providers/ImmersionProvider";
+import { fetchWeeklyProgress } from "./utils/csv-fetching";
 
 const queryClient = new QueryClient();
 
-queryClient.prefetchQuery("anki", fetchAnki);
-queryClient.prefetchQuery("jpdb", fetchJpdb);
-queryClient.prefetchQuery("immersion", fetchImmersion);
+prefetchAnki(queryClient);
+prefetchBunpro(queryClient);
+prefetchImmersion(queryClient);
+prefetchJpdb(queryClient);
 queryClient.prefetchQuery("weekly-progress", fetchWeeklyProgress);
-queryClient.prefetchQuery("bunpro", fetchBunpro);
 
 function NavLinks () {
   return (
