@@ -187,12 +187,9 @@ export default function StudyTrendsPage () {
 
   return(
     <div style={{maxHeight: "calc(100vh - 220px)", padding: "0 12px 12px 12px", display: "flex", flexDirection: "column", alignItems: "center"}}>
-      <h1 style={{
-        margin: "4px 0 18px 0",
-        padding: "0",
-        fontSize: "28px",
-        fontWeight: "600"
-      }}>Study Trends</h1>
+      <h1 style={{margin: "4px 0 18px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
+        Study Trends
+      </h1>
       <div style={{display: "flex", marginBottom: "12px"}}>
         {DATE_RANGES.map((dateRange, index) => {
           const buttonStyles = { backgroundColor: "#1baff6", borderColor: "#1a99d6", margin: "0 2px" };
