@@ -19,7 +19,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip,
  * @param {Date} endDate - the end of the date range
  * @returns {array<Date>}
  */
-const getDatesBetween = (startDate, endDate) => {
+export const getDatesBetween = (startDate, endDate) => {
   const currentDate = new Date(startDate.getTime());
   const dates = [];
   while (currentDate <= endDate) {
@@ -66,12 +66,20 @@ DATE_RANGES.forEach((dateRange) => {
  * filling in `0`s for missing days.
  *
  * @param {{}|[]} dataset - a single dataset or an array of datasets
- * @param {string} dateRange
+ * @param {string|array<Date>} dateRange
  * @returns {array<{ "Date": string, "Time (mins)": string }>}
  */
-const datasetToPaddedArray = (dataset, dateRange) => {
+export const datasetToPaddedArray = (dataset, dateRange) => {
   const datasetArray = Array(dataset).flat(); // support a single dataset or an array of datasets
-  return datesForDateRange(dateRange).map((date) => {
+
+  let range;
+  if (typeof dateRange == "string") {
+    range = datesForDateRange(dateRange);
+  } else {
+    range = dateRange;
+  }
+
+  return range.map((date) => {
     const dateKey = date.toISOString().split("T")[0];
     const matchingDataEntries = datasetArray.map((d) => d[dateKey]).filter((d) => d != undefined);
     if (matchingDataEntries.length > 0) {
@@ -88,7 +96,7 @@ const datasetToPaddedArray = (dataset, dateRange) => {
  * @param {array<{ "Date": string, "Time (mins)": string }>} csvData
  * @returns {{string: {date: Date, minutesStudied: number}}} - data set keyed by date string
  */
-const standardizedCsvToDataset = (csvData) => {
+export const standardizedCsvToDataset = (csvData) => {
   const result = {};
   parseCsvFile(csvData).forEach((d) => {
     const date = new Date(d["Date"]);
