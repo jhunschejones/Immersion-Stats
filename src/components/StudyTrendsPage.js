@@ -106,14 +106,25 @@ export const standardizedCsvToDataset = (csvData) => {
   return result;
 };
 
+const TOTALS_INDEX_IN_CHART_CTX = -1;
+
 // charts.js helper method to parse the chart `ctx` object and return an average value for the "totals" dataset
 const totalsAvgFromChartCtx = (chartCtx) => {
   if (!chartCtx) return undefined;
   try {
-    const values = chartCtx.chart.data.datasets.at(-1).data;
+    const values = chartCtx.chart.data.datasets.at(TOTALS_INDEX_IN_CHART_CTX).data;
     return values.reduce((a, b) => a + b, 0) / values.length;
   } catch (error) {
     return undefined;
+  }
+};
+
+// charts.js helper method to parse the chart `ctx` object and return a boolean whether the "totals" line his hidden
+const totalsHiddenFromChartCtx = (chartCtx) => {
+  try {
+    return chartCtx.chart.legend.legendItems.at(TOTALS_INDEX_IN_CHART_CTX).hidden;
+  } catch (error) {
+    return false;
   }
 };
 
@@ -155,6 +166,7 @@ const chartOptionsWithAverageAnnotation = {
           type: "line",
           scaleID: "y",
           value: (ctx) => totalsAvgFromChartCtx(ctx) ?? 0,
+          display: (ctx) => !totalsHiddenFromChartCtx(ctx),
           label: {
             display: true,
             content: (ctx) => `Avg: ${totalsAvgFromChartCtx(ctx)?.toFixed(0)} mins/day`,
