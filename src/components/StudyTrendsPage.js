@@ -125,6 +125,7 @@ const defaultChartOptions = {
       position: "top",
     },
     annotation: {
+      animation: false,
       annotations: {
         averageTotal: {
           display: false
@@ -142,15 +143,14 @@ const defaultChartOptions = {
   }
 };
 
-const chartOptionsWithAvg = {
-  responsive: true,
-  maintainAspectRatio: false,
+const chartOptionsWithAverageAnnotation = {
+  ...defaultChartOptions,
   plugins: {
-    legend: {
-      position: "top",
-    },
+    ...defaultChartOptions.plugins,
     annotation: {
+      ...defaultChartOptions.plugins.annotation,
       annotations: {
+        ...defaultChartOptions.plugins.annotation.annotations,
         averageTotal: {
           type: "line",
           scaleID: "y",
@@ -165,14 +165,6 @@ const chartOptionsWithAvg = {
           borderWidth: 2,
           drawTime: "afterDraw",
         }
-      }
-    }
-  },
-  scales: {
-    y: {
-      title: {
-        display: true,
-        text: "Study minutes"
       }
     }
   }
@@ -193,7 +185,7 @@ export default function StudyTrendsPage () {
   }, [searchParams]);
 
   const [showAvg, setShowAvg] = useState(false);
-  const chartOptions = useMemo(() => showAvg ? chartOptionsWithAvg : defaultChartOptions, [showAvg]);
+  const chartOptions = useMemo(() => showAvg ? chartOptionsWithAverageAnnotation : defaultChartOptions, [showAvg]);
 
   const dataSetsBySource = useMemo(() => {
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
