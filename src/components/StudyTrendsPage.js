@@ -1,6 +1,7 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from "chart.js";
+import annotationPlugin from "chartjs-plugin-annotation";
 import { Line } from "react-chartjs-2";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getSearchParams } from "../utils/urls";
 import { parseCsvFile } from "../utils/parsing";
@@ -9,7 +10,7 @@ import { BunproContenxt } from "../providers/BunproProvider";
 import { AnkiContext } from "../providers/AnkiProvider";
 import { ImmersionContext } from "../providers/ImmersionProvider";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, annotationPlugin);
 
 
 /**
@@ -105,13 +106,67 @@ export const standardizedCsvToDataset = (csvData) => {
   return result;
 };
 
-const chartOptions = {
+// charts.js helper method to parse the chart `ctx` object and return an average value for the "totals" dataset
+const totalsAvgFromChartCtx = (chartCtx) => {
+  if (!chartCtx) return undefined;
+  try {
+    const values = chartCtx.chart.data.datasets.at(-1).data;
+    return values.reduce((a, b) => a + b, 0) / values.length;
+  } catch (error) {
+    return undefined;
+  }
+};
+
+const defaultChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
     legend: {
       position: "top",
     },
+    annotation: {
+      annotations: {
+        averageTotal: {
+          display: false
+        }
+      }
+    }
+  },
+  scales: {
+    y: {
+      title: {
+        display: true,
+        text: "Study minutes"
+      }
+    }
+  },
+};
+
+const chartOptionsWithAvg = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: "top",
+    },
+    annotation: {
+      annotations: {
+        averageTotal: {
+          type: "line",
+          scaleID: "y",
+          value: (ctx) => totalsAvgFromChartCtx(ctx) ?? 0,
+          label: {
+            display: true,
+            content: (ctx) => `Avg: ${totalsAvgFromChartCtx(ctx)?.toFixed(0)} mins/day`,
+            backgroundColor: "#1baff6"
+          },
+          borderColor: "#1baff6",
+          borderDash: [6, 6],
+          borderWidth: 2,
+          drawTime: "afterDraw",
+        }
+      }
+    }
   },
   scales: {
     y: {
@@ -136,6 +191,9 @@ export default function StudyTrendsPage () {
     if (urlDateRange && DATE_RANGES.includes(urlDateRange)) return urlDateRange;
     return DATE_RANGES[0];
   }, [searchParams]);
+
+  const [showAvg, setShowAvg] = useState(false);
+  const chartOptions = useMemo(() => showAvg ? chartOptionsWithAvg : defaultChartOptions, [showAvg]);
 
   const dataSetsBySource = useMemo(() => {
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
@@ -191,7 +249,10 @@ export default function StudyTrendsPage () {
 
   return(
     <div style={{maxHeight: "calc(100vh - 220px)", padding: "0 12px 12px 12px", display: "flex", flexDirection: "column", alignItems: "center"}}>
-      <h1 style={{margin: "4px 0 18px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
+      <h1
+        style={{margin: "4px 0 18px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}
+        onClick={() => setShowAvg(s => !s)}
+      >
         Study Trends
       </h1>
       <div style={{display: "flex", marginBottom: "12px"}}>
