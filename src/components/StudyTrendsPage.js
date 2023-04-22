@@ -139,7 +139,7 @@ const defaultChartOptions = {
         text: "Study minutes"
       }
     }
-  },
+  }
 };
 
 const chartOptionsWithAvg = {
@@ -175,7 +175,7 @@ const chartOptionsWithAvg = {
         text: "Study minutes"
       }
     }
-  },
+  }
 };
 
 
@@ -197,6 +197,7 @@ export default function StudyTrendsPage () {
 
   const dataSetsBySource = useMemo(() => {
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
+    if ([jpdbData, bunproData, ankiData, immersionData].includes(undefined)) return {};
     return {
       jpdb: standardizedCsvToDataset(jpdbData),
       bunpro: standardizedCsvToDataset(bunproData),
