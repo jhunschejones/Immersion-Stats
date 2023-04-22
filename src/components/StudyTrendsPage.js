@@ -170,12 +170,21 @@ const chartOptionsWithAverageAnnotation = {
           label: {
             display: true,
             content: (ctx) => `Avg: ${totalsAvgFromChartCtx(ctx)?.toFixed(0)} mins/day`,
-            backgroundColor: "#1baff6"
+            backgroundColor: "#e5e5e5",
+            color: "#777",
+            backgroundShadowColor: "#b7b7b7",
+            shadowOffsetX: 3,
+            shadowOffsetY: 3,
+            shadowBlur: 4,
           },
-          borderColor: "#1baff6",
+          borderColor: "#e5e5e5",
           borderDash: [6, 6],
-          borderWidth: 2,
+          borderWidth: 3,
           drawTime: "afterDraw",
+          shadowOffsetX: 3,
+          shadowOffsetY: 3,
+          shadowBlur: 4,
+          borderShadowColor: "#b7b7b7",
         }
       }
     }
