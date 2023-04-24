@@ -107,10 +107,8 @@ export const standardizedCsvToDataset = (csvData) => {
   return result;
 };
 
-const TOTALS_INDEX_IN_CHART_CTX = -1;
-
 // charts.js helper method to parse the chart `ctx` object and return an average value for the given dataset `index`
-const avgFromChartCtx = (chartCtx, index=TOTALS_INDEX_IN_CHART_CTX) => {
+const avgFromChartCtx = (chartCtx, index) => {
   if (!chartCtx) return undefined;
   try {
     const values = chartCtx.chart.data.datasets.at(index).data;
