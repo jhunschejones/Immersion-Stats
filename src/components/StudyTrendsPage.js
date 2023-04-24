@@ -109,23 +109,14 @@ export const standardizedCsvToDataset = (csvData) => {
 
 const TOTALS_INDEX_IN_CHART_CTX = -1;
 
-// charts.js helper method to parse the chart `ctx` object and return an average value for the "totals" dataset
-const totalsAvgFromChartCtx = (chartCtx) => {
+// charts.js helper method to parse the chart `ctx` object and return an average value for the given dataset `index`
+const avgFromChartCtx = (chartCtx, index=TOTALS_INDEX_IN_CHART_CTX) => {
   if (!chartCtx) return undefined;
   try {
-    const values = chartCtx.chart.data.datasets.at(TOTALS_INDEX_IN_CHART_CTX).data;
+    const values = chartCtx.chart.data.datasets.at(index).data;
     return values.reduce((a, b) => a + b, 0) / values.length;
   } catch (error) {
     return undefined;
-  }
-};
-
-// charts.js helper method to parse the chart `ctx` object and return a boolean whether the "totals" line his hidden
-const totalsHiddenFromChartCtx = (chartCtx) => {
-  try {
-    return chartCtx.chart.legend.legendItems.at(TOTALS_INDEX_IN_CHART_CTX).hidden;
-  } catch (error) {
-    return false;
   }
 };
 
@@ -155,41 +146,50 @@ const defaultChartOptions = {
   }
 };
 
-const chartOptionsWithAverageAnnotation = {
-  ...defaultChartOptions,
-  plugins: {
-    ...defaultChartOptions.plugins,
-    annotation: {
-      ...defaultChartOptions.plugins.annotation,
-      annotations: {
-        ...defaultChartOptions.plugins.annotation.annotations,
-        averageTotal: {
-          type: "line",
-          scaleID: "y",
-          value: (ctx) => totalsAvgFromChartCtx(ctx) ?? 0,
-          display: (ctx) => !totalsHiddenFromChartCtx(ctx),
-          label: {
-            display: true,
-            content: (ctx) => `Avg: ${totalsAvgFromChartCtx(ctx)?.toFixed(0)} mins/day`,
-            backgroundColor: "#e5e5e5",
-            color: "#777",
-            backgroundShadowColor: "#b7b7b7",
+const chartOptionsWithAverageAnnotation = (index) => {
+  return {
+    ...defaultChartOptions,
+    plugins: {
+      ...defaultChartOptions.plugins,
+      annotation: {
+        ...defaultChartOptions.plugins.annotation,
+        annotations: {
+          ...defaultChartOptions.plugins.annotation.annotations,
+          averageTotal: {
+            type: "line",
+            scaleID: "y",
+            value: (ctx) => avgFromChartCtx(ctx, index) ?? 0,
+            display: (ctx) => !ctx.chart.legend.legendItems.at(index).hidden,
+            label: {
+              display: true,
+              content: (ctx) => `Avg: ${avgFromChartCtx(ctx, index)?.toFixed(0)} mins/day`,
+              backgroundColor: (ctx) => ctx.chart.data.datasets.at(index).borderColor,
+              color: (ctx) => {
+                // show gray text for gray background
+                if (ctx.chart.data.datasets.at(index).borderColor == "#e5e5e5") {
+                  return "#777";
+                }
+                // show white text for all other backgrounds
+                return "#FFF";
+              },
+              backgroundShadowColor: "#b7b7b7",
+              shadowOffsetX: 3,
+              shadowOffsetY: 3,
+              shadowBlur: 4,
+            },
+            borderColor: (ctx) => ctx.chart.data.datasets.at(index).borderColor,
+            borderDash: [6, 6],
+            borderWidth: 3,
+            drawTime: "afterDraw",
             shadowOffsetX: 3,
             shadowOffsetY: 3,
             shadowBlur: 4,
-          },
-          borderColor: "#e5e5e5",
-          borderDash: [6, 6],
-          borderWidth: 3,
-          drawTime: "afterDraw",
-          shadowOffsetX: 3,
-          shadowOffsetY: 3,
-          shadowBlur: 4,
-          borderShadowColor: "#b7b7b7",
+            borderShadowColor: "#b7b7b7",
+          }
         }
       }
     }
-  }
+  };
 };
 
 
@@ -206,9 +206,14 @@ export default function StudyTrendsPage () {
     return DATE_RANGES[0];
   }, [searchParams]);
 
-  const [showAvg, setShowAvg] = useState(false);
-  useHotkeys("0", () => setShowAvg(s => !s), []);
-  const chartOptions = useMemo(() => showAvg ? chartOptionsWithAverageAnnotation : defaultChartOptions, [showAvg]);
+  const [datasetIndexToShowAverageFor, setDatasetIndexToShowAverageFor] = useState(undefined);
+  const chartOptions = useMemo(() => {
+    if (datasetIndexToShowAverageFor == undefined) return defaultChartOptions;
+    return chartOptionsWithAverageAnnotation(datasetIndexToShowAverageFor);
+  }, [datasetIndexToShowAverageFor]);
+
+  // press `0` to show the average for the dataset at index `-1`, the `totals` dataset
+  useHotkeys("0", () => setDatasetIndexToShowAverageFor(s => s == undefined ? -1 : undefined), []);
 
   const dataSetsBySource = useMemo(() => {
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
