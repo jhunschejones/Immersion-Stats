@@ -9,6 +9,7 @@ import { JpdbContext } from "../providers/JpdbProvider";
 import { BunproContenxt } from "../providers/BunproProvider";
 import { AnkiContext } from "../providers/AnkiProvider";
 import { ImmersionContext } from "../providers/ImmersionProvider";
+import { useHotkeys } from "react-hotkeys-hook";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, annotationPlugin);
 
@@ -206,6 +207,7 @@ export default function StudyTrendsPage () {
   }, [searchParams]);
 
   const [showAvg, setShowAvg] = useState(false);
+  useHotkeys("0", () => setShowAvg(s => !s), []);
   const chartOptions = useMemo(() => showAvg ? chartOptionsWithAverageAnnotation : defaultChartOptions, [showAvg]);
 
   const dataSetsBySource = useMemo(() => {
@@ -263,10 +265,7 @@ export default function StudyTrendsPage () {
 
   return(
     <div style={{maxHeight: "calc(100vh - 220px)", padding: "0 12px 12px 12px", display: "flex", flexDirection: "column", alignItems: "center"}}>
-      <h1
-        style={{margin: "4px 0 18px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}
-        onClick={() => setShowAvg(s => !s)}
-      >
+      <h1 style={{margin: "4px 0 18px 0", padding: "0", fontSize: "28px", fontWeight: "600"}}>
         Study Trends
       </h1>
       <div style={{display: "flex", marginBottom: "12px"}}>
