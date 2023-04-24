@@ -283,7 +283,7 @@ export default function StudyTrendsPage () {
       </h1>
       <div style={{display: "flex", marginBottom: "12px"}}>
         {DATE_RANGES.map((dateRange, index) => {
-          const buttonStyles = { backgroundColor: "#1baff6", borderColor: "#1a99d6", margin: "0 2px" };
+          const buttonStyles = { backgroundColor: "#1baff6", borderColor: "#1a99d6", margin: "0 2px", padding: "5px 10px 3px 10px" };
           if (selectedDateRange === dateRange) {
             buttonStyles.backgroundColor = "#ce82ff";
             buttonStyles.borderColor = "#a567cc";
