@@ -212,8 +212,18 @@ export default function StudyTrendsPage () {
     return chartOptionsWithAverageAnnotation(datasetIndexToShowAverageFor);
   }, [datasetIndexToShowAverageFor]);
 
-  // press `0` to show the average for the dataset at index `-1`, the `totals` dataset
-  useHotkeys("0", () => setDatasetIndexToShowAverageFor(s => s == undefined ? -1 : undefined), []);
+  // press `1` to show the average for the dataset at index `0`, the `jpdb.io` dataset
+  useHotkeys("1", () => setDatasetIndexToShowAverageFor(s => s == 0 ? undefined : 0), []);
+  // press `1` to show the average for the dataset at index `1`, the `Bunpro` dataset
+  useHotkeys("2", () => setDatasetIndexToShowAverageFor(s => s == 1 ? undefined : 1), []);
+  // press `1` to show the average for the dataset at index `2`, the `Anki` dataset
+  useHotkeys("3", () => setDatasetIndexToShowAverageFor(s => s == 2 ? undefined : 2), []);
+  // press `1` to show the average for the dataset at index `3`, the `Immersion` dataset
+  useHotkeys("4", () => setDatasetIndexToShowAverageFor(s => s == 3 ? undefined : 3), []);
+  // press `5` to show the average for the dataset at index `4`, the `totals` dataset
+  useHotkeys("5", () => setDatasetIndexToShowAverageFor(s => s == 4 ? undefined : 4), []);
+  // press `backspace` to remove any average lines being shown
+  useHotkeys("backspace", () => setDatasetIndexToShowAverageFor(undefined), []);
 
   const dataSetsBySource = useMemo(() => {
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
