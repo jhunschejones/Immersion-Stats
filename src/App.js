@@ -18,6 +18,7 @@ import BunproProvider from "./providers/BunproProvider";
 import AnkiProvider from "./providers/AnkiProvider";
 import ImmersionProvider from "./providers/ImmersionProvider";
 import AggregatedImmersionProvider from "./providers/AggregatedImmersionProvider";
+import BunproReviews from "./components/BunproReviews";
 
 const queryClient = new QueryClient();
 
@@ -133,6 +134,7 @@ export default function App () {
                         <Route path="/reviews" element={<ReviewsPage/>}/>
                         <Route path="/anki" element={<AnkiTotals/>}/>
                         <Route path="/jpdb" element={<JpdbReviews/>}/>
+                        <Route path="/bunpro" element={<BunproReviews/>}/>
                         <Route path="/total" element={<TotalImmersion/>}/>
                         <Route path="/about" element={<AboutPage/>}/>
                         <Route path="/trends" element={<StudyTrendsPage/>}/>
