@@ -67,7 +67,7 @@ export default function ReviewsHeatmap ({csvData, csvDataIsLoading, chartTitle})
             fontWeight: "500"
           }}
         >
-          Review Data
+          {chartTitle} data
         </h2>
         <ul style={{marginTop: "24px"}}>
           {parsedCsvData.map((row, index) => {
