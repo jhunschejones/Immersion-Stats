@@ -130,7 +130,7 @@ export default function StudyTrendsPage () {
   }, [searchParams]);
 
   const paddedData = useMemo(() => {
-    if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
+    if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading || [jpdbData, bunproData, ankiData, immersionData].includes(undefined)) return {};
 
     const result = {
       paddedJpdbData: standardizedCsvToPaddedDataSet(jpdbData, selectedDateRange),
