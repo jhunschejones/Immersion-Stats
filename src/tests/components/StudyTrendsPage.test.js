@@ -6,7 +6,8 @@ import { ImmersionContext } from "../../providers/ImmersionProvider";
 import { AnkiContext } from "../../providers/AnkiProvider";
 import { JpdbContext } from "../../providers/JpdbProvider";
 import { BunproContenxt } from "../../providers/BunproProvider";
-import StudyTrendsPage, { standardizedCsvToDataset, datasetToPaddedArray, getDatesBetween } from "../../components/StudyTrendsPage";
+import StudyTrendsPage, { standardizedCsvToDataset, datasetToPaddedArray } from "../../components/StudyTrendsPage";
+import { getDatesBetween } from "../../utils/date";
 
 // https://github.com/reactchartjs/react-chartjs-2/issues/155
 // https://github.com/reactchartjs/react-chartjs-2/blob/master/test/setup.js

@@ -1,10 +1,12 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 import { Line } from "react-chartjs-2";
+
 import { useContext, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getSearchParams } from "../utils/urls";
 import { parseCsvFile } from "../utils/parsing";
+import { oneMonthDateRange, threeMonthsDateRange, oneYearDateRange, tenDaysDateRange } from "../utils/date";
 import { JpdbContext } from "../providers/JpdbProvider";
 import { BunproContenxt } from "../providers/BunproProvider";
 import { AnkiContext } from "../providers/AnkiProvider";
@@ -14,34 +16,7 @@ import useDatasetIndexFromHotKeys from "../hooks/use-dataset-index-from-hot-keys
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, annotationPlugin);
 
 
-/**
- * Build an array of all dates between two dates
- *
- * @param {Date} startDate - the start of the date range
- * @param {Date} endDate - the end of the date range
- * @returns {array<Date>}
- */
-export const getDatesBetween = (startDate, endDate) => {
-  const currentDate = new Date(startDate.getTime());
-  const dates = [];
-  while (currentDate <= endDate) {
-    dates.push(new Date(currentDate));
-    currentDate.setDate(currentDate.getDate() + 1);
-  }
-  return dates;
-};
-
 const DATE_RANGES = ["10D", "1M", "3M", "1Y"];
-
-const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 10));
-const oneMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1));
-const threeMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 3));
-const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-
-const tenDaysAgoDateRange = getDatesBetween(tenDaysAgo, new Date());
-const oneMonthDateRange = getDatesBetween(oneMonthAgo, new Date());
-const threeMonthsDateRange = getDatesBetween(threeMonthsAgo, new Date());
-const oneYearDateRange = getDatesBetween(oneYearAgo, new Date());
 
 const datesForDateRangeString = (dateRange) => {
   if (dateRange == "1M") {
@@ -54,7 +29,7 @@ const datesForDateRangeString = (dateRange) => {
     return oneYearDateRange;
   }
   // default date range is 10D
-  return tenDaysAgoDateRange;
+  return tenDaysDateRange;
 };
 
 const chartLablesByDateRange = {};
