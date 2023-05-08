@@ -1,17 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { HashRouter, Routes, Route, NavLink, Link, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { HiHome, HiChartPie, HiClipboardList, HiCalendar, HiFire, HiMenu, HiX, HiPresentationChartLine } from "react-icons/hi";
 
+// the code for the home page is always loaded
 import HomePage from "./components/HomePage";
-import ActivityTotals from "./components/ActivityTotals";
-import WeeklyProgress from "./components/WeeklyProgress";
-import ReviewsPage from "./components/ReviewsPage";
-import AnkiTotals from "./components/AnkiReviews";
-import JpdbReviews from "./components/JpdbReviews";
-import TotalImmersion from "./components/TotalImmersion";
-import AboutPage from "./components/AboutPage";
-import StudyTrendsPage from "./components/StudyTrendsPage";
+// the code for other pages is split and only downloaded when the page is requested by the user
+const ActivityTotals = lazy(() => import("./components/ActivityTotals"));
+const WeeklyProgress = lazy(() => import("./components/WeeklyProgress"));
+const ReviewsPage = lazy(() => import("./components/ReviewsPage"));
+const AnkiTotals = lazy(() => import("./components/AnkiReviews"));
+const JpdbReviews = lazy(() => import("./components/JpdbReviews"));
+const TotalImmersion = lazy(() => import("./components/TotalImmersion"));
+const AboutPage = lazy(() => import("./components/AboutPage"));
+const StudyTrendsPage = lazy(() => import("./components/StudyTrendsPage"));
 
 import JpdbProvider from "./providers/JpdbProvider";
 import BunproProvider from "./providers/BunproProvider";
@@ -127,18 +129,20 @@ export default function App () {
                 <AnkiProvider>
                   <JpdbProvider>
                     <BunproProvider>
-                      <Routes>
-                        <Route path="/" element={<HomePage/>}/>
-                        <Route path="/activities" element={<ActivityTotals/>}/>
-                        <Route path="/weekly" element={<WeeklyProgress/>}/>
-                        <Route path="/reviews" element={<ReviewsPage/>}/>
-                        <Route path="/anki" element={<AnkiTotals/>}/>
-                        <Route path="/jpdb" element={<JpdbReviews/>}/>
-                        <Route path="/bunpro" element={<BunproReviews/>}/>
-                        <Route path="/total" element={<TotalImmersion/>}/>
-                        <Route path="/about" element={<AboutPage/>}/>
-                        <Route path="/trends" element={<StudyTrendsPage/>}/>
-                      </Routes>
+                      <Suspense fallback={<p style={{textAlign: "center"}}>Loading...</p>}>
+                        <Routes>
+                          <Route path="/" element={<HomePage/>}/>
+                          <Route path="/activities" element={<ActivityTotals/>}/>
+                          <Route path="/weekly" element={<WeeklyProgress/>}/>
+                          <Route path="/reviews" element={<ReviewsPage/>}/>
+                          <Route path="/anki" element={<AnkiTotals/>}/>
+                          <Route path="/jpdb" element={<JpdbReviews/>}/>
+                          <Route path="/bunpro" element={<BunproReviews/>}/>
+                          <Route path="/total" element={<TotalImmersion/>}/>
+                          <Route path="/about" element={<AboutPage/>}/>
+                          <Route path="/trends" element={<StudyTrendsPage/>}/>
+                        </Routes>
+                      </Suspense>
                     </BunproProvider>
                   </JpdbProvider>
                 </AnkiProvider>
