@@ -1,7 +1,7 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from "chart.js";
 import annotationPlugin from "chartjs-plugin-annotation";
 import { Line } from "react-chartjs-2";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getSearchParams } from "../utils/urls";
 import { parseCsvFile } from "../utils/parsing";
@@ -9,7 +9,7 @@ import { JpdbContext } from "../providers/JpdbProvider";
 import { BunproContenxt } from "../providers/BunproProvider";
 import { AnkiContext } from "../providers/AnkiProvider";
 import { ImmersionContext } from "../providers/ImmersionProvider";
-import { useHotkeys } from "react-hotkeys-hook";
+import useDatasetIndexFromHotKeys from "../hooks/use-dataset-index-from-hot-keys";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, annotationPlugin);
 
@@ -204,24 +204,11 @@ export default function StudyTrendsPage () {
     return DATE_RANGES[0];
   }, [searchParams]);
 
-  const [datasetIndexToShowAverageFor, setDatasetIndexToShowAverageFor] = useState(undefined);
+  const { datasetIndex: datasetIndexToShowAverageFor } = useDatasetIndexFromHotKeys();
   const chartOptions = useMemo(() => {
     if (datasetIndexToShowAverageFor == undefined) return defaultChartOptions;
     return chartOptionsWithAverageAnnotation(datasetIndexToShowAverageFor);
   }, [datasetIndexToShowAverageFor]);
-
-  // press `1` to show the average for the dataset at index `0`, the `jpdb.io` dataset
-  useHotkeys("1", () => setDatasetIndexToShowAverageFor(s => s == 0 ? undefined : 0), []);
-  // press `1` to show the average for the dataset at index `1`, the `Bunpro` dataset
-  useHotkeys("2", () => setDatasetIndexToShowAverageFor(s => s == 1 ? undefined : 1), []);
-  // press `1` to show the average for the dataset at index `2`, the `Anki` dataset
-  useHotkeys("3", () => setDatasetIndexToShowAverageFor(s => s == 2 ? undefined : 2), []);
-  // press `1` to show the average for the dataset at index `3`, the `Immersion` dataset
-  useHotkeys("4", () => setDatasetIndexToShowAverageFor(s => s == 3 ? undefined : 3), []);
-  // press `5` to show the average for the dataset at index `4`, the `totals` dataset
-  useHotkeys("5", () => setDatasetIndexToShowAverageFor(s => s == 4 ? undefined : 4), []);
-  // press `backspace` to remove any average lines being shown
-  useHotkeys("backspace", () => setDatasetIndexToShowAverageFor(undefined), []);
 
   const dataSetsBySource = useMemo(() => {
     if (jpdbIsLoading || bunproIsLoading || ankiDataIsLoading || immersionIsLoading) return {};
