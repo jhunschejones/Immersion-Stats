@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import Modal from "./Modal";
-import { parseCsvFile } from "../utils/parsing";
+import useParsedCsv from "../hooks/use-parsed-csv";
 import { minutesToHoursAndMinutes } from "../utils/time";
 import { HiFire } from "react-icons/hi";
 
@@ -52,9 +52,7 @@ export default function ReviewsHeatmap ({csvData, csvDataIsLoading, chartTitle})
    * 2/3/2023,1
    * ```
    */
-  const parsedCsvData = useMemo(() => {
-    return csvDataIsLoading ? [] : parseCsvFile(csvData);
-  }, [csvData, csvDataIsLoading]);
+  const parsedCsvData = useParsedCsv(csvDataIsLoading, csvData);
 
   const dataModalContent = useMemo(() => {
     return(

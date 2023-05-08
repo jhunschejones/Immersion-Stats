@@ -1,10 +1,10 @@
 import { useState, useMemo, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import ProgressRing from "./ProgressRing";
-import { parseCsvFile } from "../utils/parsing";
 import { titleCase } from "../utils/strings";
 import { getSearchParams } from "../utils/urls";
 import { AggregatedImmersionContext } from "../providers/AggregatedImmersionProvider";
+import useParsedCsv from "../hooks/use-parsed-csv";
 
 const TIME_RANGES = [
   {name: "This week", key: "this-week"},
@@ -26,10 +26,7 @@ export default function WeeklyProgress () {
     return TIME_RANGES[0].key;
   }, [searchParams]);
 
-  const parsedCsvData = useMemo(() => {
-    if (isLoading) return [];
-    return parseCsvFile(data);
-  }, [isLoading, data]);
+  const parsedCsvData = useParsedCsv(isLoading, data);
 
   const progressByTimeRangeKey = useMemo(() => {
     const result = {};

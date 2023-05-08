@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useQuery } from "react-query";
-import { parseCsvFile } from "../utils/parsing";
+import useParsedCsv from "../hooks/use-parsed-csv";
 import { minutesToHoursAndMinutesString } from "../utils/time";
 import { fetchImmersion } from "../utils/csv-fetching";
 import { dig } from "../utils/objects";
@@ -8,19 +8,17 @@ import { dig } from "../utils/objects";
 export default function ActivityTotals () {
   const {data, isLoading} = useQuery({ queryKey: ["immersion"], queryFn: fetchImmersion });
 
-  const parsedCsvData = useMemo(() => {
-    if (isLoading) return [];
-    return parseCsvFile(data).sort((a, b) => new Date(b["Date"]) - new Date(a["Date"]));
-  }, [isLoading, data]);
+  const parsedCsvData = useParsedCsv(isLoading, data);
+  const sortedCsvData = useMemo(() => parsedCsvData.sort((a, b) => new Date(b["Date"]) - new Date(a["Date"])), [parsedCsvData]);
 
-  const startDate = useMemo(() => dig(["Date"], parsedCsvData[parsedCsvData.length - 1]), [parsedCsvData]);
-  const endDate = useMemo(() => dig(["Date"], parsedCsvData[0]), [parsedCsvData]);
+  const startDate = useMemo(() => dig(["Date"], sortedCsvData[sortedCsvData.length - 1]), [sortedCsvData]);
+  const endDate = useMemo(() => dig(["Date"], sortedCsvData[0]), [sortedCsvData]);
 
   const totalsByActivity = useMemo(() => {
-    const activities = Array.from(new Set(parsedCsvData.map((row) => row["Activity"])));
+    const activities = Array.from(new Set(sortedCsvData.map((row) => row["Activity"])));
     const totalsByActivity = {};
     activities.forEach((activity) => {
-      const totalTime = parsedCsvData
+      const totalTime = sortedCsvData
         .filter((row) => row["Activity"] === activity)
         .map((row) => parseInt(row["Time (mins)"]))
         .filter((row) => !isNaN(row))
@@ -28,7 +26,7 @@ export default function ActivityTotals () {
       totalsByActivity[activity] = totalTime;
     });
     return totalsByActivity;
-  }, [parsedCsvData]);
+  }, [sortedCsvData]);
 
 
   if (isLoading) {

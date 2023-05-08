@@ -1,5 +1,5 @@
 import { useContext, useMemo } from "react";
-import { parseCsvFile } from "../utils/parsing";
+import useParsedCsv from "../hooks/use-parsed-csv";
 import { HiFire } from "react-icons/hi";
 import { ImHeadphones, ImBook, ImTrophy } from "react-icons/im";
 import { AggregatedImmersionContext } from "../providers/AggregatedImmersionProvider";
@@ -7,10 +7,7 @@ import { AggregatedImmersionContext } from "../providers/AggregatedImmersionProv
 export default function TotalImmersion () {
   const { aggregatedImmersionData: data, aggregatedImmersionIsLoading: isLoading } = useContext(AggregatedImmersionContext);
 
-  const parsedCsvData = useMemo(() => {
-    if (isLoading) return [];
-    return parseCsvFile(data);
-  }, [isLoading, data]);
+  const parsedCsvData = useParsedCsv(isLoading, data);
 
   const totalActiveImmersionTime = useMemo(() => {
     if (parsedCsvData.length === 0) {
