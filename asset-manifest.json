@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Immersion-Stats/static/css/main.3e38937c.css",
-    "main.js": "/Immersion-Stats/static/js/main.6f6b0c9e.js",
+    "main.js": "/Immersion-Stats/static/js/main.a3654ef4.js",
     "static/js/3.3249ec0e.chunk.js": "/Immersion-Stats/static/js/3.3249ec0e.chunk.js",
     "static/js/201.806ea779.chunk.js": "/Immersion-Stats/static/js/201.806ea779.chunk.js",
     "static/js/795.05eded7f.chunk.js": "/Immersion-Stats/static/js/795.05eded7f.chunk.js",
@@ -9,12 +9,12 @@
     "static/js/54.9fefa70b.chunk.js": "/Immersion-Stats/static/js/54.9fefa70b.chunk.js",
     "static/js/482.d3595ae0.chunk.js": "/Immersion-Stats/static/js/482.d3595ae0.chunk.js",
     "static/js/398.9a1f0bf7.chunk.js": "/Immersion-Stats/static/js/398.9a1f0bf7.chunk.js",
-    "static/js/643.4e6185e2.chunk.js": "/Immersion-Stats/static/js/643.4e6185e2.chunk.js",
-    "static/js/411.8697db1e.chunk.js": "/Immersion-Stats/static/js/411.8697db1e.chunk.js",
+    "static/js/643.67768415.chunk.js": "/Immersion-Stats/static/js/643.67768415.chunk.js",
+    "static/js/410.e481913f.chunk.js": "/Immersion-Stats/static/js/410.e481913f.chunk.js",
     "static/js/828.549330ba.chunk.js": "/Immersion-Stats/static/js/828.549330ba.chunk.js",
     "index.html": "/Immersion-Stats/index.html",
     "main.3e38937c.css.map": "/Immersion-Stats/static/css/main.3e38937c.css.map",
-    "main.6f6b0c9e.js.map": "/Immersion-Stats/static/js/main.6f6b0c9e.js.map",
+    "main.a3654ef4.js.map": "/Immersion-Stats/static/js/main.a3654ef4.js.map",
     "3.3249ec0e.chunk.js.map": "/Immersion-Stats/static/js/3.3249ec0e.chunk.js.map",
     "201.806ea779.chunk.js.map": "/Immersion-Stats/static/js/201.806ea779.chunk.js.map",
     "795.05eded7f.chunk.js.map": "/Immersion-Stats/static/js/795.05eded7f.chunk.js.map",
@@ -22,12 +22,12 @@
     "54.9fefa70b.chunk.js.map": "/Immersion-Stats/static/js/54.9fefa70b.chunk.js.map",
     "482.d3595ae0.chunk.js.map": "/Immersion-Stats/static/js/482.d3595ae0.chunk.js.map",
     "398.9a1f0bf7.chunk.js.map": "/Immersion-Stats/static/js/398.9a1f0bf7.chunk.js.map",
-    "643.4e6185e2.chunk.js.map": "/Immersion-Stats/static/js/643.4e6185e2.chunk.js.map",
-    "411.8697db1e.chunk.js.map": "/Immersion-Stats/static/js/411.8697db1e.chunk.js.map",
+    "643.67768415.chunk.js.map": "/Immersion-Stats/static/js/643.67768415.chunk.js.map",
+    "410.e481913f.chunk.js.map": "/Immersion-Stats/static/js/410.e481913f.chunk.js.map",
     "828.549330ba.chunk.js.map": "/Immersion-Stats/static/js/828.549330ba.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3e38937c.css",
-    "static/js/main.6f6b0c9e.js"
+    "static/js/main.a3654ef4.js"
   ]
 }
