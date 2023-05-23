@@ -19,8 +19,12 @@ export const tenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 10)
 export const oneMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 1));
 export const threeMonthsAgo = new Date(new Date().setMonth(new Date().getMonth() - 3));
 export const oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+export const twoYearsAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 2));
+export const threeYearsAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 3));
 
 export const tenDaysDateRange = getDatesBetween(tenDaysAgo, new Date());
 export const oneMonthDateRange = getDatesBetween(oneMonthAgo, new Date());
 export const threeMonthsDateRange = getDatesBetween(threeMonthsAgo, new Date());
 export const oneYearDateRange = getDatesBetween(oneYearAgo, new Date());
+export const twoYearsDateRange = getDatesBetween(twoYearsAgo, new Date());
+export const threeYearsDateRange = getDatesBetween(threeYearsAgo, new Date());

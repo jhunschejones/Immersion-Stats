@@ -6,7 +6,7 @@ import { useContext, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getSearchParams } from "../utils/urls";
 import { parseCsvFile } from "../utils/parsing";
-import { oneMonthDateRange, threeMonthsDateRange, oneYearDateRange, tenDaysDateRange } from "../utils/date";
+import { oneMonthDateRange, threeMonthsDateRange, oneYearDateRange, tenDaysDateRange, twoYearsDateRange, threeYearsDateRange } from "../utils/date";
 import { JpdbContext } from "../providers/JpdbProvider";
 import { BunproContenxt } from "../providers/BunproProvider";
 import { AnkiContext } from "../providers/AnkiProvider";
@@ -16,7 +16,9 @@ import useDatasetIndexFromHotKeys from "../hooks/use-dataset-index-from-hot-keys
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, annotationPlugin);
 
 
-const DATE_RANGES = ["10D", "1M", "3M", "1Y"];
+const DATE_RANGES = ["10D", "1M", "3M", "1Y", "2Y", "3Y"];
+const HIDDEN_DATE_RANGES = ["2Y", "3Y"];
+const DATE_RANGES_TO_SHOW = DATE_RANGES.filter((dateRange) => !HIDDEN_DATE_RANGES.includes(dateRange));
 
 const datesForDateRangeString = (dateRange) => {
   if (dateRange == "1M") {
@@ -27,6 +29,12 @@ const datesForDateRangeString = (dateRange) => {
   }
   if (dateRange == "1Y") {
     return oneYearDateRange;
+  }
+  if (dateRange == "2Y") {
+    return twoYearsDateRange;
+  }
+  if (dateRange == "3Y") {
+    return threeYearsDateRange;
   }
   // default date range is 10D
   return tenDaysDateRange;
@@ -244,7 +252,7 @@ export default function StudyTrendsPage () {
         Study Trends
       </h1>
       <div style={{display: "flex", marginBottom: "12px"}}>
-        {DATE_RANGES.map((dateRange, index) => {
+        {DATE_RANGES_TO_SHOW.map((dateRange, index) => {
           const buttonStyles = { backgroundColor: "#1baff6", borderColor: "#1a99d6", margin: "0 2px", padding: "5px 10px 3px 10px" };
           if (selectedDateRange === dateRange) {
             buttonStyles.backgroundColor = "#ce82ff";
