@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Immersion-Stats/static/css/main.3e38937c.css",
-    "main.js": "/Immersion-Stats/static/js/main.fa0ef864.js",
+    "main.js": "/Immersion-Stats/static/js/main.0f7c2ed7.js",
     "static/js/3.3249ec0e.chunk.js": "/Immersion-Stats/static/js/3.3249ec0e.chunk.js",
     "static/js/201.806ea779.chunk.js": "/Immersion-Stats/static/js/201.806ea779.chunk.js",
     "static/js/795.05eded7f.chunk.js": "/Immersion-Stats/static/js/795.05eded7f.chunk.js",
@@ -14,7 +14,7 @@
     "static/js/828.549330ba.chunk.js": "/Immersion-Stats/static/js/828.549330ba.chunk.js",
     "index.html": "/Immersion-Stats/index.html",
     "main.3e38937c.css.map": "/Immersion-Stats/static/css/main.3e38937c.css.map",
-    "main.fa0ef864.js.map": "/Immersion-Stats/static/js/main.fa0ef864.js.map",
+    "main.0f7c2ed7.js.map": "/Immersion-Stats/static/js/main.0f7c2ed7.js.map",
     "3.3249ec0e.chunk.js.map": "/Immersion-Stats/static/js/3.3249ec0e.chunk.js.map",
     "201.806ea779.chunk.js.map": "/Immersion-Stats/static/js/201.806ea779.chunk.js.map",
     "795.05eded7f.chunk.js.map": "/Immersion-Stats/static/js/795.05eded7f.chunk.js.map",
@@ -28,6 +28,6 @@
   },
   "entrypoints": [
     "static/css/main.3e38937c.css",
-    "static/js/main.fa0ef864.js"
+    "static/js/main.0f7c2ed7.js"
   ]
 }
