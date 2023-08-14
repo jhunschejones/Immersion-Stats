@@ -45,13 +45,13 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "canvas": "^2.11.2",
     "eslint": "^8.27.0",
     "eslint-plugin-react": "^7.31.10",
-    "gh-pages": "^5.0.0",
+    "gh-pages": "^6.0.0",
     "sass": "^1.56.1"
   }
 }
