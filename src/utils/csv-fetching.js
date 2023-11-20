@@ -16,7 +16,8 @@ export const fetchAnki = async () => {
 
 export const fetchJpdb = async () => {
   // const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQdhJ2te76EStGko41NZ8GGge8Sv2C9tG6Qh2gspis6G7-e28NUHjDhG-xGbDMsApNxLCWFPwtGOgTi/pub?gid=0&single=true&output=csv");
-  const response = await fetch("https://raw.githubusercontent.com/jhunschejones/Ruby-Scripts/master/jpdb_daily_study_time/daily_study_time.csv");
+  // const response = await fetch("https://raw.githubusercontent.com/jhunschejones/Ruby-Scripts/master/jpdb_daily_study_time/daily_study_time.csv");
+  const response = await fetch("https://raw.githubusercontent.com/jhunschejones/jpdb_stats/main/data/daily_study_time.csv");
   const csv = await response.text();
   return csv;
 };
