@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkimmersion_stats=self.webpackChunkimmersion_stats||[]).push([[256],{1256:function(t,a,n){n.r(a),n.d(a,{default:function(){return u}});var s=n(3587),e=n(1526),i=n(2791),r=n(184);function u(){var t=(0,i.useContext)(e.b),a=t.ankiData,n=t.ankiIsLoading;return(0,r.jsx)(s.Z,{csvData:a,csvDataIsLoading:n,chartTitle:"Anki Reviews"})}}}]);
-//# sourceMappingURL=256.9b5f132d.chunk.js.map
