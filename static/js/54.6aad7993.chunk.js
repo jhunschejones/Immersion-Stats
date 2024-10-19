@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkimmersion_stats=self.webpackChunkimmersion_stats||[]).push([[54],{5054:(s,t,a)=>{a.r(t),a.d(t,{default:()=>c});var e=a(3587),i=a(2791),n=a(5653),u=a(184);function c(){const{jpdbData:s,jpdbIsLoading:t}=(0,i.useContext)(n.u);return(0,u.jsx)(e.Z,{csvData:s,csvDataIsLoading:t,chartTitle:"jpdb.io Reviews"})}}}]);
-//# sourceMappingURL=54.6aad7993.chunk.js.map

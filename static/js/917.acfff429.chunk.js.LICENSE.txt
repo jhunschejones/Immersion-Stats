@@ -6,15 +6,15 @@
  */
 
 /*!
- * Chart.js v4.4.2
+ * Chart.js v4.4.5
  * https://www.chartjs.org
  * (c) 2024 Chart.js Contributors
  * Released under the MIT License
  */
 
 /*!
-* chartjs-plugin-annotation v3.0.1
+* chartjs-plugin-annotation v3.1.0
 * https://www.chartjs.org/chartjs-plugin-annotation/index
- * (c) 2023 chartjs-plugin-annotation Contributors
+ * (c) 2024 chartjs-plugin-annotation Contributors
  * Released under the MIT License
  */
